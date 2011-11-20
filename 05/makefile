@@ -1,4 +1,4 @@
 all: run
 
-run: lab03.rb MyImgLib03.rb ../MyImgLib/MyImgLib.rb
-	ruby -I ../MyImgLib/ lab03.rb
+run: lab05.rb MyImgLib05.rb ../MyImgLib/MyImgLib.rb
+	ruby -I ../MyImgLib/ lab05.rb

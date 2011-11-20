@@ -1,4 +1,4 @@
-require 'MyImgLib03'
+require 'MyImgLib04'
 
 orginal = Magick::ImageList.new("../MyImgLib/lena.jpg")
 #orginal = Magick::ImageList.new("../MyImgLib/lena256.jpg")
