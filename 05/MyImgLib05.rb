@@ -2,81 +2,88 @@ require 'MyImgLib'
 
 MyImgLib.class_eval do
   
-  def options(opts={})
-    # parametry opcjonalne
-    # zapisac do obiektu ?
-    @o = {
-      :top => 0,
-      :bottom => 0,
-      :left => 0,
-      :right => 0,
-      :scale => 1,
-      :columns => @orginal.columns,
-      :rows => @orginal.rows
-    }.merge(opts)
+
+  def jasnosc(w)
+    edit do |i, j, chb|
+      cut( chb[i][j] + w )
+    end
   end
   
-  def import()
-    # tablice kanalow barw orginalu oraz obrazka przetwarzanego
-    #TODO buforowanie; zrobione na lapcioku w szkicu 04
-    rchb = []
-    gchb = []
-    bchb = []
-    rch = []
-    gch = []
-    bch = []
-    # ladowanie kolejnych wersow obrazka do tablic kanalow
-    0.upto @orginal.rows-1 do |r|
-      rchb.push( @orginal.export_pixels(0, r, @orginal.columns, 1, "R" ) )
-      gchb.push( @orginal.export_pixels(0, r, @orginal.columns, 1, "G" ) )
-      bchb.push( @orginal.export_pixels(0, r, @orginal.columns, 1, "B" ) )
-    end
-    #poczatkowe wyczarnienie obrazka przetwarzanego
-    @o[:top].upto @o[:rows]-@o[:bottom]-1 do |r| #TODO odjalem jedynke, gdzies byla potrzebna do dodania, przesledzic
-      rch.push( Array.new(o[:columns], 0) )
-      gch.push( Array.new(o[:columns], 0) )
-      bch.push( Array.new(o[:columns], 0) )
-    end
-    
+ private
+  def do_jasnosc2(w)
+     iteruj do |i, j, chb|
+       cut( chb[i][j] + w )
+     end
   end
-  
-  def eksport()
-    mod = Magick::Image.new( o[:columns], o[:rows] )
-    (o[:rows]-o[:bottom]-1).downto o[:top] do |r|
-      mod.import_pixels(0, r, mod.columns, 1, "R", rch.pop)
-      mod.import_pixels(0, r, mod.columns, 1, "G", gch.pop)
-      mod.import_pixels(0, r, mod.columns, 1, "B", bch.pop)
+   
+  #TODO co jesli bez block.arity? 
+  def do_jasnosc3(w)
+     iteruj do |i, j|
+       teSame(
+         cut(
+           @chb[i][j] + w
+         )
+       )
+     end
+   end
+   
+   def do_progowanie(tol, obszarow)
+     obszarow.downto 0 do |i|
+       obszarow.downto 0 do |j|
+         iteruj(:left => @orginal.columns/obszarow*i, :right => @orginal.columns/obszarow*(i+1), :top => 1, :down => 2) do |chr, chg, chb, c, r|
+           
+         end
+       end
+     end
+   end
+   
+   def do_binearyzacja(tol = Magick::QuantumRange / 2, min = 0, max = Magick::QuantumRange)
+     iteruj do |i, j, chb|
+       if chb[i][j] > tol
+         max
+       else
+         min
+       end
+     end
+   end
+   
+  def do_kmn2
+    do_binearyzacja( Magick::QuantumRange / 2, 0, 1)
+    iteruj do |i, j, chb|
+      cut( chb[i][j] + w )
     end
-    mod
+    do_binearyzacja( 0, 0, Magick::QuantumRange) #debinaryzacja
   end
+   
   
-  def rzezba
-    #rzezba
-    #TODO rzezba w osobnej funkcji
-    case block.arity
-    when 3, 4
-      o[:top].upto o[:rows]-o[:bottom]-1 do |r|
-        o[:left].upto o[:columns]-o[:right]-1 do |c|
-    rch[c][r] = yield(c/o[:scale], r/o[:scale], rchb)
-    gch[c][r] = yield(c/o[:scale], r/o[:scale], gchb)
-    bch[c][r] = yield(c/o[:scale], r/o[:scale], bchb)
-        end
-      end
-    when 5
-      #TODO przepisac, wyjac ifa na zewnatrz
-      o[:top].upto o[:rows]-o[:bottom]-1 do |r|
-        o[:left].upto o[:columns]-o[:right]-1 do |c|
-    #sprawdzenie zwracanego typu. Jesli jedna wartosc to przepisz ja na wszystkie kanaly. Jesli tablica 3 wartosci: kolejne kanaly
-    res = yield(c/o[:scale], r/o[:scale], rchb, gchb, bchb)
-    if res.kind_of?(Array)
-      rch[c][r] = res[0]
-      bch[c][r] = res[1]
-      gch[c][r] = res[2]
-    else
-      rch[c][r] = gch[c][r] = bch[c][r] = res
-    end
-        end
-      end
+public
+  #TODO jeden wrapper evalujacy te metody; metaprogramowanie
+  #argumenty metod wyciaga z argumentow metod do_ i nienaruszajac przekazuje je do do_
+  #egzemplarze metod roznia sie opcjami dla edita
+  
+  def jasnosc2(w)
+     edit(:buforowanie => 1) do 
+       do_jasnosc2(w)
+     end
+   end
+   
+   def progowanie(tol, obszarow = 1)
+     edit(:buforowanie => 1) do 
+       do_progowanie(tol, obszarow)
+     end
+   end
+   
+   def binearyzacja(tol = Magick::QuantumRange / 2, min = 0, max = Magick::QuantumRange)
+     edit do 
+       do_binearyzacja(tol, min, max)
+     end
+   end
+   
+   
+   
+  def kmm2
+    edit(:buforowanie => 1) do
+      do_kmn2
     end
   end
   
