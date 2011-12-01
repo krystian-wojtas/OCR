@@ -8,6 +8,18 @@ class MyImgLib
 
 
   protected
+  
+    def default_opts(opts={})
+      {
+        :top => 0,
+        :bottom => 0,
+        :left => 0,
+        :right => 0,
+        :scale => 1,
+        :columns => @orginal.columns,
+        :rows => @orginal.rows
+      }.merge(opts)
+    end
 
     def edit(opts={}, &block)
       # parametry opcjonalne
@@ -71,24 +83,12 @@ class MyImgLib
       end
 
       #przepisanie wynikow do nowego obrazka
-#      o[:top].upto o[:rows]-o[:bottom]-1 do |r|
-#        o[:left].upto o[:columns]-o[:right]-1 do |c|
-#          if rch[c][r] == nil
-      #      puts r.to_s + ' ' + c.to_s
-#          end
-#        end
-#       end
-#      r=1
-#      begin
       mod = Magick::Image.new( o[:columns], o[:rows] )
       (o[:rows]-o[:bottom]-1).downto o[:top] do |r|
         mod.import_pixels(0, r, mod.columns, 1, "R", rch.pop)
         mod.import_pixels(0, r, mod.columns, 1, "G", gch.pop)
         mod.import_pixels(0, r, mod.columns, 1, "B", bch.pop)
       end
-#      rescue
-#             j=1
-#      end
       mod
     end
 
