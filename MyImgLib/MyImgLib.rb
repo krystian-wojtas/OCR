@@ -1,6 +1,8 @@
 require 'RMagick'
+require 'IterableGenRC'
 
 class MyImgLib
+  include IterableGenRC
 
   def initialize(orginal)
     @orginal = orginal
@@ -12,8 +14,8 @@ class MyImgLib
     #edit zajmuje sie przepisaniem wartosci kanalow obrazka z obiektu Image biblioteki RMagick na czyste tablice Rubiego
     #poslugiwanie sie tablicami jest szybsze, metoda putpixel sprawdza zakresy obszaru obrazka oraz zakres koloru; nie zawsze sprawdzenia sa konieczne TODO sprawdzic
     #oraz czyste tablice wygladaja w kodzie zwiezlej niz uzywanie pixel_color
-    #na koniec zwracany jest nowy obiekt RMagick z wykonanymi przeksztalceniami
-    def edit(opts={}, &block)
+    #na koniec zwracany jest nowy obiekt biblioteki RMagick Magick::Image z wykonanymi przeksztalceniami
+    def edit(opts={})
 
       #parametry opcjonalne nalozone na domyslne
       @o = {
@@ -23,32 +25,25 @@ class MyImgLib
         :right => 0,
         :columns => @orginal.columns,
         :rows => @orginal.rows,
+        #nastepne wartosci wykorzystywane sa podczas iteracji
         :buffered => 0,
+        #sposob iteracji kolumn i wierszy; domyslnie wyiteruje caly obrazek bez marginesow
+        :iterable => iterable(:calosc),
       }.merge(opts)
 
       # tablice kanalow barw orginalu oraz obrazka przetwarzanego
+      # tutaj referencje na tablice buforow i przetwarzan sa te same, dzieki temu domyslnie nie buforuje
+      # nowe tablice dla buforow tworzone sa w metodzie iteruj jesli wybrano opcje @o[:buffered]
       @rch = @rchb = []
       @gch = @gchb = []
       @bch = @bchb = []
-      if @o[:buffered]
-        @rch = []
-        @gch = []
-        @bch = []
-      end
+        
       
       # ladowanie kolejnych wersow obrazka do tablic kanalow
       0.upto @orginal.rows-1 do |r|
         @rchb.push( @orginal.export_pixels(0, r, @orginal.columns, 1, "R" ) )
         @gchb.push( @orginal.export_pixels(0, r, @orginal.columns, 1, "G" ) )
         @bchb.push( @orginal.export_pixels(0, r, @orginal.columns, 1, "B" ) )
-      end      
-      #jesli jest buforowanie utworzenie tablic oraz poczatkowe wyczarnienie obrazka przetwarzanego
-      if @o[:buffered]
-        @o[:top].upto @o[:rows]-@o[:bottom]-1 do |r| #TODO odjalem jedynke, gdzies byla potrzebna do dodania, przesledzic
-          @rch.push( Array.new(@o[:columns], 0) )
-          @gch.push( Array.new(@o[:columns], 0) )
-          @bch.push( Array.new(@o[:columns], 0) )
-        end
       end
 
       #przeksztalcenia
@@ -64,49 +59,64 @@ class MyImgLib
       
       mod
     end
-    
-    
-    #metoda iterujaca po obrazku sprawdza ilosc argumentow przekazanego bloku
-    #
-    def iteruj(opts={}, &block)
-      
-      #parametry opcjonalne nalozone na domyslne oraz na globalne
-      @oi = {
-        :scale => 1,
-      }.merge(@o).merge(opts)      
-      
-      #rzezba
-      case block.arity
-      when 3, 4
-        @oi[:top].upto @oi[:rows]-@oi[:bottom]-1 do |r|
-          @oi[:left].upto @oi[:columns]-@oi[:right]-1 do |c|
-            @rch[c][r] = yield(c/@oi[:scale], r/@oi[:scale], @rchb)
-            @gch[c][r] = yield(c/@oi[:scale], r/@oi[:scale], @gchb)
-            @bch[c][r] = yield(c/@oi[:scale], r/@oi[:scale], @bchb)
-          end
-        end
-      when 5
-        #TODO przepisac, wyjac ifa na zewnatrz
-        @oi[:top].upto @oi[:rows]-@oi[:bottom]-1 do |r|
-          @oi[:left].upto @oi[:columns]-@oi[:right]-1 do |c|
-            #sprawdzenie zwracanego typu. Jesli jedna wartosc to przepisz ja na wszystkie kanaly. Jesli tablica 3 wartosci: kolejne kanaly
-            res = yield(c/@oi[:scale], r/@oi[:scale], @rchb, @gchb, @bchb)
-            if res.kind_of?(Array)
-              @rch[c][r] = res[0]
-              @gch[c][r] = res[1]
-              @bch[c][r] = res[2]
-            else
-              @rch[c][r] = @gch[c][r] = @bch[c][r] = res
-            end
-          end
-        end
-      end
-    end
 
     
-    #przycina wartosc koloru do zakresu 0 - Magick::QuantumRange
-    #TODO moze range?
-    def cut(c)
-      (c > Magick::QuantumRange) ? Magick::QuantumRange : ( (c < 0) ? 0 : c )
+    def iteruj(&block) #TODO nazwa
+      
+      #jesli jest buforowanie utworzenie tablic oraz poczatkowe wyczarnienie obrazka przetwarzanego
+      if @o[:buffered] == 1
+        @rch = []
+        @gch = []
+        @bch = []
+        #celowe kopiowanie calego zakresu bez obcinki topa i buttoma; ten obszar jest potrzebny do celow sasiedztwa
+        @o[:top].upto @o[:rows]-1 do |r|
+          @rch.push( Array.new(@o[:columns], 0) )
+          @gch.push( Array.new(@o[:columns], 0) )
+          @bch.push( Array.new(@o[:columns], 0) )
+        end
+      end
+      
+      @o[:iterable].call(block)
+      
+      #przetworzone tablice staja sie buforami dla kolejnych iteracji
+      @rchb = @rch
+      @gchb = @gch
+      @bchb = @bch
+      
+      nil
     end
+  
+  
+    def arr(gen_r, gen_c, &block)    #TODO nazwa  
+      case block.arity
+      when 3
+        #TODO wolalbym konstrukcje 
+        #gen_r.call do |r|
+        #  gen_c.call do |c|
+        #sprawdzic czy na pewno sie nie da jej uzyc    
+        gen_r.call( lambda do |r|
+          gen_c.call( lambda do |c|
+            unless (res = block.call(r, c, @rchb)).nil?() then @rch[r][c] = res end
+            unless (res = block.call(r, c, @gchb)).nil?() then @gch[r][c] = res end
+            unless (res = block.call(r, c, @bchb)).nil?() then @bch[r][c] = res end
+          end )
+        end )
+      when 5
+        gen_r.call( lambda do |r|
+          gen_c.call( lambda do |c|
+            #sprawdzenie zwracanego typu. Jesli jedna wartosc to przepisz ja na wszystkie kanaly. Jesli tablica 3 wartosci: kolejne kanaly
+            res = block.call(r, c, @rchb, @gchb, @bchb)
+            if res.kind_of?(Array) #niew wstawiac: and res.length == 3; nil? i tak zabezpiecza a moze chodciaz pierwsze wartosci sie zapisza
+              @rch[r][c] = res[0] unless res[0].nil?()
+              @gch[r][c] = res[1] unless res[1].nil?()
+              @bch[r][c] = res[2] unless res[2].nil?()
+            else
+              @rch[r][c] = @gch[r][c] = @bch[r][c] = res unless res.nil?()
+            end
+          end )
+        end )
+      end      
+      nil
+    end
+  
 end
