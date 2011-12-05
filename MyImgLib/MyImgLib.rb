@@ -1,4 +1,7 @@
+#require 'rubygems'
+#gem PLATFORM == 'java' ? 'rmagick4j' : 'rmagick'
 require 'RMagick'
+
 require 'IterableGenRC'
 
 class MyImgLib
