@@ -28,6 +28,7 @@ class MyImgLib
         :right => 0,
         :columns => @orginal.columns,
         :rows => @orginal.rows,
+        :background => 0,
         #nastepne wartosci wykorzystywane sa podczas iteracji
         :buffered => 0,
         #sposob iteracji kolumn i wierszy; domyslnie wyiteruje caly obrazek bez marginesow
@@ -64,7 +65,10 @@ class MyImgLib
     end
 
     
-    def iteruj(&block) #TODO nazwa
+    def iteruj(opts={}, &block) #TODO nazwa
+      
+      #dodatkowe parametry opcjonalne
+      @o.merge!(opts)
       
       #jesli jest buforowanie utworzenie tablic oraz poczatkowe wyczarnienie obrazka przetwarzanego
       if @o[:buffered] == 1
@@ -73,9 +77,9 @@ class MyImgLib
         @bch = []
         #celowe kopiowanie calego zakresu bez obcinki topa i buttoma; ten obszar jest potrzebny do celow sasiedztwa
         @o[:top].upto @o[:rows]-1 do |r|
-          @rch.push( Array.new(@o[:columns], 0) )
-          @gch.push( Array.new(@o[:columns], 0) )
-          @bch.push( Array.new(@o[:columns], 0) )
+          @rch.push( Array.new(@o[:columns], @o[:background]) )
+          @gch.push( Array.new(@o[:columns], @o[:background]) )
+          @bch.push( Array.new(@o[:columns], @o[:background]) )
         end
       end
       

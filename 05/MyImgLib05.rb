@@ -8,12 +8,6 @@ MyImgLib.class_eval do
   def cut(c)
     (c > Magick::QuantumRange) ? Magick::QuantumRange : ( (c < 0) ? 0 : c )
   end
-  
-  def jasnosc(w)
-    edit do |i, j, chb|
-      cut( chb[i][j] + w )
-    end
-  end
 
   private
 
