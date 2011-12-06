@@ -20,6 +20,7 @@ class MyImgLib
     #na koniec zwracany jest nowy obiekt biblioteki RMagick Magick::Image z wykonanymi przeksztalceniami
     def edit(opts={})
 
+      #TODO osobna funkcja?
       #parametry opcjonalne nalozone na domyslne
       @o = {
         :top => 0,
@@ -30,6 +31,7 @@ class MyImgLib
         :rows => @orginal.rows,
         :background => 0,
         #nastepne wartosci wykorzystywane sa podczas iteracji
+        :monocolor => 0,
         :buffered => 0,
         #sposob iteracji kolumn i wierszy; domyslnie wyiteruje caly obrazek bez marginesow
         :iterable => iterable(:calosc),
@@ -38,9 +40,14 @@ class MyImgLib
       # tablice kanalow barw orginalu oraz obrazka przetwarzanego
       # tutaj referencje na tablice buforow i przetwarzan sa te same, dzieki temu domyslnie nie buforuje
       # nowe tablice dla buforow tworzone sa w metodzie iteruj jesli wybrano opcje @o[:buffered]
-      @rch = @rchb = []
-      @gch = @gchb = []
-      @bch = @bchb = []
+      # TODO odswiezyc opis
+      if @o[:monocolor]
+        @rch = @rchb = @gch = @gchb = @bch = @bchb = []
+      else
+        @rch = @rchb = []
+        @gch = @gchb = []
+        @bch = @bchb = []
+      end
         
       
       # ladowanie kolejnych wersow obrazka do tablic kanalow
@@ -64,8 +71,11 @@ class MyImgLib
       mod
     end
 
-    
-    def iteruj(opts={}, &block) #TODO nazwa
+    #iteracja w znaczeniu powtarzania danego przeksztalcenie obrazka
+    #nie chodzi o iteracje po wierszach i kolumnach w poszczegolnych przeksztalceniach; to dalej
+    #do funkcji mozna przekazac parametry o, ktore uaktulania aktualny obiekt
+    #tutaj tworzone i obslugiwane sa bufory jesli przeksztalcenie ich wymaga
+    def iteruj(opts={}, &block)
       
       #dodatkowe parametry opcjonalne
       @o.merge!(opts)
@@ -92,38 +102,34 @@ class MyImgLib
       
       nil
     end
-  
-  
-    def arr(gen_r, gen_c, &block)    #TODO nazwa  
-      case block.arity
-      when 3, 4
-        #TODO wolalbym konstrukcje 
-        #gen_r.call do |r|
-        #  gen_c.call do |c|
-        #sprawdzic czy na pewno sie nie da jej uzyc    
-        gen_r.call( lambda do |r|
-          gen_c.call( lambda do |c|
-            unless (res = block.call(r, c, @rchb, @rch)).nil?() then @rch[r][c] = res end
-            unless (res = block.call(r, c, @gchb, @gch)).nil?() then @gch[r][c] = res end
-            unless (res = block.call(r, c, @bchb, @bch)).nil?() then @bch[r][c] = res end
-          end )
-        end )
-      when 5
-        gen_r.call( lambda do |r|
-          gen_c.call( lambda do |c|
-            #sprawdzenie zwracanego typu. Jesli jedna wartosc to przepisz ja na wszystkie kanaly. Jesli tablica 3 wartosci: kolejne kanaly
-            res = block.call(r, c, @rchb, @gchb, @bchb)
-            if res.kind_of?(Array) #niew wstawiac: and res.length == 3; nil? i tak zabezpiecza a moze chodciaz pierwsze wartosci sie zapisza
-              @rch[r][c] = res[0] unless res[0].nil?()
-              @gch[r][c] = res[1] unless res[1].nil?()
-              @bch[r][c] = res[2] unless res[2].nil?()
-            else
-              @rch[r][c] = @gch[r][c] = @bch[r][c] = res unless res.nil?()
-            end
-          end )
-        end )
-      end      
-      nil
+
+
+    #funkcja wywoluje blok przeksztalcenia dla kazdego z kanalow osobno lub robi to raz jesli operuje nad obrazkiem jednokanalowym
+    def przetworz_kanaly(gen_r, gen_c, &block)
+      if @o[:monocolor] == 1
+        # kanaly rgb przetwarzania lub buforow wskazuja te same referencje dlatego wystarczy wywolac funkcje raz
+        przejscie_rc(gen_r, gen_c) do |r, c|
+          block.call(r, c, @rchb, @rch)
+        end
+      else
+        przejscie_rc(gen_r, gen_c) do |r, c|
+          block.call(r, c, @rchb, @rch)
+          block.call(r, c, @gchb, @gch)
+          block.call(r, c, @bchb, @bch)
+        end
+      end
     end
   
+    
+    #funkcja odpala przekazane generatory z blokiem zawierajacym wlasciwe przeksztalcenie
+    #szczyt wywolan rdzenia
+    #TODO dlaczego taka konstrukcja, domkniecia
+    def przejscie_rc(gen_r, gen_c) 
+      gen_r.call( lambda do |r|
+        gen_c.call( lambda do |c|
+          yield(r, c)
+        end )
+      end )
+    end
+    
 end
