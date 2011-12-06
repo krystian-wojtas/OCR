@@ -96,16 +96,16 @@ class MyImgLib
   
     def arr(gen_r, gen_c, &block)    #TODO nazwa  
       case block.arity
-      when 3
+      when 3, 4
         #TODO wolalbym konstrukcje 
         #gen_r.call do |r|
         #  gen_c.call do |c|
         #sprawdzic czy na pewno sie nie da jej uzyc    
         gen_r.call( lambda do |r|
           gen_c.call( lambda do |c|
-            unless (res = block.call(r, c, @rchb)).nil?() then @rch[r][c] = res end
-            unless (res = block.call(r, c, @gchb)).nil?() then @gch[r][c] = res end
-            unless (res = block.call(r, c, @bchb)).nil?() then @bch[r][c] = res end
+            unless (res = block.call(r, c, @rchb, @rch)).nil?() then @rch[r][c] = res end
+            unless (res = block.call(r, c, @gchb, @gch)).nil?() then @gch[r][c] = res end
+            unless (res = block.call(r, c, @bchb, @bch)).nil?() then @bch[r][c] = res end
           end )
         end )
       when 5
