@@ -2,6 +2,13 @@ require 'MyImgLib'
 
 class MyImgLib
 
+  #przycina wartosc koloru do zakresu 0 - Magick::QuantumRange
+  #TODO moze range?
+  #TODO osobny plik
+  def cut(c)
+    (c > Magick::QuantumRange) ? Magick::QuantumRange : ( (c < 0) ? 0 : c )
+  end
+  
   public
   
     def negatyw
@@ -33,16 +40,20 @@ class MyImgLib
         do_skaluj(s)
       end
     end
+
+    def drukuj
+      edit do
+        do_drukuj
+      end
+    end
   
   
   private
   
     def do_negatyw
-      iteruj(:buffered=>1) do |r, c|
-        @rch[r][c] = Magick::QuantumRange - @rchb[r][c]
-        @gch[r][c] = Magick::QuantumRange - @gchb[r][c]
-        @bch[r][c] = Magick::QuantumRange - @bchb[r][c]
-        puts r.to_s + ' ' + c.to_s + ' ' + @rchb[r][c].to_s + ' ' + @rch[r][c].to_s
+      iteruj do |r, c, ch, chb|
+        puts r.to_s + ' ' + c.to_s + ' ' + chb[r][c].to_s + ' ' + cut( Magick::QuantumRange - chb[r][c] ).to_s
+        ch[r][c] = cut( Magick::QuantumRange - chb[r][c] )
       end
     end
     
@@ -112,5 +123,14 @@ def zoom(orginal, scale)
   end
   return mod
 end
+
+
+  def do_drukuj
+    iteruj do |r, c|
+      puts r.to_s + ' ' + c.to_s + ' ' + @rchb[r][c].to_s
+      puts r.to_s + ' ' + c.to_s + ' ' + @gchb[r][c].to_s
+      puts r.to_s + ' ' + c.to_s + ' ' + @bchb[r][c].to_s
+    end
+  end
   
 end

@@ -23,31 +23,27 @@ class MyImgLib
       #TODO osobna funkcja?
       #parametry opcjonalne nalozone na domyslne
       @o = {
+        #sposob iteracji kolumn i wierszy; domyslnie wyiteruje caly obrazek bez marginesow
+        :iterable => iterable(:calosc),
+        :monocolor => 0, #TODO czy potrzebne?
+        #marginesy
         :top => 0,
         :bottom => 0,
         :left => 0,
         :right => 0,
+        #ustawienia buforow
+        :buffered => 0,
         :columns => @orginal.columns,
         :rows => @orginal.rows,
-        :background => 0,
-        #nastepne wartosci wykorzystywane sa podczas iteracji
-        :monocolor => 0,
-        :buffered => 0,
-        #sposob iteracji kolumn i wierszy; domyslnie wyiteruje caly obrazek bez marginesow
-        :iterable => iterable(:calosc),
+        :background => 0, #kolor tla dla buforow
       }.merge(opts)
 
       # tablice kanalow barw orginalu oraz obrazka przetwarzanego
       # tutaj referencje na tablice buforow i przetwarzan sa te same, dzieki temu domyslnie nie buforuje
       # nowe tablice dla buforow tworzone sa w metodzie iteruj jesli wybrano opcje @o[:buffered]
-      # TODO odswiezyc opis
-      if @o[:monocolor]
-        @rch = @rchb = @gch = @gchb = @bch = @bchb = []
-      else
-        @rch = @rchb = []
-        @gch = @gchb = []
-        @bch = @bchb = []
-      end
+      @rch = @rchb = []
+      @gch = @gchb = []
+      @bch = @bchb = []
         
       
       # ladowanie kolejnych wersow obrazka do tablic kanalow
@@ -55,6 +51,12 @@ class MyImgLib
         @rchb.push( @orginal.export_pixels(0, r, @orginal.columns, 1, "R" ) )
         @gchb.push( @orginal.export_pixels(0, r, @orginal.columns, 1, "G" ) )
         @bchb.push( @orginal.export_pixels(0, r, @orginal.columns, 1, "B" ) )
+      end
+      
+      0.upto @orginal.rows-1 do |r|
+        0.upto @orginal.columns-1 do |c|
+          puts @rchb[r][c]
+        end
       end
 
       #przeksztalcenia
@@ -107,15 +109,18 @@ class MyImgLib
     #funkcja wywoluje blok przeksztalcenia dla kazdego z kanalow osobno lub robi to raz jesli operuje nad obrazkiem jednokanalowym
     def przetworz_kanaly(gen_r, gen_c, &block)
       if @o[:monocolor] == 1
-        # kanaly rgb przetwarzania lub buforow wskazuja te same referencje dlatego wystarczy wywolac funkcje raz
+        # kanaly rgb przetwarzania lub buforow wskazuja te same referencje dlatego wystarczy wywolac funkcje raz, a wszystkie kanaly dostana ta sama wartosc
+        @gch = @bch = @rch
+        @gchb = @bchb = @rchb
         przejscie_rc(gen_r, gen_c) do |r, c|
-          block.call(r, c, @rchb, @rch)
+          block.call(r, c, @rch, @rchb)
         end
       else
+        # kanaly przetwarzane osobno tym samym przeksztalceniem
         przejscie_rc(gen_r, gen_c) do |r, c|
-          block.call(r, c, @rchb, @rch)
-          block.call(r, c, @gchb, @gch)
-          block.call(r, c, @bchb, @bch)
+          block.call(r, c, @rch, @rchb)
+          block.call(r, c, @gch, @gchb)
+          block.call(r, c, @bch, @bchb)
         end
       end
     end

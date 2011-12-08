@@ -12,4 +12,5 @@ myImgLib.negatyw.write('out/negatyw.jpg')
 #myImgLib.skaluj(0.4).write('out/skaluj04.jpg') #TODO zoom nie dziala
 #myImgLib.skaluj(1.5).write('out/skaluj15.jpg')
 
+#MyImgLib.new( Magick::ImageList.new('out/negatyw.jpg') ).drukuj
 puts 'ok'
