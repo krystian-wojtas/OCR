@@ -51,37 +51,27 @@ class MyImgLib
   private
   
     def do_negatyw
-      iteruj do |r, c, ch, chb|
-        #puts r.to_s + ' ' + c.to_s + ' ' + chb[r][c].to_s + ' ' + cut( Magick::QuantumRange - chb[r][c] ).to_s
-        ch[r][c] = cut( Magick::QuantumRange - chb[r][c] )
-      end
-    end
-    
-    def do_negatyw2
-      iteruj do |r, c, chb|
-        puts r.to_s + ' ' + c.to_s + ' ' + chb[r][c].to_s + ' ' + cut(Magick::QuantumRange - chb[r][c]).to_s
-        cut(Magick::QuantumRange - chb[r][c])
+      iteruj do |r, c, ch|
+        ch[r][c] = cut( Magick::QuantumRange - ch[r][c] )
       end
     end
     
     
     def do_szaro1
-      iteruj do |r, c|
-        @rch[r][c] = @gch[r][c] = @bch[r][c] =
-          (@rchb[r][c] + @gchb[r][c] + @bchb[r][c]) / 3
+      iteruj(:collable=>callable(:monocolor)) do |r, c, ch|
+        ch[r][c] = (@rchb[r][c] + @gchb[r][c] + @bchb[r][c]) / 3
       end
     end
   
     
     def do_szaro2
-      iteruj do |r, c|
-        @rch[r][c] = @gch[r][c] = @bch[r][c] =
-          0.3*@rchb[r][c] + 0.59*@gchb[r][c] + 0.11*@bchb[r][c]
+      iteruj(:collable=>callable(:monocolor)) do |r, c, ch|
+        ch[r][c] = 0.3*@rchb[r][c] + 0.59*@gchb[r][c] + 0.11*@bchb[r][c]
       end
     end
     
     
-    def do_histogram
+    def do_histogram2
       #funkcja pomocnicza
       def ekstrema(chb)
         min = Magick::QuantumRange
@@ -107,6 +97,30 @@ class MyImgLib
             Magick::QuantumRange * (@bchb[r][c] - minb) / (maxb - minb),
           ]
         )
+      end
+      
+      [ minr, maxr, ming, maxg, minb, maxb ]
+    end
+    
+    
+    def do_ekstrema
+      min = Magick::QuantumRange
+      max = 0
+      iteruj do |r, c, ch|
+        min = ch[r][c] if ch[r][c] < min
+        max = ch[r][c] if ch[r][c] > min
+      end
+      [ min, max ]
+    end
+
+
+    def do_histogram
+      minr, maxr = do_ekstrema(@rch)
+      ming, maxg = do_ekstrema(@gch)
+      minb, maxb = do_ekstrema(@bch)
+      
+      iteruj do |r, c|
+        ch[r][c] = Magick::QuantumRange * (@rchb[r][c] - minr) / (maxr - minr)
       end
       
       [ minr, maxr, ming, maxg, minb, maxb ]

@@ -37,5 +37,14 @@ module IterableGenRC
     )
     nil
   end
+
+  def iteruj_calosc2(&block)
+    @o[:collable].call(
+      lambda {|block_r| @o[:top].upto @o[:rows]-@o[:top]-@o[:bottom]-1 do |r| block_r.call(r) end },
+      lambda {|block_c| @o[:left].upto @o[:columns]-@o[:left]-@o[:right]-1 do |c| block_c.call(c) end },
+      &block
+    )
+    nil
+  end
   
 end
