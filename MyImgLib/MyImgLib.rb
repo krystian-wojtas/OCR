@@ -25,7 +25,7 @@ class MyImgLib
       @o = {
         #sposob iteracji kolumn i wierszy; domyslnie wyiteruje caly obrazek bez marginesow
         :iterable => iterable(:calosc),
-        :monocolor => 0, #TODO czy potrzebne?
+        :monocolor => 0,
         #marginesy
         :top => 0,
         :bottom => 0,
@@ -52,12 +52,6 @@ class MyImgLib
         @gchb.push( @orginal.export_pixels(0, r, @orginal.columns, 1, "G" ) )
         @bchb.push( @orginal.export_pixels(0, r, @orginal.columns, 1, "B" ) )
       end
-      
-      0.upto @orginal.rows-1 do |r|
-        0.upto @orginal.columns-1 do |c|
-          puts @rchb[r][c]
-        end
-      end
 
       #przeksztalcenia
       yield
@@ -65,9 +59,9 @@ class MyImgLib
       #przepisanie wynikow do nowego obrazka
       mod = Magick::Image.new( @o[:columns], @o[:rows] )
       (@o[:rows]-@o[:bottom]-1).downto @o[:top] do |r|
-        mod.import_pixels(0, r, mod.columns, 1, "R", @rch.pop)
-        mod.import_pixels(0, r, mod.columns, 1, "G", @gch.pop)
-        mod.import_pixels(0, r, mod.columns, 1, "B", @bch.pop)
+        mod.import_pixels(0, r, mod.columns, 1, "R", @rch[r])
+        mod.import_pixels(0, r, mod.columns, 1, "G", @gch[r])
+        mod.import_pixels(0, r, mod.columns, 1, "B", @bch[r])
       end
       
       mod
@@ -109,9 +103,8 @@ class MyImgLib
     #funkcja wywoluje blok przeksztalcenia dla kazdego z kanalow osobno lub robi to raz jesli operuje nad obrazkiem jednokanalowym
     def przetworz_kanaly(gen_r, gen_c, &block)
       if @o[:monocolor] == 1
-        # kanaly rgb przetwarzania lub buforow wskazuja te same referencje dlatego wystarczy wywolac funkcje raz, a wszystkie kanaly dostana ta sama wartosc
+        # kanaly rgb przetwarzania wskazuja te same referencje dlatego wystarczy wywolac funkcje raz, a wszystkie kanaly dostana ta sama wartosc
         @gch = @bch = @rch
-        @gchb = @bchb = @rchb
         przejscie_rc(gen_r, gen_c) do |r, c|
           block.call(r, c, @rch, @rchb)
         end
@@ -123,6 +116,7 @@ class MyImgLib
           block.call(r, c, @bch, @bchb)
         end
       end
+      nil
     end
   
     

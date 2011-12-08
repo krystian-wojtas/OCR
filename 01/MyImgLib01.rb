@@ -52,8 +52,15 @@ class MyImgLib
   
     def do_negatyw
       iteruj do |r, c, ch, chb|
-        puts r.to_s + ' ' + c.to_s + ' ' + chb[r][c].to_s + ' ' + cut( Magick::QuantumRange - chb[r][c] ).to_s
+        #puts r.to_s + ' ' + c.to_s + ' ' + chb[r][c].to_s + ' ' + cut( Magick::QuantumRange - chb[r][c] ).to_s
         ch[r][c] = cut( Magick::QuantumRange - chb[r][c] )
+      end
+    end
+    
+    def do_negatyw2
+      iteruj do |r, c, chb|
+        puts r.to_s + ' ' + c.to_s + ' ' + chb[r][c].to_s + ' ' + cut(Magick::QuantumRange - chb[r][c]).to_s
+        cut(Magick::QuantumRange - chb[r][c])
       end
     end
     
