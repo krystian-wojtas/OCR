@@ -4,10 +4,7 @@ require 'RMagick'
 require 'Callable'
 require 'Iterable'
 
-require 'IterableGenRC'
-
 class MyImgLib
-  include IterableGenRC
 
   def initialize(orginal)
     #obiekt RMagick reprezentuje obraz poddawany obrobce
@@ -27,10 +24,8 @@ class MyImgLib
       # parametry opcjonalne nalozone na domyslne
       @o = {
         #sposob iteracji kolumn i wierszy; domyslnie wyiteruje caly obrazek bez marginesow
-        #:iterable => Iterable.factory(:all),
         :iterable => :all,
         #sposob wywolywania transformacji i przekazywania argumentow; domyslnie wykona przeksztalcenie dla kazdego kanalu z osobna
-        #:callable => Callable.factory(:rgb),
         :callable => :rgb,
         #marginesy
         :top => 0,
@@ -70,46 +65,13 @@ class MyImgLib
       end
       
       mod
-    end
-
-    #iteracja w znaczeniu powtarzania danego przeksztalcenie obrazka
-    #nie chodzi o iteracje po wierszach i kolumnach w poszczegolnych przeksztalceniach; to dalej
-    #do funkcji mozna przekazac parametry o, ktore uaktulania aktualny obiekt
-    #tutaj tworzone i obslugiwane sa bufory jesli przeksztalcenie ich wymaga
-    def iteruj2(opts={}, &block)
-      
-      #dodatkowe parametry opcjonalne
-      @o.merge!(opts)
-      
-      #jesli jest buforowanie utworzenie tablic oraz poczatkowe uzupelnienie tlem obrazka przetwarzanego
-      if @o[:buffered] == 1
-        @rch = []
-        @gch = []
-        @bch = []
-        #celowe kopiowanie calego zakresu bez obcinki topa i buttoma; ten obszar jest potrzebny do celow sasiedztwa
-        @o[:top].upto @o[:rows]-1 do |r|
-          @rch.push( Array.new(@o[:columns], @o[:background]) )
-          @gch.push( Array.new(@o[:columns], @o[:background]) )
-          @bch.push( Array.new(@o[:columns], @o[:background]) )
-        end
-      end
-      
-      @o[:iterable].call(block)
-      
-      #przetworzone tablice staja sie buforami dla kolejnych iteracji
-      @rchb = @rch
-      @gchb = @gch
-      @bchb = @bch
-      
-      nil
-    end
-    
+    end    
 
 
     #iteracja w znaczeniu powtarzania danego przeksztalcenie obrazka
     #nie chodzi o iteracje po wierszach i kolumnach w poszczegolnych przeksztalceniach; to dalej
-    #do funkcji mozna przekazac parametry o, ktore uaktulania aktualny obiekt
     #tutaj tworzone i obslugiwane sa bufory jesli przeksztalcenie ich wymaga
+    #do funkcji mozna przekazac parametry o, ktore uaktulania aktualny obiekt
     def iteruj(opts={}, &block)
       
       #dodatkowe parametry opcjonalne
@@ -128,26 +90,7 @@ class MyImgLib
         end
       end
       
-      #przetwarzanie; do wybranego sposobu iteracji przekazane zostaja niezbedne parametry
-      # Ruby 1.8.7 i 1.9.1 roznia sie zwracanymi wartosciami z metody select klasy Hash
-      # Do selecta mozna przekazac blok z argumentami klucz i wartosc
-      # Select wywola blok dla wszystkich par klucz-wartosc jaka hash zawiera
-      # Jesli blok zwraca prawde, para klucz-wartosc kopiowana jest do nowego wyniku
-      # Roznica pomiedzy wersjami jest zwracany wynik: 1.9.1 zwroci nowy Hash; 1.8.7 zwroci tablice par
-      # 1.9.1:
-      h = @o.select {|k, v| [:rows, :columns, :top, :bottom, :left, :right].include?(k) }
-      # 1.8.7:
-      h = {}
-      @o.select {|k, v| [:rows, :columns, :top, :bottom, :left, :right].include?(k) }.collect {|k, v| h[k]=v }
-      
-      #dla Ruby v 1.8.7
-      #@o[:iterable].call( h, lambda {  }, block )
-      chs = { :rch => @rch, :gch => @gch, :bch => @bch, :rchb => @rchb, :gchb => @gchb, :bchb => @bchb }
-      Iterable.factory( @o[:iterable] ).call( h,
-        lambda {|gen_r, gen_c|
-          Callable.factory( @o[:callable] ).call(gen_r, gen_c, chs, block)
-        }
-      )
+      przetwarzaj(&block)
       
       #przetworzone tablice staja sie buforami dla kolejnych iteracji
       @rchb = @rch
@@ -156,81 +99,33 @@ class MyImgLib
       
       nil
     end
-
-
-    #funkcja wywoluje blok przeksztalcenia dla kazdego z kanalow osobno lub robi to raz jesli operuje nad obrazkiem jednokanalowym
-    def przetworz_kanaly(gen_r, gen_c, &block)
-      if @o[:monocolor] == 1
-        # kanaly rgb przetwarzania wskazuja te same referencje dlatego wystarczy wywolac funkcje raz, a wszystkie kanaly dostana ta sama wartosc
-        @gch = @bch = @rch
-        przejscie_rc(gen_r, gen_c) do |r, c|
-          block.call(r, c, @rch, @rchb)
-        end
-      else
-        # kanaly przetwarzane osobno tym samym przeksztalceniem
-        przejscie_rc(gen_r, gen_c) do |r, c|
-          block.call(r, c, @rch, @rchb)
-          block.call(r, c, @gch, @gchb)
-          block.call(r, c, @bch, @bchb)
-        end
-      end
-      nil
+    
+    
+    def przetwarzaj(&block)
+       
+      # lokalny hash 'o' tworzony jest na bazie pelnego hasha opcji @o
+      # zawiera niezbedna liczbe parametrow potrzebna celom iteracji
+      # sa to :rows, :columns, :top, :bottom, :left, :right
+      #
+      # Ruby 1.8.7 i 1.9.1 roznia sie zwracanymi wartosciami z metody select klasy Hash
+      # Do selecta mozna przekazac blok z argumentami klucz i wartosc
+      # Select wywola blok dla wszystkich par klucz-wartosc jaka hash zawiera
+      # Jesli blok zwraca prawde, para klucz-wartosc kopiowana jest do nowego wyniku
+      # Roznica pomiedzy wersjami jest zwracany wynik: 1.9.1 zwroci nowy Hash; 1.8.7 zwroci tablice par
+      # 1.9.1:
+      o = @o.select {|k, v| [:rows, :columns, :top, :bottom, :left, :right].include?(k) }
+      # 1.8.7:
+      o = {}
+      @o.select {|k, v| [:rows, :columns, :top, :bottom, :left, :right].include?(k) }.collect {|k, v| o[k]=v }
+      
+      # 
+      chs = { :rch => @rch, :gch => @gch, :bch => @bch, :rchb => @rchb, :gchb => @gchb, :bchb => @bchb }
+      Iterable.factory( @o[:iterable] ).call( o,
+        lambda {|gen_r, gen_c|
+          Callable.factory( @o[:callable] ).call(gen_r, gen_c, chs, block)
+        }
+      )
+      
     end
 
-
-    #funkcja wywoluje blok przeksztalcenia dla kazdego z kanalow osobno lub robi to raz jesli operuje nad obrazkiem jednokanalowym
-    def przetworz_kanaly2(gen_r, gen_c, &block)
-      @o[:callable].call(gen_r, gen_c, [ :rch => @rch, :gch => @gch, :bch => @bch, :rchb => @rchb, :gchb => @gchb, :bchb => @bchb], block)
-      nil
-    end
-  
-    
-    #funkcja odpala przekazane generatory z blokiem zawierajacym wlasciwe przeksztalcenie
-    #szczyt wywolan rdzenia
-    #TODO dlaczego taka konstrukcja, domkniecia
-    def przejscie_rc(gen_r, gen_c) 
-      gen_r.call( lambda do |r|
-        gen_c.call( lambda do |c|
-          yield(r, c)
-        end )
-      end )
-    end
-    
-    
-    
-    def callable(sposob)
-      {
-        :rgb => lambda { |gen_r, gen_c, block| rgb(gen_r, gen_c, &block) },
-        :monocolor => lambda { |gen_r, gen_c, block| monocolor(gen_r, gen_c, &block) },
-        :other => lambda { |gen_r, gen_c, block| other(gen_r, gen_c, &block) },
-      }[sposob]
-    end
-    
-
-    # kanaly przetwarzane osobno tym samym przeksztalceniem
-    def rgb(gen_r, gen_c, &block)
-      przejscie_rc(gen_r, gen_c) do |r, c|
-        block.call(r, c, @rch, @rchb)
-        block.call(r, c, @gch, @gchb)
-        block.call(r, c, @bch, @bchb)
-      end
-    end
-    
-
-    # kanaly rgb przetwarzania wskazuja te same referencje dlatego wystarczy wywolac funkcje raz, a wszystkie kanaly dostana ta sama wartosc
-    def monocolor(gen_r, gen_c, &block)
-      @gch = @bch = @rch
-      przejscie_rc(gen_r, gen_c) do |r, c|
-        block.call(r, c, @rch, @rchb)
-      end
-    end
-    
-    
-    # inny rodzaj przetwarzania; podane sa tylko kolejne r i c, funkcja bedzie operowac na dostepnych jej @rch, @gch, @bch oraz na buforach jesli wlaczy
-    def other(gen_r, gen_c, &block)
-      przejscie_rc(gen_r, gen_c) do |r, c|
-        block.call(r, c)
-      end
-    end
-    
 end

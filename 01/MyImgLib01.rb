@@ -103,7 +103,7 @@ class MyImgLib
     end
     
     
-    def do_ekstrema
+    def do_ekstrema(ch)
       min = Magick::QuantumRange
       max = 0
       iteruj do |r, c, ch|
@@ -119,8 +119,10 @@ class MyImgLib
       ming, maxg = do_ekstrema(@gch)
       minb, maxb = do_ekstrema(@bch)
       
-      iteruj do |r, c|
-        ch[r][c] = Magick::QuantumRange * (@rchb[r][c] - minr) / (maxr - minr)
+      iteruj(:callable => :other) do |r, c|
+        @rch[r][c] = cut( Magick::QuantumRange * (@rch[r][c] - minr) / (maxr - minr) )
+        @gch[r][c] = cut( Magick::QuantumRange * (@rch[r][c] - minr) / (maxr - minr) )
+        @bch[r][c] = cut( Magick::QuantumRange * (@rch[r][c] - minr) / (maxr - minr) )
       end
       
       [ minr, maxr, ming, maxg, minb, maxb ]
