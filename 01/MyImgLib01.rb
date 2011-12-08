@@ -58,14 +58,14 @@ class MyImgLib
     
     
     def do_szaro1
-      iteruj(:collable=>callable(:monocolor)) do |r, c, ch|
+      iteruj(:collable=>Callable.factory(:monocolor)) do |r, c, ch|
         ch[r][c] = (@rchb[r][c] + @gchb[r][c] + @bchb[r][c]) / 3
       end
     end
   
     
     def do_szaro2
-      iteruj(:collable=>callable(:monocolor)) do |r, c, ch|
+      iteruj(:collable=>Callable.factory(:monocolor)) do |r, c, ch|
         ch[r][c] = 0.3*@rchb[r][c] + 0.59*@gchb[r][c] + 0.11*@bchb[r][c]
       end
     end

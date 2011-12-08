@@ -1,6 +1,8 @@
 #require 'rubygems'
 #gem PLATFORM == 'java' ? 'rmagick4j' : 'rmagick'
 require 'RMagick'
+require 'Callable'
+require 'Iterable'
 
 require 'IterableGenRC'
 
@@ -8,6 +10,7 @@ class MyImgLib
   include IterableGenRC
 
   def initialize(orginal)
+    #obiekt RMagick reprezentuje obraz poddawany obrobce
     @orginal = orginal
   end
 
@@ -20,13 +23,15 @@ class MyImgLib
     #na koniec zwracany jest nowy obiekt biblioteki RMagick Magick::Image z wykonanymi przeksztalceniami
     def edit(opts={})
 
-      #TODO osobna funkcja?
-      #parametry opcjonalne nalozone na domyslne
+      # opcje rdzenia do wykonywanych przeksztalcen
+      # parametry opcjonalne nalozone na domyslne
       @o = {
         #sposob iteracji kolumn i wierszy; domyslnie wyiteruje caly obrazek bez marginesow
-        :iterable => iterable(:calosc),
+        #:iterable => Iterable.factory(:all),
+        :iterable => :all,
         #sposob wywolywania transformacji i przekazywania argumentow; domyslnie wykona przeksztalcenie dla kazdego kanalu z osobna
-        :callable => callable(:rgb),
+        #:callable => Callable.factory(:rgb),
+        :callable => :rgb,
         #marginesy
         :top => 0,
         :bottom => 0,
@@ -38,14 +43,13 @@ class MyImgLib
         :rows => @orginal.rows,
         :background => 0, #kolor tla dla buforow
       }.merge(opts)
-
+      
       # tablice kanalow barw orginalu oraz obrazka przetwarzanego
       # tutaj referencje na tablice buforow i przetwarzan sa te same, dzieki temu domyslnie nie buforuje
       # nowe tablice dla buforow tworzone sa w metodzie iteruj jesli wybrano opcje @o[:buffered]
       @rch = @rchb = []
       @gch = @gchb = []
       @bch = @bchb = []
-        
       
       # ladowanie kolejnych wersow obrazka do tablic kanalow
       0.upto @orginal.rows-1 do |r|
@@ -60,13 +64,47 @@ class MyImgLib
       #przepisanie wynikow do nowego obrazka
       mod = Magick::Image.new( @o[:columns], @o[:rows] )
       (@o[:rows]-@o[:bottom]-1).downto @o[:top] do |r|
-        mod.import_pixels(0, r, mod.columns, 1, "R", @rch[r])
+        mod.import_pixels(0, r, mod.columns, 1, "R", @rch[r]) #nie mozna popowac chaneli; w przypadku :monocolor kanal czerwony zrzucilby rowniez pozosatale kanaly jako ze mialyby ta sama referencje
         mod.import_pixels(0, r, mod.columns, 1, "G", @gch[r])
         mod.import_pixels(0, r, mod.columns, 1, "B", @bch[r])
       end
       
       mod
     end
+
+    #iteracja w znaczeniu powtarzania danego przeksztalcenie obrazka
+    #nie chodzi o iteracje po wierszach i kolumnach w poszczegolnych przeksztalceniach; to dalej
+    #do funkcji mozna przekazac parametry o, ktore uaktulania aktualny obiekt
+    #tutaj tworzone i obslugiwane sa bufory jesli przeksztalcenie ich wymaga
+    def iteruj2(opts={}, &block)
+      
+      #dodatkowe parametry opcjonalne
+      @o.merge!(opts)
+      
+      #jesli jest buforowanie utworzenie tablic oraz poczatkowe uzupelnienie tlem obrazka przetwarzanego
+      if @o[:buffered] == 1
+        @rch = []
+        @gch = []
+        @bch = []
+        #celowe kopiowanie calego zakresu bez obcinki topa i buttoma; ten obszar jest potrzebny do celow sasiedztwa
+        @o[:top].upto @o[:rows]-1 do |r|
+          @rch.push( Array.new(@o[:columns], @o[:background]) )
+          @gch.push( Array.new(@o[:columns], @o[:background]) )
+          @bch.push( Array.new(@o[:columns], @o[:background]) )
+        end
+      end
+      
+      @o[:iterable].call(block)
+      
+      #przetworzone tablice staja sie buforami dla kolejnych iteracji
+      @rchb = @rch
+      @gchb = @gch
+      @bchb = @bch
+      
+      nil
+    end
+    
+
 
     #iteracja w znaczeniu powtarzania danego przeksztalcenie obrazka
     #nie chodzi o iteracje po wierszach i kolumnach w poszczegolnych przeksztalceniach; to dalej
@@ -90,7 +128,26 @@ class MyImgLib
         end
       end
       
-      @o[:iterable].call(block)
+      #przetwarzanie; do wybranego sposobu iteracji przekazane zostaja niezbedne parametry
+      # Ruby 1.8.7 i 1.9.1 roznia sie zwracanymi wartosciami z metody select klasy Hash
+      # Do selecta mozna przekazac blok z argumentami klucz i wartosc
+      # Select wywola blok dla wszystkich par klucz-wartosc jaka hash zawiera
+      # Jesli blok zwraca prawde, para klucz-wartosc kopiowana jest do nowego wyniku
+      # Roznica pomiedzy wersjami jest zwracany wynik: 1.9.1 zwroci nowy Hash; 1.8.7 zwroci tablice par
+      # 1.9.1:
+      h = @o.select {|k, v| [:rows, :columns, :top, :bottom, :left, :right].include?(k) }
+      # 1.8.7:
+      h = {}
+      @o.select {|k, v| [:rows, :columns, :top, :bottom, :left, :right].include?(k) }.collect {|k, v| h[k]=v }
+      
+      #dla Ruby v 1.8.7
+      #@o[:iterable].call( h, lambda {  }, block )
+      chs = { :rch => @rch, :gch => @gch, :bch => @bch, :rchb => @rchb, :gchb => @gchb, :bchb => @bchb }
+      Iterable.factory( @o[:iterable] ).call( h,
+        lambda {|gen_r, gen_c|
+          Callable.factory( @o[:callable] ).call(gen_r, gen_c, chs, block)
+        }
+      )
       
       #przetworzone tablice staja sie buforami dla kolejnych iteracji
       @rchb = @rch
@@ -122,9 +179,8 @@ class MyImgLib
 
 
     #funkcja wywoluje blok przeksztalcenia dla kazdego z kanalow osobno lub robi to raz jesli operuje nad obrazkiem jednokanalowym
-    def przetworz_kanaly(gen_r, gen_c, &block)
-      x = 34
-      @o[:callable].call(gen_r, gen_c, block)
+    def przetworz_kanaly2(gen_r, gen_c, &block)
+      @o[:callable].call(gen_r, gen_c, [ :rch => @rch, :gch => @gch, :bch => @bch, :rchb => @rchb, :gchb => @gchb, :bchb => @bchb], block)
       nil
     end
   
