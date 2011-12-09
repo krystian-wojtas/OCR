@@ -1,4 +1,4 @@
-require 'Core'
+require 'FImg4RR_Core'
 
 class FImg4RR
 

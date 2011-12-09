@@ -1,4 +1,5 @@
-require 'Core'
+require 'FImg4RR_Core'
+require 'Tools'
 
 class FImg4RR
 
@@ -17,8 +18,8 @@ class FImg4RR
   
 
     def do_krzyzRobertsa
-      iteruj(:top => 1, :bottom => 1, :left => 1, :right => 1) do |r, c, chb|
-        cut( (chb[r][c] - chb[r+1][c+1]).abs + (chb[r][c+1] - chb[r+1][c]).abs )
+      iteruj(:bottom => 1, :right => 1) do |r, c, ch|
+        ch[r][c] = Tools.cut( (ch[r][c] - ch[r+1][c+1]).abs + (ch[r][c+1] - ch[r+1][c]).abs )
       end
     end
 
@@ -32,7 +33,7 @@ class FImg4RR
         #przy odwroconych wspolrzednych wychodzi polowa trojkata biala, druga polowa ma zmienione kolory; obraz przekrecony o 90
         x = chb[c+1][r-1] + 2*chb[c+1][r] + chb[c+1][r+1]
         y = chb[c-1][r+1] + 2*chb[c][r-1] + chb[c+1][r+1] - chb[c-1][r-1] - 2*chb[c][r-1] - chb[c-1][r+1]
-        cut( Math.sqrt(x*x + y*y) )
+        Tools.cut( Math.sqrt(x*x + y*y) )
 =begin
         x = chb[r+1][c-1] + 2*chb[r+1][c] + chb[r+1][c+1]
         y = chb[r-1][c+1] + 2*chb[r][c-1] + chb[r+1][c+1] - chb[r-1][c-1] - 2*chb[r][c-1] - chb[r-1][c+1]

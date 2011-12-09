@@ -1,4 +1,5 @@
-require 'Core'
+require 'FImg4RR_Core'
+require 'FImg4RR_Thresholding'
 
 class FImg4RR
 
@@ -22,6 +23,7 @@ class FImg4RR
       :top => 1,
       :bottom => 1,
       :buffered => 1,
+      :collable=>:monocolor,
     })
     do_binaryzacja( Magick::QuantumRange / 2, 1, 0)
         
@@ -35,8 +37,7 @@ class FImg4RR
     #petla
     it = 0
     powtorzyc = true
-    while(powtorzyc and it < 10) do #TODO for
-      #for(it = 0; powtorzyc and it < 100; it += 1) do
+    while(powtorzyc and it < 10) do
       puts it
       it += 1
       powtorzyc = false
@@ -44,9 +45,9 @@ class FImg4RR
       iteruj do |r, c, vch|
         if vch[r][c] == 1
           if vch[r][c-1] == 0 or vch[r][c+1] == 0 or vch[r-1][c] == 0 or vch[r+1][c] == 0
-            2
+            vch[r][c] = 2
           elsif vch[r-1][c-1] == 0 or vch[r-1][c+1] == 0 or vch[r+1][c-1] == 0 or vch[r+1][c+1] == 0
-            3
+            vch[r][c] = 3
           end
         end
       end
@@ -66,7 +67,7 @@ class FImg4RR
       iteruj do |r, c, vch|
         if vch[r][c] == 2
           if czworki.include? maska(r,c, vch, sprawdzarka)
-            4
+            vch[r][c] = 4
           end
         end
       end
@@ -75,9 +76,9 @@ class FImg4RR
         if vch[r][c] == 4
           if wyciecia.include? maska(r,c, vch, sprawdzarka)
             powtorzyc = true
-            0
+            vch[r][c] = 0
           else
-            1
+            vch[r][c] = 1
           end
         end
       end
@@ -85,9 +86,9 @@ class FImg4RR
         if vch[r][c] == 2
           if wyciecia.include? maska(r,c, vch, sprawdzarka)
             powtorzyc = true
-            0
+            vch[r][c] = 0
           else
-            1
+            vch[r][c] = 1
           end
         end
       end
@@ -95,9 +96,9 @@ class FImg4RR
         if vch[r][c] == 3
           if wyciecia.include? maska(r,c, vch, sprawdzarka)
             powtorzyc = true
-            0
+            vch[r][c] = 0
           else
-            1
+            vch[r][c] = 1
           end
         end
       end
@@ -105,6 +106,7 @@ class FImg4RR
     puts '--------- ' + it.to_s
 
     do_binaryzacja( 0, Magick::QuantumRange, 0) #debinaryzacja
+    #TODO zwrocenie wyniku ilosci iteracji
   end
 
 end

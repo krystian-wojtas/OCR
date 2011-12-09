@@ -1,4 +1,4 @@
-require 'Core'
+require 'FImg4RR_Core'
 
 class FImg4RR
 
@@ -8,12 +8,13 @@ class FImg4RR
     end
   end
 
+  #TODO czy warunkowo po wszystkich kanalach? czy przekazac blok ze srednia? sprawdzic czy zostal przekazany blok?
   def do_binaryzacja(tol = Magick::QuantumRange / 2, min = 0, max = Magick::QuantumRange)
-    iteruj do |r, c, chb|
+    iteruj do |r, c, ch, chb|
       if chb[r][c] > tol
-        max
+        ch[r][c] = max
       else
-        min
+        ch[r][c] = min
       end
     end
   end

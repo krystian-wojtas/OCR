@@ -105,7 +105,7 @@ class FImg4RR
     def przetwarzaj(&block)
        
       # lokalny hash 'o' tworzony jest na bazie pelnego hasha opcji @o
-      # zawiera niezbedna liczbe parametrow potrzebna celom iteracji
+      # zawiera tylko niezbedne parametry potrzebne celom iteracji
       # sa to :rows, :columns, :top, :bottom, :left, :right
       #
       # Ruby 1.8.7 i 1.9.1 roznia sie zwracanymi wartosciami z metody select klasy Hash
