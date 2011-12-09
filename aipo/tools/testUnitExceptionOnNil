@@ -1,0 +1,16 @@
+=begin    
+    #TODO test unit
+    @o[:top].upto @o[:rows]-@o[:top]-@o[:bottom]-1 do |r|
+      @o[:left].upto @o[:columns]-@o[:left]-@o[:right]-1 do |c| 
+        if vch[r].nil?
+          puts 'EXCEPTION !!!! vch[r] = nil, r=' + r.to_s
+        else
+          if vch[r][c].nil?
+            puts 'EXCEPTION !!!! vch[r][c] = nil, r=' + r.to_s + ' c=' + c.to_s
+          else
+            puts r.to_s + ' ' + c.to_s + ' ' + vch[r][c].to_s 
+          end
+        end
+      end
+    end
+=end    

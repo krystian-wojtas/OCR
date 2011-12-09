@@ -4,7 +4,7 @@ require 'RMagick'
 require 'Callable'
 require 'Iterable'
 
-class MyImgLib
+class FImg4RR
 
   def initialize(orginal)
     #obiekt RMagick reprezentuje obraz poddawany obrobce
@@ -59,7 +59,8 @@ class MyImgLib
       #przepisanie wynikow do nowego obrazka
       mod = Magick::Image.new( @o[:columns], @o[:rows] )
       (@o[:rows]-@o[:bottom]-1).downto @o[:top] do |r|
-        mod.import_pixels(0, r, mod.columns, 1, "R", @rch[r]) #nie mozna popowac chaneli; w przypadku :monocolor kanal czerwony zrzucilby rowniez pozosatale kanaly jako ze mialyby ta sama referencje
+        #nie mozna popowac chaneli; w przypadku :monocolor kanal czerwony zrzucilby rowniez pozosatale kanaly jako ze mialyby ta sama referencje TODO del
+        mod.import_pixels(0, r, mod.columns, 1, "R", @rch[r])
         mod.import_pixels(0, r, mod.columns, 1, "G", @gch[r])
         mod.import_pixels(0, r, mod.columns, 1, "B", @bch[r])
       end
@@ -83,7 +84,7 @@ class MyImgLib
         @gch = []
         @bch = []
         #celowe kopiowanie calego zakresu bez obcinki topa i buttoma; ten obszar jest potrzebny do celow sasiedztwa
-        @o[:top].upto @o[:rows]-1 do |r|
+        @o[:top].upto @o[:rows]-1 do |r| #TODO bez |r|
           @rch.push( Array.new(@o[:columns], @o[:background]) )
           @gch.push( Array.new(@o[:columns], @o[:background]) )
           @bch.push( Array.new(@o[:columns], @o[:background]) )

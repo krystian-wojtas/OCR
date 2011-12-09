@@ -1,0 +1,52 @@
+#rowsy test
+def rows_nil
+	@o[:top].upto @o[:rows]-@o[:top]-@o[:bottom]-1 do |r|
+		if @rch[r].nil? then
+			puts r.to_s
+		end
+		if @gch[r].nil? then
+			puts r.to_s
+		end
+		if @bch[r].nil? then
+			puts r.to_s
+		end
+
+		if @rchb[r].nil? then
+			puts r.to_s
+		end
+		if @gchb[r].nil? then
+			puts r.to_s
+		end
+		if @bchb[r].nil? then
+			puts r.to_s
+		end
+	end
+end
+
+
+#columns test
+def rch_c_nil
+	@o[:top].upto @o[:rows]-@o[:top]-@o[:bottom]-1 do |r|
+		@o[:left].upto @o[:columns]-@o[:left]-@o[:right]-1 do |c|
+			if @rch[r][c].nil? then
+				puts r.to_s + ' ' + c.to_s
+			end
+			if @gch[r][c].nil? then
+				puts r.to_s + ' ' + c.to_s
+			end
+			if @bch[r][c].nil? then
+				puts r.to_s + ' ' + c.to_s
+			end
+
+			if @rchb[r][c].nil? then
+				puts r.to_s + ' ' + c.to_s
+			end
+			if @gchb[r][c].nil? then
+				puts r.to_s + ' ' + c.to_s
+			end
+			if @bchb[r][c].nil? then
+				puts r.to_s + ' ' + c.to_s
+			end
+		end
+	end
+end

@@ -1,16 +1,9 @@
-require 'MyImgLib'
+require 'FImg4RR_Core'
+require 'Tools'
 
-class MyImgLib
+class FImg4RR
 
-  #przycina wartosc koloru do zakresu 0 - Magick::QuantumRange
-  #TODO moze range?
-  #TODO osobny plik
-  def cut(c)
-    (c > Magick::QuantumRange) ? Magick::QuantumRange : ( (c < 0) ? 0 : c )
-  end
-  
-  public
-  
+
     def negatyw
       edit do
         do_negatyw
@@ -28,31 +21,31 @@ class MyImgLib
         do_szaro2
       end
     end
-    
+  
+    def jasnosc(w)
+      edit do
+        do_jasnosc(w)
+      end
+    end
+
+    def kontrast(w)
+      edit do
+        do_kontrast(w)
+      end
+    end
+  
+
     def histogram
       edit do
         do_histogram
       end
     end
-  
-    def skaluj(s)
-      edit do
-        do_skaluj(s)
-      end
-    end
 
-    def drukuj
-      edit do
-        do_drukuj
-      end
-    end
   
-  
-  private
   
     def do_negatyw
       iteruj do |r, c, ch|
-        ch[r][c] = cut( Magick::QuantumRange - ch[r][c] )
+        ch[r][c] = Tools.cut( Magick::QuantumRange - ch[r][c] )
       end
     end
     
@@ -69,6 +62,21 @@ class MyImgLib
         ch[r][c] = 0.3*@rchb[r][c] + 0.59*@gchb[r][c] + 0.11*@bchb[r][c]
       end
     end
+    
+    def do_jasnosc(w)
+      iteruj do |r, c, chb|
+        Tools.cut( chb[r][c] + w )
+      end
+    end
+
+    def do_kontrast(w)
+      iteruj do |r, c, chb|
+        Tools.cut( chb[r][c] * w )
+      end
+    end
+    
+    
+    
     
     
     def do_histogram2
@@ -119,6 +127,8 @@ class MyImgLib
       ming, maxg = do_ekstrema(@gch)
       minb, maxb = do_ekstrema(@bch)
       
+      #if rozne kanaly znajdz ming i maxg i przepisz je na wszystkie
+      
       iteruj(:callable => :other) do |r, c|
         @rch[r][c] = cut( Magick::QuantumRange * (@rch[r][c] - minr) / (maxr - minr) )
         @gch[r][c] = cut( Magick::QuantumRange * (@rch[r][c] - minr) / (maxr - minr) )
@@ -127,33 +137,5 @@ class MyImgLib
       
       [ minr, maxr, ming, maxg, minb, maxb ]
     end
-
     
-    def do_skaluj(s)
-      iteruj(:buffered => 1, :width => s*@orginal.rows, :height => s*@orginal.columns) do |r, c, ch, chb|
-        puts r.to_s + ' ' + c.to_s
-        ch[r][c] = chb[r/s][c/s]
-        nil
-      end
-    end
-    
-
-def zoom(orginal, scale)
-  mod = Magick::Image.new(scale*orginal.rows, scale*orginal.columns)
-  mod.each_pixel do |pixel, c, r|
-    px = orginal.pixel_color(c/scale, r/scale)
-    mod.pixel_color(c, r, px)
   end
-  return mod
-end
-
-
-  def do_drukuj
-    iteruj do |r, c|
-      puts r.to_s + ' ' + c.to_s + ' ' + @rchb[r][c].to_s
-      puts r.to_s + ' ' + c.to_s + ' ' + @gchb[r][c].to_s
-      puts r.to_s + ' ' + c.to_s + ' ' + @bchb[r][c].to_s
-    end
-  end
-  
-end

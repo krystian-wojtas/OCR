@@ -1,6 +1,8 @@
-require 'MyImgLib'
+require 'Core'
 
-MyImgLib.class_eval do
+class FImg4RR
+
+  public
 
   def sol_pieprz(orginal, tol)
   	rnd = Random.new(1234)

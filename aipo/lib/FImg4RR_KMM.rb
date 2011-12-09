@@ -1,57 +1,10 @@
-require 'MyImgLib'
+require 'Core'
 
-MyImgLib.class_eval do
-  
-  #przycina wartosc koloru do zakresu 0 - Magick::QuantumRange
-  #TODO moze range?
-  #TODO osobny plik
-  def cut(c)
-    (c > Magick::QuantumRange) ? Magick::QuantumRange : ( (c < 0) ? 0 : c )
-  end
+class FImg4RR
 
-  private
-
-  def do_jasnosc2(w)
-    iteruj do |r, c, chb|
-      puts r.to_s + ' ' + c.to_s
-      cut( chb[r][c] + w )
-    end
-  end
-
-  #TODO del co jesli bez block.arity?
-  def do_jasnosc3(w)
-    iteruj do |i, j|
-      teSame(
-        cut(
-          @chb[i][j] + w
-        )
-      )
-    end
-  end
-
-  def do_progowanie(tol, obszarow)
-    obszarow.downto 0 do |i|
-      obszarow.downto 0 do |j|
-        @o.merge!(
-          :left => @orginal.columns/obszarow*i,
-          :right => @orginal.columns/obszarow*(i+1),
-          :top => @orginal.rows/obszarow*j,
-          :down => @orginal.rows/obszarow*(j+1)
-        )
-        iteruj(:left => @orginal.columns/obszarow*i, :right => @orginal.columns/obszarow*(i+1), :top => 1, :down => 2) do |chr, chg, chb, c, r|
-
-        end
-      end
-    end
-  end
-
-  def do_binaryzacja(tol = Magick::QuantumRange / 2, min = 0, max = Magick::QuantumRange)
-    iteruj do |r, c, chb|
-      if chb[r][c] > tol
-        max
-      else
-        min
-      end
+  def kmm2
+    edit do
+      do_kmn2
     end
   end
 
@@ -152,29 +105,6 @@ MyImgLib.class_eval do
     puts '--------- ' + it.to_s
 
     do_binaryzacja( 0, Magick::QuantumRange, 0) #debinaryzacja
-  end
-
-  public
-  #TODO jeden wrapper evalujacy te metody; metaprogramowanie
-  #argumenty metod wyciaga z argumentow metod do_ i nienaruszajac przekazuje je do do_
-  #egzemplarze metod roznia sie opcjami dla edita
-
-  def jasnosc2(w)
-    edit do
-      do_jasnosc2(w)
-    end
-  end
-
-  def binearyzacja(tol = Magick::QuantumRange / 2, min = 0, max = Magick::QuantumRange)
-    edit do
-      do_binearyzacja(tol, min, max)
-    end
-  end
-
-  def kmm2
-    edit do
-      do_kmn2
-    end
   end
 
 end
