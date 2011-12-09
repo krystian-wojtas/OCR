@@ -32,14 +32,12 @@ class FImg4RR
         xs.push( xp )
         ys.push( yp )
     end
-    xs.sort!()
-    ys.sort!()
     #szerokosc i wysokosc nowego obrazka
-    width = xs[3] - xs[0]
-    height = ys[3] - ys[0]
+    width = xs.max - xs.min
+    height = ys.max - ys.min
     #wektor przesuniecia [p, q]
-    p = xs[0]
-    q = ys[0]
+    p = xs.min
+    q = ys.min
     
     iteruj(:columns => width, :rows => height, :buffered => 1, :background => Magick::QuantumRange) do |r, c, ch, chb|
       xp, yp = obroc(r+q, c+p, kat)

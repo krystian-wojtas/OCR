@@ -26,7 +26,7 @@ class FImg4RR
       :collable=>:monocolor,
     })
     do_binaryzacja( Magick::QuantumRange / 2, 1, 0)
-        
+    #TODO przekazywanie parametrow w ostatnim hashu do do_ w metametodach
     @o.merge!( {
       :buffered => 0,
     })

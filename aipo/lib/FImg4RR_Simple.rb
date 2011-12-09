@@ -109,8 +109,8 @@ class FImg4RR
       minb, maxb = do_ekstrema(@bch)
       
       unless osobne_kanaly
-        minr = ming = minb = [ minr, ming, minb ].sort![0]
-        maxr = maxg = maxb = [ maxr, maxg, maxb ].sort![2]
+        minr = ming = minb = [ minr, ming, minb ].min
+        maxr = maxg = maxb = [ maxr, maxg, maxb ].max
       end
       
       iteruj(:callable => :other) do |r, c|
