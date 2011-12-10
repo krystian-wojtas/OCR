@@ -23,11 +23,10 @@ class Iterable
   end
   
 
-  def Iterable.area(p, callable, &block)
+  def Iterable.area(p, callable)
     callable.call(
       lambda {|block_r| p[:top].upto p[:bottom]-1 do |r| block_r.call(r) end },
-      lambda {|block_c| p[:left].upto p[:right]-1 do |c| block_c.call(c) end },
-      &block
+      lambda {|block_c| p[:left].upto p[:right]-1 do |c| block_c.call(c) end }
     )
     nil
   end

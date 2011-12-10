@@ -4,6 +4,7 @@ class Callable
   @@c = {
     #TODO meta
     #TODO re-otwierajac klase mozna dodac nowe sposoby wywolan blokow; wtedy eval musi dorzuci sposoby do hasha
+    #TODO :once :rgb
     :rgb => lambda { |gen_r, gen_c, chs, block| Callable.rgb(gen_r, gen_c, chs, &block) },
     :monocolor => lambda { |gen_r, gen_c, chs, block| Callable.monocolor(gen_r, gen_c, chs, &block) },
     :other => lambda { |gen_r, gen_c, chs, block| Callable.other(gen_r, gen_c, chs, &block) },
@@ -18,14 +19,17 @@ class Callable
   # kanaly przetwarzane osobno tym samym przeksztalceniem
   def Callable.rgb(gen_r, gen_c, chs, &block)
     Callable.przejscie_rc(gen_r, gen_c) do |r, c|
-      block.call(r, c, chs[:rch], chs[:rchb])
-      block.call(r, c, chs[:gch], chs[:gchb])
-      block.call(r, c, chs[:bch], chs[:bchb])
+      chs[:vch], chs[:vchb] = chs[:rch], chs[:rchb]
+      block.call r, c
+      chs[:vch], chs[:vchb] = chs[:gch], chs[:gchb]
+      block.call r, c
+      chs[:vch], chs[:vchb] = chs[:bch], chs[:bchb]
+      block.call r, c
     end
   end
 
 
-  # kanaly rgb przetwarzania wskazuja te same referencje dlatego wystarczy wywolac funkcje raz, a wszystkie kanaly dostana ta sama wartosc
+  
   def Callable.monocolor(gen_r, gen_c, chs, &block)
     chs[:gch] = chs[:bch] = chs[:rch]
     przejscie_rc(gen_r, gen_c) do |r, c|

@@ -3,12 +3,6 @@ require 'Tools'
 
 class FImg4RR
 
-    def obrot(kat)
-      edit do
-        do_obrot(kat)
-      end
-      self
-    end
     
   #funkcja pomocnicza dla do_obrot
   #TODO wrzucic ja do srodka do_obrot
@@ -19,8 +13,9 @@ class FImg4RR
       ( Math.sin(kat)*i+Math.cos(kat)*j ).to_i,
     ]
   end
+  
 
-  def do_obrot(kat)
+  def obrot(kat)
     #powrot jesli nie trzeba obracac
     if kat == 0
       return
@@ -40,13 +35,14 @@ class FImg4RR
     p = xs.min
     q = ys.min
     
-    iteruj(:columns => width, :rows => height, :buffered => 1, :background => Magick::QuantumRange) do |r, c, ch, chb|
+    iteruj :columns => width, :rows => height, :buffered => 1, :background => Magick::QuantumRange do |r, c|
       xp, yp = obroc(r+q, c+p, kat)
       if (0 < xp and xp < @orginal.columns)  and  (0 < yp and yp < @orginal.rows) #TODO range?
-        ch[r][c] = chb[xp][yp]
-        #puts r.to_s + ' ' + c.to_s + "\t" + xp.to_s + ' ' + yp.to_s + ' ' + ch[r][c].to_s + ' ' + chb[xp][yp].to_s #TODO aspect na kacie
+        @vch[r][c] = @vchb[xp][yp]
+        #puts r.to_s + ' ' + c.to_s + "\t" + xp.to_s + ' ' + yp.to_s + ' ' + @vch[r][c].to_s + ' ' + @vchb[xp][yp].to_s #TODO aspect na kacie
       end
     end
+    self
   end
 
 end

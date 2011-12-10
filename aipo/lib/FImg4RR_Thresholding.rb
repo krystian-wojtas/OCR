@@ -2,22 +2,16 @@ require 'FImg4RR_Core'
 
 class FImg4RR
 
-  def binearyzacja(tol = Magick::QuantumRange / 2, min = 0, max = Magick::QuantumRange)
-    edit do
-      do_binearyzacja(tol, min, max)
-    end
-    self
-  end
 
-  #TODO czy warunkowo po wszystkich kanalach? czy przekazac blok ze srednia? sprawdzic czy zostal przekazany blok?
-  def do_binaryzacja(tol = Magick::QuantumRange / 2, min = 0, max = Magick::QuantumRange)
-    iteruj do |r, c, ch, chb|
-      if chb[r][c] > tol
-        ch[r][c] = max
+  def binaryzacja(tol = Magick::QuantumRange / 2, min = 0, max = Magick::QuantumRange)
+    iteruj  do |r, c|
+      if @vchb[r][c] > tol
+        @vch[r][c] = max
       else
-        ch[r][c] = min
+        @vch[r][c] = min
       end
-    end
+    end   
+    self
   end
   
   def do_progowanie(tol, obszarow)

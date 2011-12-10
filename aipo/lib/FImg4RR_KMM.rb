@@ -3,14 +3,8 @@ require 'FImg4RR_Thresholding'
 
 class FImg4RR
 
-  def kmm2
-    edit do
-      do_kmn2
-    end
-    self
-  end
 
-  def do_kmn2
+  def kmm2    
 
     #tablica buforowa dostaje dodatkowa obramowke grubosci 1pixela, domyslnie wypelniona zerami (zera sa w tym algorytmie bardzo odpowiednie wiec jest ok)
     #potrzebna ona jest dla nastepujacych przeksztalcen, gdzie uzywane sa wszyscy sasiedzi kazdego pixela
@@ -19,14 +13,14 @@ class FImg4RR
     @o.merge!( {
       :columns => @orginal.columns+2,
       :rows => @orginal.rows+2,
-      :left => 1,
-      :right => 1,
+      :collable=>:monocolor,
+      :buffered => 1,
       :top => 1,
       :bottom => 1,
-      :buffered => 1,
-      :collable=>:monocolor,
+      :left => 1,
+      :right => 1,
     })
-    do_binaryzacja( Magick::QuantumRange / 2, 1, 0)
+    binaryzacja( Magick::QuantumRange / 2, 1, 0)
     #TODO przekazywanie parametrow w ostatnim hashu do do_ w metametodach
     @o.merge!( {
       :buffered => 0,
@@ -42,72 +36,73 @@ class FImg4RR
       puts it
       it += 1
       powtorzyc = false
-
-      iteruj do |r, c, vch|
-        if vch[r][c] == 1
-          if vch[r][c-1] == 0 or vch[r][c+1] == 0 or vch[r-1][c] == 0 or vch[r+1][c] == 0
-            vch[r][c] = 2
-          elsif vch[r-1][c-1] == 0 or vch[r-1][c+1] == 0 or vch[r+1][c-1] == 0 or vch[r+1][c+1] == 0
-            vch[r][c] = 3
+      
+      iteruj do |r, c|
+        if @vchb[r][c] == 1
+          if @vchb[r][c-1] == 0 or @vchb[r][c+1] == 0 or @vchb[r-1][c] == 0 or @vchb[r+1][c] == 0
+            @vch[r][c] = 2
+          elsif @vchb[r-1][c-1] == 0 or @vchb[r-1][c+1] == 0 or @vchb[r+1][c-1] == 0 or @vchb[r+1][c+1] == 0
+            @vch[r][c] = 3
           end
         end
       end
 
-      def maska(r, c, vch, sprawdzarka)
+      def maska(r, c, sprawdzarka)
         s = 0
-        if vch[r-1][c-1] != 0 then s += sprawdzarka[0][0] end
-        if vch[r-1][c] != 0 then s += sprawdzarka[0][1] end
-        if vch[r-1][c+1] != 0 then s += sprawdzarka[0][2] end
-        if vch[r][c-1] != 0 then s += sprawdzarka[1][0] end
-        if vch[r][c+1] != 0 then s += sprawdzarka[1][2] end
-        if vch[r+1][c-1] != 0 then s += sprawdzarka[2][0] end
-        if vch[r+1][c] != 0 then s += sprawdzarka[2][1] end
-        if vch[r+1][c+1] != 0 then s += sprawdzarka[2][2] end
+        if @vchb[r-1][c-1] != 0 then s += sprawdzarka[0][0] end
+        if @vchb[r-1][c] != 0 then s += sprawdzarka[0][1] end
+        if @vchb[r-1][c+1] != 0 then s += sprawdzarka[0][2] end
+        if @vchb[r][c-1] != 0 then s += sprawdzarka[1][0] end
+        if @vchb[r][c+1] != 0 then s += sprawdzarka[1][2] end
+        if @vchb[r+1][c-1] != 0 then s += sprawdzarka[2][0] end
+        if @vchb[r+1][c] != 0 then s += sprawdzarka[2][1] end
+        if @vchb[r+1][c+1] != 0 then s += sprawdzarka[2][2] end
         s
       end
-      iteruj do |r, c, vch|
-        if vch[r][c] == 2
-          if czworki.include? maska(r,c, vch, sprawdzarka)
-            vch[r][c] = 4
+      iteruj do |r, c|
+        if @vchb[r][c] == 2
+          if czworki.include? maska(r,c, sprawdzarka)
+            @vch[r][c] = 4
           end
         end
       end
       #TODO powtorzyc na true w jednym z blokow nie jest wymagane
-      iteruj do |r, c, vch|
-        if vch[r][c] == 4
-          if wyciecia.include? maska(r,c, vch, sprawdzarka)
+      iteruj do |r, c|
+        if @vchb[r][c] == 4
+          if wyciecia.include? maska(r,c, sprawdzarka)
             powtorzyc = true
-            vch[r][c] = 0
+            @vchb[r][c] = 0
           else
-            vch[r][c] = 1
+            @vchb[r][c] = 1
           end
         end
       end
-      iteruj do |r, c, vch|
-        if vch[r][c] == 2
-          if wyciecia.include? maska(r,c, vch, sprawdzarka)
+      iteruj do |r, c|
+        if @vchb[r][c] == 2
+          if wyciecia.include? maska(r,c, sprawdzarka)
             powtorzyc = true
-            vch[r][c] = 0
+            @vchb[r][c] = 0
           else
-            vch[r][c] = 1
+            @vchb[r][c] = 1
           end
         end
       end
-      iteruj do |r, c, vch|
-        if vch[r][c] == 3
-          if wyciecia.include? maska(r,c, vch, sprawdzarka)
+      iteruj do |r, c|
+        if @vchb[r][c] == 3
+          if wyciecia.include? maska(r,c, sprawdzarka)
             powtorzyc = true
-            vch[r][c] = 0
+            @vchb[r][c] = 0
           else
-            vch[r][c] = 1
+            @vchb[r][c] = 1
           end
         end
       end
     end
     puts '--------- ' + it.to_s
 
-    do_binaryzacja( 0, Magick::QuantumRange, 0) #debinaryzacja
-    #TODO zwrocenie wyniku ilosci iteracji
+    binaryzacja( 0, Magick::QuantumRange, 0) #debinaryzacja
+    
+    self
   end
 
 end
