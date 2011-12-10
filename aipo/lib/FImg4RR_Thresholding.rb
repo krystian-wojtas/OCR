@@ -6,6 +6,7 @@ class FImg4RR
     edit do
       do_binearyzacja(tol, min, max)
     end
+    self
   end
 
   #TODO czy warunkowo po wszystkich kanalach? czy przekazac blok ze srednia? sprawdzic czy zostal przekazany blok?
@@ -19,7 +20,7 @@ class FImg4RR
     end
   end
   
-    def do_progowanie(tol, obszarow)
+  def do_progowanie(tol, obszarow)
     obszarow.downto 0 do |i|
       obszarow.downto 0 do |j|
         @o.merge!(
@@ -29,7 +30,7 @@ class FImg4RR
           :down => @orginal.rows/obszarow*(j+1)
         )
         iteruj(:left => @orginal.columns/obszarow*i, :right => @orginal.columns/obszarow*(i+1), :top => 1, :down => 2) do |chr, chg, chb, c, r|
-
+  
         end
       end
     end

@@ -8,36 +8,42 @@ class FImg4RR
     edit do
       do_negatyw
     end
+    self
   end
 
   def szaro1
     edit do
       do_szaro1
     end
+    self
   end
 
   def szaro2
     edit do
       do_szaro2
     end
+    self
   end
 
   def jasnosc(w)
     edit do
       do_jasnosc(w)
     end
+    self
   end
 
   def kontrast(w)
     edit do
       do_kontrast(w)
     end
+    self
   end
 
   def skaluj(s)
     edit do
       do_skaluj(s)
     end
+    self
   end
   
 
@@ -45,6 +51,7 @@ class FImg4RR
     edit do
       do_histogram(osobne_kanaly)
     end
+    self
   end
 
   

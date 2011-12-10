@@ -8,12 +8,14 @@ class FImg4RR
       edit do
         do_krzyzRobertsa
       end
+      self
     end
   
     def sobel
       edit do
         do_sobel
       end
+      self
     end
   
 

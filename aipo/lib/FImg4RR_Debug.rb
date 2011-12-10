@@ -6,6 +6,7 @@ class FImg4RR
       edit do
         do_drukuj
       end
+      self
     end
 
   def do_drukuj

@@ -1,7 +1,7 @@
 require 'FImg4RR_Filters'
 
 orginal = Magick::ImageList.new("lena.jpg")
-#orginal = Magick::ImageList.new("lena256.jpg")
+orginal = Magick::ImageList.new("lena256.jpg")
 fImg4RR = FImg4RR.new( orginal )
 
 #fImg4RR.filtr( [[1,1,1], [1,1,1], [1,1,1]] ).write('2/out/fusr1.jpg')

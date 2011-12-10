@@ -9,6 +9,39 @@ class FImg4RR
   def initialize(orginal)
     #obiekt RMagick reprezentuje obraz poddawany obrobce
     @orginal = orginal
+    
+    #opcje przeksztalcenia
+    @o = {}
+    
+    # tablice kanalow barw orginalu oraz obrazka przetwarzanego
+    # tutaj referencje na tablice buforow i przetwarzan sa te same, dzieki temu domyslnie nie buforuje
+    # nowe tablice dla buforow tworzone sa w metodzie iteruj jesli wybrano opcje @o[:buffered]
+    @rch = @rchb = []
+    @gch = @gchb = []
+    @bch = @bchb = []
+    
+    # ladowanie kolejnych wersow obrazka do tablic kanalow
+    0.upto @orginal.rows-1 do |r|
+      @rchb.push( @orginal.export_pixels(0, r, @orginal.columns, 1, "R" ) )
+      @gchb.push( @orginal.export_pixels(0, r, @orginal.columns, 1, "G" ) )
+      @bchb.push( @orginal.export_pixels(0, r, @orginal.columns, 1, "B" ) )
+    end
+  end
+  
+  
+  def write(file_name)
+
+    #przepisanie wynikow do nowego obrazka
+    mod = Magick::Image.new( @o[:columns], @o[:rows] )
+    (@o[:rows]-@o[:bottom]-1).downto @o[:top] do |r|
+      #nie mozna popowac chaneli; w przypadku :monocolor kanal czerwony zrzucilby rowniez pozosatale kanaly jako ze mialyby ta sama referencje TODO del
+      mod.import_pixels(0, r, mod.columns, 1, "R", @rch[r])
+      mod.import_pixels(0, r, mod.columns, 1, "G", @gch[r])
+      mod.import_pixels(0, r, mod.columns, 1, "B", @bch[r])
+    end
+    
+    #zapis
+    mod.write(file_name)
   end
 
 
@@ -20,9 +53,16 @@ class FImg4RR
     #na koniec zwracany jest nowy obiekt biblioteki RMagick Magick::Image z wykonanymi przeksztalceniami
     def edit(opts={})
 
+      #przeksztalcenia
+      yield
+    end    
+    
+    
+    def make_opts(opts={})
+
       # opcje rdzenia do wykonywanych przeksztalcen
       # parametry opcjonalne nalozone na domyslne
-      @o = {
+      @o.merge!( {
         #sposob iteracji kolumn i wierszy; domyslnie wyiteruje caly obrazek bez marginesow
         :iterable => :all,
         #sposob wywolywania transformacji i przekazywania argumentow; domyslnie wykona przeksztalcenie dla kazdego kanalu z osobna
@@ -37,36 +77,9 @@ class FImg4RR
         :columns => @orginal.columns,
         :rows => @orginal.rows,
         :background => 0, #kolor tla dla buforow
-      }.merge(opts)
+      } ).merge!(opts)
       
-      # tablice kanalow barw orginalu oraz obrazka przetwarzanego
-      # tutaj referencje na tablice buforow i przetwarzan sa te same, dzieki temu domyslnie nie buforuje
-      # nowe tablice dla buforow tworzone sa w metodzie iteruj jesli wybrano opcje @o[:buffered]
-      @rch = @rchb = []
-      @gch = @gchb = []
-      @bch = @bchb = []
-      
-      # ladowanie kolejnych wersow obrazka do tablic kanalow
-      0.upto @orginal.rows-1 do |r|
-        @rchb.push( @orginal.export_pixels(0, r, @orginal.columns, 1, "R" ) )
-        @gchb.push( @orginal.export_pixels(0, r, @orginal.columns, 1, "G" ) )
-        @bchb.push( @orginal.export_pixels(0, r, @orginal.columns, 1, "B" ) )
-      end
-
-      #przeksztalcenia
-      yield
-
-      #przepisanie wynikow do nowego obrazka
-      mod = Magick::Image.new( @o[:columns], @o[:rows] )
-      (@o[:rows]-@o[:bottom]-1).downto @o[:top] do |r|
-        #nie mozna popowac chaneli; w przypadku :monocolor kanal czerwony zrzucilby rowniez pozosatale kanaly jako ze mialyby ta sama referencje TODO del
-        mod.import_pixels(0, r, mod.columns, 1, "R", @rch[r])
-        mod.import_pixels(0, r, mod.columns, 1, "G", @gch[r])
-        mod.import_pixels(0, r, mod.columns, 1, "B", @bch[r])
-      end
-      
-      mod
-    end    
+    end
 
 
     #iteracja w znaczeniu powtarzania danego przeksztalcenie obrazka
@@ -76,7 +89,7 @@ class FImg4RR
     def iteruj(opts={}, &block)
       
       #dodatkowe parametry opcjonalne
-      @o.merge!(opts)
+      make_opts(opts)
       
       #jesli jest buforowanie utworzenie tablic oraz poczatkowe wyczarnienie obrazka przetwarzanego
       if @o[:buffered] == 1

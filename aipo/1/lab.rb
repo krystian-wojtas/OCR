@@ -3,16 +3,17 @@ require 'FImg4RR_Simple'
 #eclipse
 orginal = Magick::ImageList.new("lena.jpg")
 orginal = Magick::ImageList.new("lena256.jpg")
-fImg4RR = FImg4RR.new( orginal )
 
 #lab 01
-#fImg4RR.negatyw.write('1/out/negatyw.jpg')
-#fImg4RR.szaro1.write('1/out/szaro1.jpg')
-#fImg4RR.szaro2.write('1/out/szaro2.jpg')
-fImg4RR.histogram(true).write('1/out/histogram_osobne_kanaly.jpg')
-fImg4RR.histogram(false).write('1/out/histogram_wspolna_norm.jpg')
-#fImg4RR.skaluj(0.4).write('1/out/skaluj04.jpg')
-#fImg4RR.skaluj(1.5).write('1/out/skaluj15.jpg')
+FImg4RR.new(orginal).negatyw.write('1/out/negatyw.jpg')
+FImg4RR.new(orginal).szaro1.write('1/out/szaro1.jpg')
+FImg4RR.new(orginal).szaro2.write('1/out/szaro2.jpg')
+FImg4RR.new(orginal).histogram.write('1/out/histogram.jpg')
+#FImg4RR.new(orginal).histogram(false).write('1/out/histogram_wspolna_norm.jpg')
+FImg4RR.new(orginal).szaro1.histogram.write('1/out/szaro1_histogram.jpg')
+FImg4RR.new(orginal).szaro2.histogram.write('1/out/szaro2_histogram.jpg')
+FImg4RR.new(orginal).skaluj(0.4).write('1/out/skaluj04.jpg')
+FImg4RR.new(orginal).skaluj(1.5).write('1/out/skaluj15.jpg')
 
 #MyImgLib.new( Magick::ImageList.new('out/negatyw.jpg') ).drukuj
 puts 'ok'

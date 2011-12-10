@@ -7,6 +7,7 @@ class FImg4RR
       edit do
         do_obrot(kat)
       end
+      self
     end
     
   #funkcja pomocnicza dla do_obrot
@@ -42,8 +43,8 @@ class FImg4RR
     iteruj(:columns => width, :rows => height, :buffered => 1, :background => Magick::QuantumRange) do |r, c, ch, chb|
       xp, yp = obroc(r+q, c+p, kat)
       if (0 < xp and xp < @orginal.columns)  and  (0 < yp and yp < @orginal.rows) #TODO range?
-        #puts r.to_s + ' ' + c.to_s + "\t" + xp.to_s + ' ' + yp.to_s + ' ' + ch[r][c].to_s + ' ' + ch[xp][yp].to_s #TODO aspect na kacie
         ch[r][c] = chb[xp][yp]
+        #puts r.to_s + ' ' + c.to_s + "\t" + xp.to_s + ' ' + yp.to_s + ' ' + ch[r][c].to_s + ' ' + chb[xp][yp].to_s #TODO aspect na kacie
       end
     end
   end

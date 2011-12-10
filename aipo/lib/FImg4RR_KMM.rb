@@ -7,6 +7,7 @@ class FImg4RR
     edit do
       do_kmn2
     end
+    self
   end
 
   def do_kmn2

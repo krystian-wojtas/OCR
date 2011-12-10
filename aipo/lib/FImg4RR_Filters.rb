@@ -7,6 +7,7 @@ class FImg4RR
     edit do
       do_filtr(matrix)
     end
+    self
   end
   
   
