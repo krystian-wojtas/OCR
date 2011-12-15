@@ -35,7 +35,7 @@ class FImg4RR
     p = xs.min
     q = ys.min
     
-    iteruj :columns => width, :rows => height, :buffered => 1, :background => Magick::QuantumRange do |r, c|
+    iteruj :columns => width, :rows => height, :buffered => true, :background => Magick::QuantumRange do |r, c|
       xp, yp = obroc(r+q, c+p, kat)
       if (0 < xp and xp < @orginal.columns)  and  (0 < yp and yp < @orginal.rows) #TODO range?
         @vch[r][c] = @vchb[xp][yp]

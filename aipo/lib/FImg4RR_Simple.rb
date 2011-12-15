@@ -44,7 +44,7 @@ end
 
 
   def skaluj(s) 
-    iteruj :buffered => 1, :rows => (s*@orginal.rows).to_i, :columns => (s*@orginal.columns).to_i do |r, c|
+    iteruj :buffered => true, :rows => (s*@orginal.rows).to_i, :columns => (s*@orginal.columns).to_i do |r, c|
       @vch[r][c] = @vchb[r/s][c/s]
     end
     self
@@ -56,7 +56,7 @@ end
     def do_ekstrema(ch)
       min = Magick::QuantumRange
       max = 0
-      iteruj :callable => :other do |r, c|
+      iteruj :channels => :other do |r, c|
         min = ch[r][c] if ch[r][c] < min
         max = ch[r][c] if ch[r][c] > max
       end
@@ -72,7 +72,7 @@ end
       maxr = maxg = maxb = [ maxr, maxg, maxb ].max
     end
   
-    iteruj :callable => :other do |r, c|
+    iteruj :channels => :other do |r, c|
       @rch[r][c] = Tools.cut( Magick::QuantumRange * (@rch[r][c] - minr) / (maxr - minr) )
       @gch[r][c] = Tools.cut( Magick::QuantumRange * (@gch[r][c] - ming) / (maxg - ming) )
       @bch[r][c] = Tools.cut( Magick::QuantumRange * (@bch[r][c] - minb) / (maxb - minb) )

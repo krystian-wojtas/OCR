@@ -11,7 +11,7 @@ class FImg4RR
     k = matrix.length() 
     l = matrix.collect {|m| m.length}.max
       
-    iteruj :buffered=>1, :top=>k/2, :bottom=>k/2, :left=>l/2, :right=>l/2 do |r, c|
+    iteruj :buffered=>true, :top=>k/2, :bottom=>k/2, :left=>l/2, :right=>l/2 do |r, c|
       v = 0
 #TODO pierwsze rozwiazanie      
 =begin      
