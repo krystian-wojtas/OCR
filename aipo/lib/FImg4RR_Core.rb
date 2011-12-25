@@ -59,7 +59,7 @@ class FImg4RR
     #def edit(opts={})
   
   
-    def trf_opts_atomic(opts)
+    def trf_opts_atomic(opts) #refactor lock_settings?
       @s.make_defaults(opts)
       @s.lock_defaults()
       yield
@@ -83,16 +83,34 @@ class FImg4RR
         @gch = []
         @bch = []
         #celowe kopiowanie calego zakresu bez obcinki topa i buttoma; ten obszar jest potrzebny do celow sasiedztwa
-        @s.o[:top].upto @s.o[:rows]-1 do |r| #TODO bez |r|
+        0.upto @s.o[:rows]-1 do |r| #TODO bez |r| #TODO wycialem @s.[:top] TESTY
           @rch.push( Array.new(@s.o[:columns], @s.o[:background]) )
           @gch.push( Array.new(@s.o[:columns], @s.o[:background]) )
           @bch.push( Array.new(@s.o[:columns], @s.o[:background]) )
         end
       end
+=begin      
+      if @s.o[:buffered]
+        @rch = []
+        #celowe kopiowanie calego zakresu bez obcinki topa i buttoma; ten obszar jest potrzebny do celow sasiedztwa
+        @s.o[:top].upto @s.o[:rows]-1 do |r| #TODO bez |r|
+          @rch.push( Array.new(@s.o[:columns], @s.o[:background]) )
+        end
+        if @s.o[:channels] != :monocolor
+          @gch = []
+          @bch = []
+          #celowe kopiowanie calego zakresu bez obcinki topa i buttoma; ten obszar jest potrzebny do celow sasiedztwa
+          @s.o[:top].upto @s.o[:rows]-1 do |r| #TODO bez |r|
+            @gch.push( Array.new(@s.o[:columns], @s.o[:background]) )
+            @bch.push( Array.new(@s.o[:columns], @s.o[:background]) )
+          end
+        end
+      end
+=end      
       
       #przetwarzanie po kolejnych kanalach
       process_channels &block
-      
+      x =2
       #przetworzone tablice staja sie buforami dla kolejnych iteracji
       @rchb = @rch
       @gchb = @gch
