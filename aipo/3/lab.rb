@@ -3,33 +3,32 @@ require 'FImg4RR_Rotate'
 require 'FImg4RR_SobelRoberts'
 
 orginal = Magick::ImageList.new("lena.jpg")
-orginal = Magick::ImageList.new("lena256.jpg")
-fImg4RR = FImg4RR.new( orginal )
+#orginal = Magick::ImageList.new("lena256.jpg")
 
 #lab 03
-#fImg4RR.jasnosc(0.1*Magick::QuantumRange).write('3/out/jasnosc01q.jpg')
-#fImg4RR.kontrast(0.9).write('3/out/kontrast09.jpg')
-=begin
-fImg4RR.jasnosc(0.1*Magick::QuantumRange).write('3/out/jasnosc01q.jpg')
-fImg4RR.jasnosc(0.3*Magick::QuantumRange).write('3/out/jasnosc03q.jpg')
-fImg4RR.jasnosc(0.6*Magick::QuantumRange).write('3/out/jasnosc06q.jpg')
-fImg4RR.jasnosc(-0.1*Magick::QuantumRange).write('3/out/jasnoscm01q.jpg')
-fImg4RR.jasnosc(-0.3*Magick::QuantumRange).write('3/out/jasnoscm03q.jpg')
-fImg4RR.jasnosc(-0.6*Magick::QuantumRange).write('3/out/jasnoscm06q.jpg')
-fImg4RR.kontrast(0.9).write('3/out/kontrast09.jpg')
-fImg4RR.kontrast(0.7).write('3/out/kontrast07.jpg')
-fImg4RR.kontrast(0.3).write('3/out/kontrast03.jpg')
-fImg4RR.kontrast(1.1).write('3/out/kontrast11.jpg')
-fImg4RR.kontrast(1.5).write('3/out/kontrast15.jpg')
-fImg4RR.kontrast(2.1).write('3/out/kontrast21.jpg')
-=end
-#fImg4RR.krzyzRobertsa.write('3/out/krzyz.jpg')
-#fImg4RR.sobel.write('3/out/sobel.jpg')
-fImg4RR.obrot(0.25*Math::PI).write('3/out/obrot025.jpg')
-#fImg4RR.obrot(0.1*Math::PI).write('3/out/obrot01.jpg')
-#fImg4RR.obrot(0.5*Math::PI).write('3/out/obrot05.jpg')
-#fImg4RR.obrot(0.8*Math::PI).write('3/out/obrot08.jpg')
-#fImg4RR.obrot(-0.3*Math::PI).write('3/out/obrotm03.jpg')
-#fImg4RR.obrot(Math::PI).write('3/out/obrot1.jpg')
+#fImg4RR.brightness(0.1*Magick::QuantumRange).write('3/out/brightness_01q.jpg')
+#fImg4RR.contrast(0.9).write('3/out/contrast_09.jpg')
+#=begin
+FImg4RR.new(orginal).brightness(0.1*Magick::QuantumRange).write('3/out/brightness_01q.jpg')
+FImg4RR.new(orginal).brightness(0.3*Magick::QuantumRange).write('3/out/brightness_03q.jpg')
+FImg4RR.new(orginal).brightness(0.6*Magick::QuantumRange).write('3/out/brightness_06q.jpg')
+FImg4RR.new(orginal).brightness(-0.1*Magick::QuantumRange).write('3/out/brightness_m01q.jpg')
+FImg4RR.new(orginal).brightness(-0.3*Magick::QuantumRange).write('3/out/brightness_m03q.jpg')
+FImg4RR.new(orginal).brightness(-0.6*Magick::QuantumRange).write('3/out/brightness_m06q.jpg')
+FImg4RR.new(orginal).contrast(0.9).write('3/out/contrast_09.jpg')
+FImg4RR.new(orginal).contrast(0.7).write('3/out/contrast_07.jpg')
+FImg4RR.new(orginal).contrast(0.3).write('3/out/contrast_03.jpg')
+FImg4RR.new(orginal).contrast(1.1).write('3/out/contrast_11.jpg')
+FImg4RR.new(orginal).contrast(1.5).write('3/out/contrast_15.jpg')
+FImg4RR.new(orginal).contrast(2.1).write('3/out/contrast_21.jpg')
+#=end
+FImg4RR.new(orginal).roberts_cross.write('3/out/roberts_cross.jpg')
+FImg4RR.new(orginal).sobel.write('3/out/sobel.jpg')
+FImg4RR.new(orginal).rotate(0.25*Math::PI).write('3/out/rotate_025.jpg')
+FImg4RR.new(orginal).rotate(0.1*Math::PI).write('3/out/rotate_01.jpg')
+FImg4RR.new(orginal).rotate(0.5*Math::PI).write('3/out/rotate_05.jpg')
+FImg4RR.new(orginal).rotate(0.8*Math::PI).write('3/out/rotate_08.jpg')
+FImg4RR.new(orginal).rotate(-0.3*Math::PI).write('3/out/rotate_m03.jpg')
+FImg4RR.new(orginal).rotate(Math::PI).write('3/out/rotate_1.jpg')
 
 puts 'ok'

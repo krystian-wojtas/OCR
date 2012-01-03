@@ -4,7 +4,7 @@ require 'Tools'
 class FImg4RR
   
   
-  def filtr(matrix)
+  def filter(matrix)
     sw = 0 # suma wag macierzy
     matrix.each {|mm| mm.each {|v| sw += v}}
 

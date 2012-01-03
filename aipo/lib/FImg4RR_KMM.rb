@@ -4,7 +4,7 @@ require 'FImg4RR_Thresholding'
 class FImg4RR
 
 
-  def kmm2    
+  def kmm    
     # TODO moze bez trf_opts_atomic
     # mozna zrobic funkcje ktora przpisuje wszystkie pixele do bufora, a bufor wiekszy o jednopixelowa ramke
     # wiecej iteracji po obrazku o cala jedna ale zwiezlejszy kod obslugi
@@ -36,8 +36,8 @@ class FImg4RR
       #petla
       it = 0
       powtorzyc = true
-      while(powtorzyc and it < 10) do
-        puts it
+      while(powtorzyc and it < 100) do
+        #puts it
         it += 1
         powtorzyc = false
         
@@ -202,9 +202,9 @@ class FImg4RR
           end
         end
         it += 1
-        puts it.to_s
+        #puts it.to_s
       end
-      puts '-------------- ' + it.to_s
+      puts '-sc------------- ' + it.to_s
       thresholding( 0, Magick::QuantumRange, 0) #debinaryzacja
     end
     self
