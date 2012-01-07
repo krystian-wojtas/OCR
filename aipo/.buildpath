@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <buildpath>
 	<buildpathentry kind="src" path="6"/>
+	<buildpathentry kind="src" path="lib/aquarium-0.4.4/lib"/>
+	<buildpathentry kind="src" path="FImg4R"/>
 	<buildpathentry kind="src" path="1"/>
 	<buildpathentry kind="src" path="4"/>
 	<buildpathentry kind="src" path="3"/>
 	<buildpathentry kind="src" path="5"/>
 	<buildpathentry kind="src" path="2"/>
-	<buildpathentry kind="src" path="lib"/>
 	<buildpathentry kind="con" path="org.eclipse.dltk.launching.INTERPRETER_CONTAINER"/>
 </buildpath>

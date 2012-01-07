@@ -1,0 +1,93 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl"><head>
+  <meta http-equiv="Content-type" content="text/html; charset=ISO-8859-2">
+  <meta name="Description" content=" Adam Szczepański AGH Akademia Górniczo Hutnicza Kraków ">
+  <meta name="Keywords" content=" Adam Szczepański AGH Kraków Akademia Górniczo Hutnicza Wydział Fizyki i Informatyki Stosowanej">
+  <meta name="Author" content=" Adam Szczepański ">
+  <meta name="Generator" content="kED">
+
+  <title> Adam Szczepański </title>
+
+  <link rel="stylesheet" href="index.php_files/style.css" type="text/css">
+</head>
+<body>
+<div id="main">
+<div id="top">
+<div>
+        <div id="title">Adam Szczepański</div>
+        <div id="changelang">
+<a style="text-decoration: none;" href="http://www.ftj.agh.edu.pl/%7Eszczepanski/en/index.php"><img src="index.php_files/minien.gif"> English version</a>        </div>
+</div>
+</div>
+<div id="content">
+<div id="menu">
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php">Strona główna</a></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=pub">Publikacje</a><br></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=AIPO">Analiza i Przetwarzanie Obrazów</a></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=IO">Inżynieria Oprogramowania</a></div>
+<div style="text-align:right;"><a href="http://www.agh.edu.pl/pl" target="_blank"><img src="index.php_files/agh.jpg" id="img-agh" style="border-width: 0px;"></a></div><br>
+<div style="text-align:right;"><a href="http://www.ftj.agh.edu.pl/" target="_blank"><img src="index.php_files/wfis.jpg" id="img-wfis" style="border-width: 0px;"></a></div>
+</div>
+</div>
+<div id="page">
+<div style="text-align:right"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=AIPO">Wstecz</a></div>
+<div style="font-size:20px; font-weight:bold">Przebieg ćwiczenia i kształt sprawozdania</div><br>
+<div style="margin-left:50px">
+<ul>
+	<li>
+		<b>Teoria</b> - wyjanij pojęcia: piksel, szum, szum sztuczny, obraz 
+ostry, obraz słaby (nieostry), wstępne przetwarzanie obrazu, projekcja 
+(pozioma/pionowa), histogram.
+	</li><br>
+	<li>
+		<b>Obraz oryginalny</b> - obraz, który zostanie użyty do zobrazowania 
+wyników przykładowych operacji. Student do wykonania sprawozdania winien
+ użyć innego obrazu niż znajdujący się poniżej.
+		<div style="text-align:center"><img src="index.php_files/01.jpg"></div>
+	</li><br>
+	<li>
+		<b>Negatyw</b> - należy wygenerować obraz, którego wartości piksela bedą róne wartościom <span id="code">255-R, 255-G, 255-B</span> pikseli oryginału.
+		<div style="text-align:center"><img src="index.php_files/02.jpg"></div>
+	</li><br>
+	<li>
+		<b>Konwersja do odcieni szarości</b> - należy wykonać konwersję dwiema
+ metodami, generując dwa obrazy w odcieniach szarości o wartościach 
+pikseli wyliczonych z wartości pikseli obrazu oryginalnego za pomocą 
+wzorów:<br>
+		- <span id="code">R+G+B)/3</span> (obrazek po lewej)<br>
+		- <span id="code">0.3*R+0.59*G+0.11*B</span> (obrazek po prawej)<br>
+		<div style="text-align:center"><img src="index.php_files/03.jpg"> <img src="index.php_files/04.jpg"></div>
+	</li><br>
+	<li>
+		<b>Wprowadzenie szumu sztucznego</b> - należy wprowadzić szum do 
+obrazu poprzez analizę piksel po pikselu i zastepowanie wartości kolorów
+ pikseli kolorem czerwonym z prawdopodobieństwem odpowiednio (od lewej u
+ góry) 1%, 5%, 10% i 15%.
+		<div style="text-align:center"><img src="index.php_files/05a.jpg"> <img src="index.php_files/05b.jpg"></div>
+		<div style="text-align:center"><img src="index.php_files/05c.jpg"> <img src="index.php_files/05d.jpg"></div>
+	</li><br>
+	<li>
+		<b>Normalizacja histogramu</b> - zakładając że wartości pikseli należą
+ do podprzedziału &lt;0,255&gt; należy wyszukać minimalną (minPix) oraz 
+maksymalną (maxPix) wartość piksela. Następnie dla każdego piksela na 
+obrazie należy wykonać następujące przekształcenie:<br><br>
+		<span id="code" style="margin-left:150px;">pixel[x,y]=255*(pixel[x,y]-minPix)/(maxPix-minPix)</span><br><br>
+		Dla obrazu kolorowego przekształcenie to wykonuje się dla każdego kanału osobno.<br>
+		Przekształcenie należy wykonać dla obrazu oryginalnego i obu obrazów w odcieni szarości.<br>
+		Poniżej znajdują się przykłady normalizacji histogramu, po lewej oryginał, po prawej obraz znormalizowany.
+		<div style="text-align:center"><img src="index.php_files/01.jpg"> <img src="index.php_files/01b.jpg"></div>
+		<div style="text-align:center"><img src="index.php_files/03.jpg"> <img src="index.php_files/03b.jpg"></div>
+		<div style="text-align:center"><img src="index.php_files/04.jpg"> <img src="index.php_files/04b.jpg"></div>
+	</li><br>
+	<li>
+		<b>Wnioski</b> - która z metod konwersji do odcieni szarości generuje 
+obraz lepszej jakości i dlaczego? Dlaczego wykonuje się normalizację 
+histogramu i jak wpływa ona na obraz?
+	</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+</body></html>

@@ -1,0 +1,124 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl"><head>
+  <meta http-equiv="Content-type" content="text/html; charset=ISO-8859-2">
+  <meta name="Description" content=" Adam Szczepański AGH Akademia Górniczo Hutnicza Kraków ">
+  <meta name="Keywords" content=" Adam Szczepański AGH Kraków Akademia Górniczo Hutnicza Wydział Fizyki i Informatyki Stosowanej">
+  <meta name="Author" content=" Adam Szczepański ">
+  <meta name="Generator" content="kED">
+
+  <title> Adam Szczepański </title>
+
+  <link rel="stylesheet" href="index.php_files/style.css" type="text/css">
+</head>
+<body>
+<div id="main">
+<div id="top">
+<div>
+        <div id="title">Adam Szczepański</div>
+        <div id="changelang">
+<a style="text-decoration: none;" href="http://www.ftj.agh.edu.pl/%7Eszczepanski/en/index.php"><img src="index.php_files/minien.gif"> English version</a>        </div>
+</div>
+</div>
+<div id="content">
+<div id="menu">
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php">Strona główna</a></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=pub">Publikacje</a><br></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=AIPO">Analiza i Przetwarzanie Obrazów</a></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=IO">Inżynieria Oprogramowania</a></div>
+<div style="text-align:right;"><a href="http://www.agh.edu.pl/pl" target="_blank"><img src="index.php_files/agh.jpg" id="img-agh" style="border-width: 0px;"></a></div><br>
+<div style="text-align:right;"><a href="http://www.ftj.agh.edu.pl/" target="_blank"><img src="index.php_files/wfis.jpg" id="img-wfis" style="border-width: 0px;"></a></div>
+</div>
+</div>
+<div id="page">
+<div style="text-align:right"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=AIPO">Wstecz</a></div>
+<div style="font-size:20px; font-weight:bold">Przebieg ćwiczenia i kształt sprawozdania</div><br>
+<div style="margin-left:50px">
+<ul>
+	<li>
+		<b>Teoria</b> - Wyjaśnij co to jest ścienianie i co to jest 
+szkieletyzacja. Do czego praktycznie można zastosować szkieletyzację? 
+Opisz krótko metody, które zastosujesz w dalszej częsci sprawozdania.<br>
+		Porównując algorytmy należy skorzystać z obrazów:<br>
+		<div style="text-align:center"><img src="index.php_files/p1.bmp"></div><br>
+		<div style="text-align:center"><img src="index.php_files/p2.bmp"></div><br>
+		<div style="text-align:center"><img src="index.php_files/p3.bmp"></div><br>
+		<div style="text-align:center"><img src="index.php_files/p4.bmp"></div>
+	</li><br>
+	<li>
+		<b>KMM</b> - potrzebne maski:<br><br>
+		<span id="code">czwórki = {3, 6, 7, 12, 14, 15, 24, 28, 30, 48, 56, 60, 96, 112, 120, 129, 131, 135, 192, 193, 195, 224, 225, 240}</span><br><br>
+		<span id="code">wycięcia = {3, 5, 7, 12, 13, 14, 15, 20, 21, 22, 23, 
+28, 29, 30, 31, 48, 52, 53, 54, 55, 56, 60, 61, 62, 63, 65, 67, 69, 71, 
+77, 79, 80, 81, 83, 84, 85, 86, 87, 88, 89, 91, 92, 93, 94, 95, 97, 99, 
+101, 103, 109, 111, 112, 113, 115, 116, 117, 118, 119, 120, 121, 123, 
+124, 125, 126, 127, 131, 133, 135, 141, 143, 149, 151, 157, 159, 181, 
+183, 189, 191, 192, 193, 195, 197, 199, 205, 207, 208, 209, 211, 212, 
+213, 214, 215, 216, 217, 219, 220, 221, 222, 223, 224, 225, 227, 229, 
+231, 237, 239, 240, 241, 243, 244, 245, 246, 247, 248, 249, 251, 252, 
+253, 254, 255}</span><br><br>
+		<span id="code">sprawdzarka = {{128, 64, 32}, {1, 0, 16}, {2, 4, 8}}</span><br><br>
+		Maskę <i>sprawdzarka</i> zakłada się na zasadzie sumy wartości. Na 
+początku analizy waga piksela środkowego maski wynosi 0. Jeżeli danej 
+komórce maski odpowiada piksel o wartości 1, 2, 3 lub 4, to do wagi 
+piksela środkowego dodaje się wagę analizowanej komórki (nie jest ona 
+wymnażana razy wartość piksela).
+		W celu poprawnego działania algorytmu należy obramować oryginalny 
+obraz ramką o grubości 1 px złożoną z białych pikseli.<br><br>
+		<b>Przebieg algorytmu:</b>
+		<ol>
+			<li>Wszystkie czarne piksele oznaczamy jako 1, zaś białe jako 0.</li>
+			<li>Piksele 1, które posiadają sąsiadów o oznaczeniu 0 po bokach, u góry lub u dołu, oznaczamy jako 2.</li>
+			<li>Pozostałe piksele 1, które posiadają sąsiadów o oznaczeniu 0 na rogach, oznaczamy jako 3.</li>
+			<li>
+				Dla pikseli oznaczonych jako 2 za pomocą maski <i>sprawdzarka</i> obliczamy ich wagę. Jeśli waga znajduje się na liście <i>czwórki</i> oznaczenie piksela zamieniamy z 2 na 4.
+			</li>
+			<li>
+				Dla wszystkich pikseli oznaczonych jako 4 wyliczamy wagę za pomocą maski <i>sprawdzarka</i>. Jeśli waga znajduje się na liście <i>wycięcia</i>, zamieniamy piksel na 0, zaś w przeciwnym razie zamieniamy go na 1.
+			</li>
+			<li>
+				Dla wszystkich pikseli oznaczonych jako 2 wyliczamy wagę za pomocą maski <i>sprawdzarka</i>. Jeśli waga znajduje się na liście <i>wycięcia</i>, zamieniamy piksel na 0, zaś w przeciwnym razie zamieniamy go na 1.
+			</li>
+			<li>
+				Dla wszystkich pikseli oznaczonych jako 3 wyliczamy wagę za pomocą maski <i>sprawdzarka</i>. Jeśli waga znajduje się na liście <i>wycięcia</i>, zamieniamy piksel na 0, zaś w przeciwnym razie zamieniamy go na 1.
+			</li>
+			<li>Procedurę powtarzamy dopóki w jej trakcie na obrazie zachodzą zmiany.</li>
+		</ol>
+	</li><br>
+	<li>
+		<b>Ścienianie przez maskę</b> - potrzebna maska:<br>
+		<table id="code" style="text-align: center; margin-left: auto; margin-right: auto;" align="center" border="1" cellpadding="0" cellspacing="0"><tbody><tr><td>&nbsp;x&nbsp;</td><td>&nbsp;0&nbsp;</td><td>&nbsp;x&nbsp;</td></tr><tr><td>&nbsp;x&nbsp;</td><td>&nbsp;1&nbsp;</td><td>&nbsp;x&nbsp;</td></tr><tr><td>&nbsp;1&nbsp;</td><td>&nbsp;1&nbsp;</td><td>&nbsp;1&nbsp;</td></tr></tbody></table><br>
+		1 oznacza czarny piksel, 0 oznacza biały piksel, w miejsce x należy 
+wstawić wszystkie możliwe kombinacje czarnych i białych pikseli (razem 
+16 kombinacji).<br>
+		W celu poprawnego działania algorytmu należy obramować oryginalny obraz ramką o grubości 1 px złożoną z białych pikseli.<br><br>
+		<b>Przebieg algorytmu:</b>
+		<ol>
+			<li>Każdy czarny piksel (wartość 1) oryginalnego obrazka 
+przyrównujemy do maski oraz jej obrotów o 90, 180 i 270 stopni (de facto
+ 64 maski).</li>
+			<li>Jeśli otoczenie piksela spełni którąś z masek, do kopii wstawiana
+ jest wartość 0 (biały), jeśli zaś otoczenie piksela nie spełni żadnej z
+ masek, wstawiamy do kopii wartość 1 (czarny)</li>
+			<li>Zastępujemy oryginał kopią.</li>
+			<li>Czynność powtarzamy tak długo, jak długo w obrazie zachodzą zmiany.</li>
+		</ol>
+	</li><br>
+	<li>
+		<b>Przykład porównania metod</b> - u góry znajdują się obrazy oryginalne, pod nimi ścienione KMM, a na dole ścienione przez maskę.
+		<div style="text-align:center"><img src="index.php_files/o1.bmp"> <img src="index.php_files/o2.bmp"></div>
+		<div style="text-align:center"><img src="index.php_files/KMM1.bmp"> <img src="index.php_files/KMM2.bmp"></div>
+		<div style="text-align:center"><img src="index.php_files/M1.bmp"> <img src="index.php_files/M2.bmp"></div>
+	</li><br>
+	<li>
+		<b>Wnioski</b> - należy porównać obrazy otrzymane za pomocą obu 
+algorytmów. Który Twoim zdaniem dał lepsze wyniki? Do jakich zastosowań 
+użyłbyś danych algorytmów? Jakie dodatkowe przekształcenia zastosowałbyś
+ aby poprawić jakość uzyskanych wyników szkieletyzacji?<br>
+	</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+</body></html>

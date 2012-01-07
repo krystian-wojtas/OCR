@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl"><head>
+  <meta http-equiv="Content-type" content="text/html; charset=ISO-8859-2">
+  <meta name="Description" content=" Adam Szczepański AGH Akademia Górniczo Hutnicza Kraków ">
+  <meta name="Keywords" content=" Adam Szczepański AGH Kraków Akademia Górniczo Hutnicza Wydział Fizyki i Informatyki Stosowanej">
+  <meta name="Author" content=" Adam Szczepański ">
+  <meta name="Generator" content="kED">
+
+  <title> Adam Szczepański </title>
+
+  <link rel="stylesheet" href="index.php_files/style.css" type="text/css">
+</head>
+<body>
+<div id="main">
+<div id="top">
+<div>
+        <div id="title">Adam Szczepański</div>
+        <div id="changelang">
+<a style="text-decoration: none;" href="http://www.ftj.agh.edu.pl/%7Eszczepanski/en/index.php"><img src="index.php_files/minien.gif"> English version</a>        </div>
+</div>
+</div>
+<div id="content">
+<div id="menu">
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php">Strona główna</a></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=pub">Publikacje</a><br></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=AIPO">Analiza i Przetwarzanie Obrazów</a></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=IO">Inżynieria Oprogramowania</a></div>
+<div style="text-align:right;"><a href="http://www.agh.edu.pl/pl" target="_blank"><img src="index.php_files/agh.jpg" id="img-agh" style="border-width: 0px;"></a></div><br>
+<div style="text-align:right;"><a href="http://www.ftj.agh.edu.pl/" target="_blank"><img src="index.php_files/wfis.jpg" id="img-wfis" style="border-width: 0px;"></a></div>
+</div>
+</div>
+<div id="page">
+<div style="text-align:right"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=AIPO">Wstecz</a></div>
+<div style="font-size:20px; font-weight:bold">Operacje na obrazie</div><br>
+<div style="margin-left:50px">
+<ul>
+	<li>
+		<b>Zmiana jasności</b> - zwiększanie lub zmniejszaie wartości 
+wszystkich pikseli o daną wartość. Minimalna wartość parametru jasności 
+powinna skutkować otrzymaniem obrazu czarnego, zaś maksymalna - obrazu 
+białego. 
+	</li><br>
+	<li>
+		<b>Zmiana kontrastu</b> - zwiększanie lub zmniejszaie wartości 
+wszystkich pikseli poprzerz przemnożenie przez daną wartość. Minimalna 
+wartość parametru kontrastu powinna skutkować otrzymaniem obrazu 
+czarnego, zaś maksymalna - obrazu białego.
+	</li><br>
+	<li>
+		<b>Krzyż Robertsa</b> - wykorzystywany jest on do wykrywania krawędzi.
+ Detekcja krawędzi polega na tym, iż dla każdego piksela obrazu jego 
+nowa wartość jest równa: p(x,y) = |p(x,y) - 
+p(x+1,y+1)|+|p(x+1,y)-p(x,y+1)|.
+	</li><br>
+	<li>
+		<b>Filtr Sobela</b> - wykorzystywany jest on do wykrywania krawędzi. 
+Detekcja krawędzi polega na tym, iż z otoczenia każdego piksela 
+wyłuskiwane są wartości jego sąsiadów. Sąsiadów oznaczmy [p0 p1 p2; p7 
+px p3; p6 p5 p4], gdzie px to rozpatrywany piksel. Wtedy nowa wartość px
+ = (x^2+y^2)^0.5, gdzie x = (p2+2*p3+p4)-(p0+2*p7+p6), a y = 
+(p6+2*p5+p4)-(p0+2*p1+p2).
+	</li><br>
+	<li>
+		<b>Obrót</b> - obrót obrazu o kąt r możemy wykonywać przekształcając współrzędne oryginału lub kopii.<br>
+		Przy przekształcaniu z oryginału bierzemy piksel P[i,j] i ustalamy 
+współrzędne, pod które powinien on trafić na kopii, jako 
+P_k[cos(r)*i-sin(r)*j,sin(r)*i+cos(r)*j] przy obrocie w prawo oraz 
+P_k[cos(r)*i+sin(r)*j,-sin(r)*i+cos(r)*j] przy obrocie w lewo.<br>
+		Przy przekształcaniu z kopii bierzemy piksel P_k[i,j] i ustalamy 
+współrzędne, z których należy pobrać piksel oryginału, jako 
+P[cos(r)*i-sin(r)*j,sin(r)*i+cos(r)*j] przy obrocie w prawo oraz 
+P[cos(r)*i+sin(r)*j,-sin(r)*i+cos(r)*j] przy obrocie w lewo.<br>
+	</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+</body></html>

@@ -1,0 +1,109 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl"><head>
+  <meta http-equiv="Content-type" content="text/html; charset=ISO-8859-2">
+  <meta name="Description" content=" Adam Szczepański AGH Akademia Górniczo Hutnicza Kraków ">
+  <meta name="Keywords" content=" Adam Szczepański AGH Kraków Akademia Górniczo Hutnicza Wydział Fizyki i Informatyki Stosowanej">
+  <meta name="Author" content=" Adam Szczepański ">
+  <meta name="Generator" content="kED">
+
+  <title> Adam Szczepański </title>
+
+  <link rel="stylesheet" href="index.php_files/style.css" type="text/css">
+</head>
+<body>
+<div id="main">
+<div id="top">
+<div>
+        <div id="title">Adam Szczepański</div>
+        <div id="changelang">
+<a style="text-decoration: none;" href="http://www.ftj.agh.edu.pl/%7Eszczepanski/en/index.php"><img src="index.php_files/minien.gif"> English version</a>        </div>
+</div>
+</div>
+<div id="content">
+<div id="menu">
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php">Strona główna</a></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=pub">Publikacje</a><br></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=AIPO">Analiza i Przetwarzanie Obrazów</a></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=IO">Inżynieria Oprogramowania</a></div>
+<div style="text-align:right;"><a href="http://www.agh.edu.pl/pl" target="_blank"><img src="index.php_files/agh.jpg" id="img-agh" style="border-width: 0px;"></a></div><br>
+<div style="text-align:right;"><a href="http://www.ftj.agh.edu.pl/" target="_blank"><img src="index.php_files/wfis.jpg" id="img-wfis" style="border-width: 0px;"></a></div>
+</div>
+</div>
+<div id="page">
+<div style="text-align:right"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=AIPO">Wstecz</a></div>
+<div style="font-size:20px; font-weight:bold">Przebieg ćwiczenia i kształt sprawozdania</div><br>
+<div style="margin-left:50px">
+<ul>
+	<li>
+		<b>Teoria</b> - należy opracować informacje skąd mogą typowo wynikać 
+zakłócenia na obrazach cyfrowych i analogowych oraz omówić wybrane 
+podstawowe metody odszumiania. Dlaczego z punktu widzenia analizy obrazu
+ odszumianie jest istotne?
+	</li><br>
+	<li>
+		<b>Szum typu sól i pieprz</b> - należy umieścić na obrazie w losowych miejscach <span id="code">(rand(100) &gt;= 85, 90, 95)</span> piksele białe i czarne.<br>
+		Po lewej u góry znajduje się obraz oryginalny, po prawej u góry - 5% 
+szumu, po lewej u dołu - 10% szumu, po prawej u dołu - 15% szumu.
+		<div style="text-align:center"><img src="index.php_files/01.jpg"> <img src="index.php_files/05-sp1.jpg"></div>
+		<div style="text-align:center"><img src="index.php_files/05-sp2.jpg"> <img src="index.php_files/05-sp3.jpg"></div>
+	</li><br>
+	<li>
+		<b>Szum równomierny</b> - należy na obrazie w losowych miejscach <span id="code">(rand(100) &gt;= 85, 90, 95)</span> zmienić wartość kolorystyczną pikseli o losową wartość z sumy przedziałów <span id="code">&lt;-30, -21&gt;</span> i <span id="code">&lt;21, 30&gt;</span>.
+ Ćwiczenie należy wykonać na 2 sposoby - zmieniając każdy kanał koloru 
+piksela o tą samą wartość oraz zmieniając każdy kanał piksela o inną 
+losową wartość z podanego przedziału.<br>
+		Zmiana każdego kanału o tą samą wartość, po lewej u góry znajduje się 
+obraz oryginalny, po prawej u góry - 5% szumu, po lewej u dołu - 10% 
+szumu, po prawej u dołu - 15% szumu.
+		<div style="text-align:center"><img src="index.php_files/01.jpg"> <img src="index.php_files/05-sr1.jpg"></div>
+		<div style="text-align:center"><img src="index.php_files/05-sr2.jpg"> <img src="index.php_files/05-sr3.jpg"></div><br>
+		Zmiana każdego kanału osobno, po lewej u góry znajduje się obraz 
+oryginalny, po prawej u góry - 5% szumu, po lewej u dołu - 10% szumu, po
+ prawej u dołu - 15% szumu.
+		<div style="text-align:center"><img src="index.php_files/01.jpg"> <img src="index.php_files/05-sr4.jpg"></div>
+		<div style="text-align:center"><img src="index.php_files/05-sr5.jpg"> <img src="index.php_files/05-sr6.jpg"></div>
+	</li><br>
+	<li>
+		<b>Odszumianie: filtr medianowy</b> - dla każdego piksela należy 
+wybrać i uporządkować rosnąco wartości kolorów pikseli w jego otoczeniu 
+(z nim włącznie). Nową wartością piksela staje się wartość koloru 
+znajdująca się w środku listy uporządkowanych wartości. Ćwiczenie należy
+ przeprowadzić na zaszumionych opisanymi wyżej metodami obrazkach 
+uwzględniając otoczenie wielkości 3x3, 5x5 i 7x7. Każdy kanał koloru 
+piksela rozpatrywany jest niezależnie.
+	</li><br>
+	<li>
+		<b>Odszumianie: ulepszony filtr medianowy</b> - dla każdego piksela 
+należy wybrać i uporządkować rosnąco wartości kolorów pikseli w jego 
+otoczeniu (z nim włącznie). Nową wartością piksela staje się wartość 
+koloru znajdująca się w środku listy uporządkowanych wartości ale tylko 
+wtedy, gdy jego stara wartość znajduje się w 20% skrajnych pikseli (nie 
+mniej niż 2) z którejś ze stron uporządkowanej tablicy. Ćwiczenie należy
+ przeprowadzić na zaszumionych opisanymi wyżej metodami obrazkach 
+uwzględniając otoczenie wielkości 3x3, 5x5 i 7x7. Każdy kanał koloru 
+piksela rozpatrywany jest niezależnie.
+	</li><br>
+	<li>
+		<b>Odszumianie: filtr za pomocą średniej</b> - należy przeprowadzić 
+operacje analogiczne jak dla filtra medianowego, tyle że tym razem nowe 
+wartości kanałów koloru piksela będą równe wartościom średnim z jego 
+otoczenia (z wartością koloru piksela włącznie).
+	</li><br>
+	<li>
+		<b>Histogram</b> - należy stworzyć histogram każdego z kanałów na 
+obrazie kolorowym i umieścić go w osobnych plikach obrazów. Należy 
+przeprowadzić również analogiczną operację dla obrazu w odcieniach 
+szarości.<br>
+	</li><br>
+	<li>
+		<b>Wnioski</b> - należy porównać obrazy otrzymane za pomocą algorytmów
+ odszumiania i określić którymi metodami uzyskuje się najbardziej 
+optymalną jakość obrazu. Ktoą metodę uznajesz za optymalną i dlaczego?<br>
+	</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+</body></html>

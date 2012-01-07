@@ -1,0 +1,79 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl"><head>
+  <meta http-equiv="Content-type" content="text/html; charset=ISO-8859-2">
+  <meta name="Description" content=" Adam Szczepański AGH Akademia Górniczo Hutnicza Kraków ">
+  <meta name="Keywords" content=" Adam Szczepański AGH Kraków Akademia Górniczo Hutnicza Wydział Fizyki i Informatyki Stosowanej">
+  <meta name="Author" content=" Adam Szczepański ">
+  <meta name="Generator" content="kED">
+
+  <title> Adam Szczepański </title>
+
+  <link rel="stylesheet" href="index.php_files/style.css" type="text/css">
+</head>
+<body>
+<div id="main">
+<div id="top">
+<div>
+        <div id="title">Adam Szczepański</div>
+        <div id="changelang">
+<a style="text-decoration: none;" href="http://www.ftj.agh.edu.pl/%7Eszczepanski/en/index.php"><img src="index.php_files/minien.gif"> English version</a>        </div>
+</div>
+</div>
+<div id="content">
+<div id="menu">
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php">Strona główna</a></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=pub">Publikacje</a><br></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=AIPO">Analiza i Przetwarzanie Obrazów</a></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=IO">Inżynieria Oprogramowania</a></div>
+<div style="text-align:right;"><a href="http://www.agh.edu.pl/pl" target="_blank"><img src="index.php_files/agh.jpg" id="img-agh" style="border-width: 0px;"></a></div><br>
+<div style="text-align:right;"><a href="http://www.ftj.agh.edu.pl/" target="_blank"><img src="index.php_files/wfis.jpg" id="img-wfis" style="border-width: 0px;"></a></div>
+</div>
+</div>
+<div id="page">
+<div style="text-align:right"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=AIPO">Wstecz</a></div>
+<div style="font-size:20px; font-weight:bold">Operacje na obrazie</div><br>
+<div style="margin-left:50px">
+<ul>
+	<li>
+		<b>Skalowanie</b> - jest to zmiana wielkości obrazu w stosunku do 
+wielkości obrazu oryginalnego. Najprostszym algorytmem skalowania 
+powiększającego jest metoda najbliższego sąsiada, czyli wypełnianie 
+dodatkowych pikseli kolorami ich najbliższych sąsiadów. Skalowanie w dół
+ może odbywać się podobnie - poprzez wybranie co któregoś piksela z 
+oryginału lub poprzez wyliczenie na przykład średniej z grupy pikseli i 
+nadanie tej wartości odpowiedniemu pikselowi obrazu zmniejszanego. 
+	</li><br>
+	<li>
+		<b>Progowanie</b> - w przypadku obrazu w odcieniach szarości jest to 
+zamiana go na obraz w czerni i bieli. Progowanie globalne polega na 
+wybraniu arbitralnej wartości progu (najczęściej średniej wartości 
+szarości na obrazie) i porównanie z nią wartości wszystkich pikseli 
+obrazu. Wartości mniejsze od progu są zamieniane na biel, a większe lub 
+równe na czerń. W progowaniu lokalnym próg ustala się natomiast dla 
+konkretnego fragmentu obrazu bazując najczęściej na średniej wartości 
+szarości w nim. Najlepszy wynik daje połączenie obu metod - progowanie 
+lokalne z uwzględnieniem faktu, iż próg lokalny nie powinien zbytnio 
+odbiegać od globalnej średniej.
+	</li><br>
+	<li>
+		<b>Filtr splotowy uśredniający</b> - działanie tego filtru polega na 
+ustawieniu wartości danego piksela na podstawie wartości pikseli 
+znajdujących się w najbliższym otoczeniu tego piksela. Wynikiem jest 
+uzyskanie rozmycia obrazu wejściowego. Przykładowe maski to: [1 1 1; 1 1
+ 1; 1 1 1], [1 1 1; 1 2 1; 1 1 1], [1 2 1; 2 4 2; 1 2 1].
+	</li><br>
+	<li>
+		<b>Filtr splotowy wyostrzający</b> - służy do wzmocnienia szczegółów o
+ dużej częstotliwości. Wynikiem jest poprawa ostrości oraz kontrastu 
+obrazu, jednak wzmacnia również szumy. Często stosowane po silnej 
+filtracji uśredniającej, aby przywrócić ostrość obrazu. Przykładowe 
+maski to: [0 -1 0; -1 5 -1; 0 -1 0], [-1 -1 -1; -1 9 -1; -1 -1 -1], [1 
+-2 1; -2 5 -2; 1 -2 1].
+	</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+</body></html>
