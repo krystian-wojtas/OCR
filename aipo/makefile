@@ -42,6 +42,12 @@ tj2:
 tr2:
 	make -C 2/ tr
 
+tjp2:
+	make -C 2/ tjp
+
+trp2:
+	make -C 2/ trp
+
 rer2:
 	make -C 2/ rer
 

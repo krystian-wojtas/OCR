@@ -20,12 +20,19 @@ tj: #../test/test.rb test/lab_test.rb
 	rm out/*
 	cd ..; $(JRUBY) $(LIBS) test/test.rb 2
 
-#tests patterns
-trp: tr
-	cp out/* patterns/
+#tests
+tr: #../test/test.rb test/LabTestRun_compare.rb
+	cd ..; $(RUBY) $(LIBST) test/LabTestRun_compare.rb 2
 
-tjp: tj
-	cp out/* patterns/
+tj: #../test/test.rb test/LabTestRun_compare.rb
+	cd ..; $(JRUBY) $(LIBST) test/LabTestRun_compare.rb 2
+
+#tests patterns
+trp:
+	cd ..; $(RUBY) $(LIBST) test/LabTestRun_patterns.rb 2
+
+tjp:
+	cd ..; $(JRUBY) $(LIBST) test/LabTestRun_patterns.rb 2
 
 #report
 re:

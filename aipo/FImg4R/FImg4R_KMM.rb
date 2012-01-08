@@ -192,7 +192,6 @@ class FImg4R
             end 
           end
         end
-        #puts it.to_s
       end
     end
     self
