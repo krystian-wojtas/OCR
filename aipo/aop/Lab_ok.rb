@@ -1,8 +1,9 @@
-require 'aquarium'
-#TODO rename Lab_ok
+require 'aop/Lab_aspects'
+
 class Lab
-  include Aquarium::DSL
+  
   after :calls_to => :run, :in_type => :Lab do |jp, o, *args|
     p "ok"
   end
+  
 end

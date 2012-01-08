@@ -52,7 +52,7 @@ class FImg4R
        
   
   # TODO tools 
-  def ekstrema(ch=@vch)
+  def extrems(ch=@vch)
     min = @img_rw.qr()
     max = 0
     iteruj :channels => :other do |r, c|
@@ -64,9 +64,9 @@ class FImg4R
 
 
   def histogram
-    minr, maxr = ekstrema(@rch)
-    ming, maxg = ekstrema(@gch)
-    minb, maxb = ekstrema(@bch)
+    minr, maxr = extrems(@rch)
+    ming, maxg = extrems(@gch)
+    minb, maxb = extrems(@bch)
     iteruj :channels => :other do |r, c|
       @rch[r][c] = cut( @img_rw.qr() * (@rch[r][c] - minr) / (maxr - minr) )
       @gch[r][c] = cut( @img_rw.qr() * (@gch[r][c] - ming) / (maxg - ming) )
@@ -77,7 +77,7 @@ class FImg4R
 
 
   def histogram_grayscale
-    min, max = ekstrema
+    min, max = extrems
     iteruj :channels => :monocolor do |r, c|
       @vch[r][c] = cut( @img_rw.qr() * (@vch[r][c] - min) / (max - min) )
     end 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <buildpath>
 	<buildpathentry kind="src" path="6"/>
+	<buildpathentry kind="src" path="test"/>
 	<buildpathentry kind="src" path="lib/aquarium-0.4.4/lib"/>
 	<buildpathentry kind="src" path="FImg4R"/>
 	<buildpathentry kind="src" path="1"/>

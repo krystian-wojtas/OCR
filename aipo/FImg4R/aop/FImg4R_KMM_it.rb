@@ -6,11 +6,9 @@
 # ...
 # * More advanced AspectJ pointcut language features are not supported, such as the runtime pointcut designators like `if` conditionals and `cflow` (context flow) and the compile time `within` and `withincode` designators. Most of AspectJ pointcut language features are planned, however.
 
-#=begin
-require 'aquarium'
+require 'aop/FImg4R_aspects'
 
 class FImg4R
-  include Aquarium::DSL
   
   it = nil
   kmm = false
@@ -47,29 +45,3 @@ class FImg4R
   end
   
 end
-#=end
-
-
-=begin
-require 'aquarium'
-include Aquarium::Aspects
-
-it = nil
-bin = false
-fn = nil
-
-Aspect.new :before, :calls_to => [:kmm, :scienianie], :in_type => :FImg4R do |jp, o, *args|
-  it = 0
-  bin = true
-end
-
-Aspect.new :after, :calls_to => [:iteruj], :in_type => :FImg4R do |jp, o, *args|
-  if bin then it += 1 end
-end
-
-Aspect.new :after, :calls_to => :write, :in_type => :FImg4R do |jp, o, *args|
-  bin = false
-  fn = args[0].match(/\d+\/out\/([^\.]+)/)[1]
-  File.open("#{ARGV[0]}/log/#{fn}", 'w') {|f| f.write("#{it}") }
-end
-=end

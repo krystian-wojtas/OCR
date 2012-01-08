@@ -20,6 +20,12 @@ tr1:
 rep1:
 	make -C 1/ rep
 
+tjp1:
+	make -C 1/ tjp
+
+trp1:
+	make -C 1/ trp
+
 
 j2:
 	make -C 2/ j

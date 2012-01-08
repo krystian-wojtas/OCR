@@ -4,25 +4,25 @@ class Lab
   
   def run(img_fn)
     #patterns
-=begin
+#=begin
     FImg4R.new(img_fn).salt_pepper(0.05).write('4/out/saltpepper005.jpg')
     FImg4R.new(img_fn).salt_pepper(0.1).write('4/out/saltpepper01.jpg')
     FImg4R.new(img_fn).salt_pepper(0.15).write('4/out/saltpepper015.jpg')
-=end
+#=end
     
-=begin
+#=begin
     FImg4R.new(img_fn).regular_noise(0.05).write('4/out/regular_noise005.jpg')
     FImg4R.new(img_fn).regular_noise(0.1).write('4/out/regular_noise01.jpg')
     FImg4R.new(img_fn).regular_noise(0.15).write('4/out/regular_noise015.jpg')
     FImg4R.new(img_fn).regular_noise(0.35).write('4/out/regular_noise035.jpg')
-=end
+#=end
     
-=begin
+#=begin
     FImg4R.new(img_fn).regular_noise(0.05, false).write('4/out/regular_noise_ch005.jpg')
     FImg4R.new(img_fn).regular_noise(0.1, false).write('4/out/regular_noise_ch01.jpg')
     FImg4R.new(img_fn).regular_noise(0.15, false).write('4/out/regular_noise_ch015.jpg')
     FImg4R.new(img_fn).regular_noise(0.35, false).write('4/out/regular_noise_ch035.jpg')
-=end
+#=end
     
     
     #median filter

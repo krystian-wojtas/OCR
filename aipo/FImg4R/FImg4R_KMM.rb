@@ -199,7 +199,3 @@ class FImg4R
   end
 
 end
-
-
-
-require 'FImg4R/aop/kmm/kmm_it.rb'

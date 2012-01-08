@@ -16,34 +16,6 @@ class FImg4R
     end
     self
   end
-
-
-  def regular_noise2(freq, allch=true )
-      
-    if allch
-      v = get_noise()
-      iteruj :channels => :other do |r, c|
-        if rand < freq
-          @rch[r][c] = cut(@rch[r][c]+v)
-          @gch[r][c] = cut(@gch[r][c]+v)
-          @bch[r][c] = cut(@bch[r][c]+v)
-        end
-      end
-    else
-      
-      def regular_noise_ch(ch, nt, freq) # TODO nt freq przekazane inaczej
-        v = nt[rand(nt.size)]
-        iteruj :channels => ch do |r, c|
-          if rand < freq
-            @vch[r][c] = cut(@vch[r][c]+v)
-          end
-        end
-      end
-      
-      [:r, :g, :b].each {|ch| regular_noise_ch(ch,nt,freq)}
-    end
-    self
-  end
   
   
   def get_noise()

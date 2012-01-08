@@ -162,5 +162,14 @@ class FImg4R
       
       nil 
     end
+    
+    
+  def inspect
+    "Ruby is "
+  end
+  
+  def to_s
+    "Java is "
+  end
 
 end

@@ -40,7 +40,7 @@ class ImgRW_Jruby
   def write(path)
 
     #przepisanie wynikow do nowego obrazka
-    img = java.awt.image.BufferedImage.new(columns()+1, rows()+1, @type)
+    img = java.awt.image.BufferedImage.new(columns(), rows(), @type)
     0.upto rows()-1 do |r|
       0.upto columns()-1 do |c|
         px = (((@rch[r][c] << 8) | @gch[r][c]) << 8) | @bch[r][c]
