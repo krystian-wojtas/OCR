@@ -2,7 +2,7 @@ RUBY=ruby
 JRUBY=java -jar ../jruby/jruby-complete.jar
 LIBS=-I FImg4R/ -I lib/aquarium-0.4.4/lib
 
-all: raport
+all: report
 
 #runs
 r: #lab.rb
@@ -27,7 +27,11 @@ trp: tr
 tjp: tj
 	cp out/* patterns/
 
-#raport
-raport: j
-	make -C sprawko
-	mv sprawko/sprawko.pdf .
+#report
+re:
+	make -C report
+	cp report/report.pdf ../reports/report4.pdf
+	
+rer: r re
+	
+rej: j re

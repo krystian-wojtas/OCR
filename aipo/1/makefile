@@ -7,7 +7,7 @@ FIMG4R=FImg4R/FImg4R_Core_Iterable.rb FImg4R/FImg4R_Core_Settings.rb FImg4R/FImg
 FIMG4R_LAB=FImg4R/FImg4R_Simple.rb FImg4R/FImg4R_Tools.rb
 DEP=$(FIMG4R) $(FIMG4R_LAB)
 
-all: raport
+all: report
 
 #runs
 r: #lab.rb
@@ -31,6 +31,10 @@ tjp:
 	cd ..; $(JRUBY) $(LIBST) test/LabTestRun_patterns.rb 1
 
 #report
-rep: j
+re:
 	make -C report
-	mv report/report.pdf ../reports
+	cp report/report.pdf ../reports/report1.pdf
+	
+rer: r re
+	
+rej: j re

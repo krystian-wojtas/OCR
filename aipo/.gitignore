@@ -2,3 +2,5 @@ report.aux
 report.idx
 report.log
 report.pdf
+report.out
+.fuse*

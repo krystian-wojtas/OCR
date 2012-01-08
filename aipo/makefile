@@ -17,14 +17,17 @@ tj1:
 tr1:
 	make -C 1/ tr
 
-rep1:
-	make -C 1/ rep
-
 tjp1:
 	make -C 1/ tjp
 
 trp1:
 	make -C 1/ trp
+
+rer1:
+	make -C 1/ rer
+
+rej1:
+	make -C 1/ rej
 
 
 j2:
@@ -39,8 +42,11 @@ tj2:
 tr2:
 	make -C 2/ tr
 
-rep2:
-	make -C 2/ rep
+rer2:
+	make -C 2/ rer
+
+rej2:
+	make -C 2/ rej
 
 
 j3:
@@ -55,8 +61,11 @@ tj3:
 tr3:
 	make -C 3/ tr
 
-rep3:
-	make -C 3/ rep
+rer3:
+	make -C 3/ rer
+
+rej3:
+	make -C 3/ rej
 
 
 j4:
@@ -71,8 +80,11 @@ tj4:
 tr4:
 	make -C 4/ tr
 
-rep4:
-	make -C 4/ rep
+rer4:
+	make -C 4/ rer
+
+rej4:
+	make -C 4/ rej
 
 
 j5:
@@ -87,5 +99,8 @@ tj5:
 tr5:
 	make -C 5/ tr
 
-rep5:
-	make -C 5/ rep
+rer5:
+	make -C 5/ rer
+
+rej5:
+	make -C 5/ rej
