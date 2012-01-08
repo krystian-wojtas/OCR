@@ -16,7 +16,7 @@ class Lab
     
 #=begin
     FImg4R.new("5/in/p1.bmp").scienianie.write('5/out/sc_p1_100.jpg')
-    FImg4R.new("5/in/p1.bmp").scienianie.write('5/out/sc_p2_100.jpg')
+    FImg4R.new("5/in/p2.bmp").scienianie.write('5/out/sc_p2_100.jpg')
     FImg4R.new("5/in/p3.bmp").scienianie.write('5/out/sc_p3_100.jpg')
     FImg4R.new("5/in/p4.bmp").scienianie.write('5/out/sc_p4_100.jpg')
     FImg4R.new("5/in/o1.bmp").scienianie.write('5/out/sc_o1_100.jpg')

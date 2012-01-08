@@ -132,7 +132,7 @@ W losowych miejscach wartość wszystkich kanałów piksela ustalona zostaje na 
 
 
 \section{Szum równomierny}
-W losowych miejscach z zadaną częstotliwością freq należy zmienić wartości pikseli we wszystkich kanałach o z góry wybraną wartość z przedziału $ \langle -30, -21 \rangle \cup \langle 21, 30 \rangle $
+W losowych miejscach z zadaną częstotliwością freq należy zmienić wartości pikseli we wszystkich kanałach o z góry wybraną wartość z przedziału $ \langle -30, -21 \rangle \cup \langle 21, 30 \rangle / 255 * zakres $, gdzie $zakres = \input{../log/qr}$
 
 \lstinputlisting[caption=Implementacja szumu rownomiernego]{listingi/regular_noise.rb}
 
@@ -148,7 +148,7 @@ W losowych miejscach z zadaną częstotliwością freq należy zmienić wartośc
 \begin{minipage}[t]{7.5cm}
 \begin{center}
 \includegraphics[width=7.5cm,clip]{../out/regular_noise005.jpg}
-\caption{freq 0.05, szum 6682}
+\caption{freq 0.05, szum \protect\input{../log/regular_noise005_noise_r}}
 \end{center}
 \end{minipage}
 \end{figure}
@@ -157,14 +157,14 @@ W losowych miejscach z zadaną częstotliwością freq należy zmienić wartośc
 \begin{minipage}[t]{7.5cm}
 \begin{center}
 \includegraphics[width=7.5cm,clip]{../out/regular_noise015.jpg}
-\caption{freq 0.15, szum 6425}
+\caption{freq 0.15, szum \protect\input{../log/regular_noise015_noise_r}}
 \end{center}
 \end{minipage}
 \hfill
 \begin{minipage}[t]{7.5cm}
 \begin{center}
 \includegraphics[width=7.5cm,clip]{../out/regular_noise035.jpg}
-\caption{freq 0.35, szum -5397}
+\caption{freq 0.35, szum \protect\input{../log/regular_noise035_noise_r}}
 \end{center}
 \end{minipage}
 \end{figure}
@@ -185,7 +185,7 @@ Operacja jest powtórzona, jednak tym razem poszczególne kanały zmieniają si�
 \begin{minipage}[t]{7.5cm}
 \begin{center}
 \includegraphics[width=7.5cm,clip]{../out/regular_noise_ch005.jpg}
-\caption{freq 0.05, szum r6168 g6682 b6168}
+\caption{freq 0.05, szum r\protect\input{../log/regular_noise_ch005_noise_r} g\protect\input{../log/regular_noise_ch005_noise_g} b\protect\input{../log/regular_noise_ch005_noise_b}}
 \end{center}
 \end{minipage}
 \end{figure}
@@ -194,14 +194,14 @@ Operacja jest powtórzona, jednak tym razem poszczególne kanały zmieniają si�
 \begin{minipage}[t]{7.5cm}
 \begin{center}
 \includegraphics[width=7.5cm,clip]{../out/regular_noise_ch015.jpg}
-\caption{freq 0.15, szum r-6168 g-6425 b5911}
+\caption{freq 0.15, szum r\protect\input{../log/regular_noise_ch015_noise_r} g\protect\input{../log/regular_noise_ch015_noise_g} b\protect\input{../log/regular_noise_ch015_noise_b}}
 \end{center}
 \end{minipage}
 \hfill
 \begin{minipage}[t]{7.5cm}
 \begin{center}
 \includegraphics[width=7.5cm,clip]{../out/regular_noise_ch035.jpg}
-\caption{freq 0.35, szum r5654 g6682 b-5397}
+\caption{freq 0.35, szum r\protect\input{../log/regular_noise_ch035_noise_r} g\protect\input{../log/regular_noise_ch035_noise_g} b\protect\input{../log/regular_noise_ch035_noise_b}}
 \end{center}
 \end{minipage}
 \end{figure}

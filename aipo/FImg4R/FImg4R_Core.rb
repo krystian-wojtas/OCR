@@ -6,6 +6,7 @@ require 'FImg4R/img_rw_adapter/ImgRW_Adapter'
 
 class FImg4R
   
+  attr_reader :qr
 
   def initialize(path)
     
