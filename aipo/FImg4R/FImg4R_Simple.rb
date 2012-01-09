@@ -27,7 +27,7 @@ class FImg4R
 
 
   def brightness(w)
-    w = (w * @qr).to_i
+    w = (w * @QR).to_i
     iteruj do |r, c|
       @vch[r][c] = cut( @vchb[r][c] + w )
     end
@@ -51,7 +51,6 @@ class FImg4R
   end
        
   
-  # TODO tools 
   def extrems(ch=@vch)
     min = @img_rw.qr()
     max = 0

@@ -4,18 +4,7 @@ def scienianie
   #potrzebna ona jest dla nastepujacych przeksztalcen, gdzie uzywane sa wszyscy sasiedzi kazdego pixela
   #dzieki tej obramowce mozna iterowac rowniez krawedzie obrazu, bo one w ten sposob dostaly swoich sasiadow
   #jednak orginal nie posiada dodatkowych pikseli, wiec zeby nie wejsc w niezdefiniowany obszar robie tutaj marginesy
-  trf_opts_atomic( {
-      :channels => :monocolor,
-      :buffered => true,
-      :columns => @s.o[:columns]+2,
-      :rows => @s.o[:rows]+2,
-      :top => 1,
-      :bottom => 1,
-      :left => 1,
-      :right => 1,
-  }) do
-    
-    thresholding( Magick::QuantumRange / 2, 1, 0)
+  binarization do
     
     # pattern of each matrix
     pattern = [ 
@@ -69,6 +58,7 @@ def scienianie
     it = 0
     while repeat and it < 100 do
       repeat = false
+      it += 1
       iteruj do |r, c|
         if @vchb[r][c] == 1
           @vch[r][c] = 1
@@ -88,11 +78,7 @@ def scienianie
           end 
         end
       end
-      it += 1
-      #puts it.to_s
     end
-    puts '-sc------------- ' + it.to_s
-    thresholding( 0, Magick::QuantumRange, 0) #debinaryzacja
   end
   self
 end

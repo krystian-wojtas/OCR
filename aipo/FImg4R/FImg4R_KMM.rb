@@ -6,7 +6,7 @@ class FImg4R
   
   
   def binarization
-    # TODO moze bez trf_opts_atomic
+    # TODO moze bez lock_settings
     # mozna zrobic funkcje ktora przpisuje wszystkie pixele do bufora, a bufor wiekszy o jednopixelowa ramke
     # wiecej iteracji po obrazku o cala jedna ale zwiezlejszy kod obslugi
     # jest taka transormacja juz, skalowanie 1:1
@@ -15,7 +15,7 @@ class FImg4R
     #potrzebna ona jest dla nastepujacych przeksztalcen, gdzie uzywane sa wszyscy sasiedzi kazdego pixela
     #dzieki tej obramowce mozna iterowac rowniez krawedzie obrazu, bo one w ten sposob dostaly swoich sasiadow
     #jednak orginal nie posiada dodatkowych pikseli, wiec zeby nie wejsc w niezdefiniowany obszar robie tutaj marginesy
-    trf_opts_atomic( {
+    lock_settings( {
         :channels => :monocolor,
         :buffered => true,
         :columns => @s.o[:columns]+2,
@@ -25,9 +25,9 @@ class FImg4R
         :left => 1,
         :right => 1,
     }) do
-      thresholding( @qr/2, 1, 0)    
+      thresholding( @QR/2, 1, 0)    
       yield    
-      thresholding( 0, @qr, 0) #debinaryzacja
+      thresholding( 0, @QR, 0) #debinaryzacja
     end  
   end
   

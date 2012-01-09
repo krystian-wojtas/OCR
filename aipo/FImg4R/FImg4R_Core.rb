@@ -1,17 +1,15 @@
-#require 'rubygems'
-#gem PLATFORM == 'java' ? 'rmagick4j' : 'rmagick'
 require 'FImg4R_Core_Iterable'
 require 'FImg4R_Core_Settings'
 require 'FImg4R/img_rw_adapter/ImgRW_Adapter'
 
 class FImg4R
   
-  attr_reader :qr
+  attr_reader :QR
 
   def initialize(path)
     
     @img_rw = ImgRW_Adapter.new(path)
-    @qr = @img_rw.qr() #TODO rename @QR
+    @QR = @img_rw.qr() #TODO rename @QR
     
     #opcje przeksztalcenia
     # first transform resets all options to defaults
@@ -43,7 +41,7 @@ class FImg4R
   #def edit(opts={})
 
 
-  def trf_opts_atomic(opts={}) #refactor lock_settings?
+  def lock_settings(opts={})
     @s.make_defaults(opts)
     @s.lock_defaults()
     yield
@@ -94,10 +92,10 @@ class FImg4R
   
   def buffer(vchb=nil, &block)
     
-    #przetwarzany kanal
+    # channel @vchb has values before proccesing
     @vchb = vchb
     
-    #jesli jest buforowanie utworzenie tablic i wypelnienie ich tlem
+    # channel @vch will be filled with transformed values
     if @s.o[:buffered]
       @vch = Array.new(@s.o[:rows])
       0.upto @s.o[:rows]-1 do |r|
@@ -107,40 +105,23 @@ class FImg4R
       @vch = @vchb
     end
     
-    count_pxs &block
+    count_pxs(&block)
     
     @vch    
   end
   
   
-  def count_pxs(&block)     
-    # lokalny hash 'o' tworzony jest na bazie pelnego hasha opcji @s.o
-    # zawiera tylko niezbedne parametry potrzebne celom iteracji
-    # sa to :iterable, :iterableOpts, :rows, :columns, :top, :bottom, :left, :right
-    #
-    # Ruby 1.8.7 i 1.9.1 roznia sie zwracanymi wartosciami z metody select klasy Hash
-    # Do selecta mozna przekazac blok z argumentami klucz i wartosc
-    # Select wywola blok dla wszystkich par klucz-wartosc jaka hash zawiera
-    # Jesli blok zwraca prawde, para klucz-wartosc kopiowana jest do nowego wyniku
-    # Roznica pomiedzy wersjami jest zwracany wynik: 1.9.1 zwroci nowy Hash; 1.8.7 zwroci tablice par
-    # 1.9.1:
-    o = @s.o.select {|k, v| [:iterable, :iterableOpts, :rows, :columns, :top, :bottom, :left, :right].include?(k) }
-    # 1.8.7:
-    o = {}
-    @s.o.select {|k, v| [:iterable, :iterableOpts, :rows, :columns, :top, :bottom, :left, :right].include?(k) }.collect {|k, v| o[k]=v }
-    #Iterable.new(o).iterate(&block)
-    #TODO del calosc wyzej albo dopisac lokalne opcje iteracji
-      
+  def count_pxs(&block)
     FImg4R_Core_Iterable.new(@s.o).iterate(&block)
   end
   
     
   def inspect
-    "Ruby is "
+    @path
   end
   
   def to_s
-    "Java is "
+    "FImg4R: @path"
   end
 
 end

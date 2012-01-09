@@ -4,7 +4,20 @@ require 'FImg4R_Tools'
 class FImg4R
 
   #TODO :channels => monocolor, ale rand<freq przeniosiony do iterable
-  def salt_pepper(freq, min=0, max=@qr)
+  def salt_pepper_feature(freq, min=0, max=@QR)
+    iteruj :iterable => :frequency, :freq => freq do |r, c|
+      p r.to_s + ' ' + c.to_s
+      if rand < 0.5
+        @rch[r][c] = @gch[r][c] = @bch[r][c] = min
+      else
+        @rch[r][c] = @gch[r][c] = @bch[r][c] = max
+      end
+    end
+    self
+  end
+
+#TODO :channels => monocolor, ale rand<freq przeniosiony do iterable
+  def salt_pepper(freq, min=0, max=@QR)
     iteruj :channels => :other do |r, c|
       if rand < freq
         if rand < 0.5
@@ -20,7 +33,7 @@ class FImg4R
   
   def get_noise()
     nt = [*-30..-21] + [*21..30] #splat
-    nt.collect! {|v| v *= @qr / 255 } #normalize
+    nt.collect! {|v| v *= @QR / 255 } #normalize
     nt[rand(nt.size)]      
   end
   

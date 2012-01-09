@@ -116,19 +116,21 @@ topologiczne własności.
 \end{quote}
 Źródło \url{http://aragorn.pb.bialystok.pl/~boldak/DIP/CPO-W05-v01-50pr.pdf}
 
+\newpage
+
+\section{Binaryzacja}
+\lstinputlisting[caption=Binaryzacje obrazu]{listingi/binarization.rb}
 
 \section{Maska}
-
 \lstinputlisting[caption=Implementacja algorytmu scieniania przez maske]{listingi/scienianie.rb}
 
 \section{KMM}
-
 \lstinputlisting[caption=Implementacja algorytmu KMM]{listingi/kmm.rb}
 
+\newpage
 
 \section{Wyniki}
 
-\newpage
 \subsection{p1}
 
 \begin{figure}[h!]
@@ -494,6 +496,24 @@ Algorytm KMM wytwarza wyraźnie lepsze rezultaty, metoda maski wytwarza szkielet
 
 Algorytmom najwięcej pracy zajmuje zeszkieletyzowanie obszarów wypełnionych jednolitą czernią. Są to wypełnione figury lub plamy czarnego tła. Najszybciej zbieżne są elementy wąskie jak litery.
 
-KMM wykonuje mniej iteracji lub przynajmniej tyle samo przy wąskich figurach. 
+KMM wykonuje mniej iteracji lub przynajmniej tyle samo przy wąskich figurach.
+
+KMM okazuje się również szybsze. Czasy działania algorytmów na procesorze Intel Atom N270 pod kontrolą systemu Ubuntu 10.04 w środowisku Ruby 1.8.7 ilustruje poniższa tabelka
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|r|c|c|}
+  \hline 
+  & szkieletyzacja & KMM \\
+  \hline 
+  real & 68m13.794s & 46m46.335s\\
+  \hline
+  user & 63m25.006s & 42m39.076s \\
+  \hline
+  sys & 4m45.986s & 4m4.411s \\
+  \hline
+\end{tabular} 
+\caption{Porownanie czasow wykonania algorytmow}
+\end{table}
 
 \end{document}

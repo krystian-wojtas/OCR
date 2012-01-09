@@ -34,7 +34,7 @@ class FImg4R
     p = xs.min
     q = ys.min
     
-    iteruj :columns => width, :rows => height, :buffered => true, :background => @qr do |r, c|
+    iteruj :columns => width, :rows => height, :buffered => true, :background => @QR do |r, c|
       xp, yp = rotating(r+q, c+p, kat)
       if (0 < xp and xp < @img_rw.columns)  and  (0 < yp and yp < @img_rw.rows) #TODO range?
         @vch[r][c] = @vchb[xp][yp]

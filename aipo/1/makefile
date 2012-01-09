@@ -10,10 +10,10 @@ DEP=$(FIMG4R) $(FIMG4R_LAB)
 all: report
 
 #runs
-r: #lab.rb
+r: Lab.rb
 	cd ..; $(RUBY) $(LIBS) run/run.rb 1
 
-j: #lab.rb
+j: Lab.rb
 	cd ..; $(JRUBY) $(LIBS) run/run.rb 1
 
 #tests

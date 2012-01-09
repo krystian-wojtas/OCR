@@ -12,6 +12,7 @@ class FImg4R_Core_Iterable
       :area => lambda { |callable| area callable },
       :edges => lambda { |callable| edges callable },
       :local => lambda { |callable| local callable },
+      :frequency => lambda { |callable| frequency callable },
     }
   end
   
@@ -58,6 +59,15 @@ class FImg4R_Core_Iterable
     if @o[:bottom] > @o[:rows] then @o[:bottom] = @o[:rows] end
     if @o[:right] > @o[:columns] then @o[:right] = @o[:columns] end
     area(callable)
+  end
+  
+  
+  def frequency(callable)
+    callable.call(
+      lambda {|block_r| @o[:top].upto @o[:bottom]-1 do |r| block_r.call(r) end },
+      lambda {|block_c| @o[:left].upto @o[:right]-1 do |c| block_c.call(c) end } #TODO tol generator
+    )
+    nil
   end
   
   

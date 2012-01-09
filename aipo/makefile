@@ -1,7 +1,12 @@
-all: j
+all: rej
 
+rej: rej1 rej2 rej3 rej4 rej5
+rer: rer1 rer2 rer3 rer4 rer5
+tj: tj1 tj2 tj3 tj4 tj5
+tr: tr1 tr2 tr3 tr4 tr5
+tjp: tjp1 tjp2 tjp3 tjp4 tjp5
+trp: trp1 trp2 trp3 trp4 trp5
 j: j1 j2 j3 j4 j5
-
 r: r1 r2 r3 r4 r5
 
 
@@ -67,6 +72,12 @@ tj3:
 tr3:
 	make -C 3/ tr
 
+tjp3:
+	make -C 3/ tjp
+
+trp3:
+	make -C 3/ trp
+
 rer3:
 	make -C 3/ rer
 
@@ -86,6 +97,12 @@ tj4:
 tr4:
 	make -C 4/ tr
 
+tjp4:
+	make -C 4/ tjp
+
+trp4:
+	make -C 4/ trp
+
 rer4:
 	make -C 4/ rer
 
@@ -104,6 +121,12 @@ tj5:
 
 tr5:
 	make -C 5/ tr
+
+tjp5:
+	make -C 5/ tjp
+
+trp5:
+	make -C 5/ trp
 
 rer5:
 	make -C 5/ rer

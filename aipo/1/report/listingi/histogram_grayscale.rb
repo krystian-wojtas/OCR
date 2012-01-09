@@ -1,7 +1,8 @@
 def histogram_grayscale
-  min, max = ekstrema
+  grayscale1
+  min, max = extrems
   iteruj :channels => :monocolor do |r, c|
-    @vch[r][c] = Tools.cut( Magick::QuantumRange * (@vch[r][c] - min) / (max - min) )
+    @vch[r][c] = cut( @img_rw.qr() * (@vch[r][c] - min) / (max - min) )
   end 
   self
 end

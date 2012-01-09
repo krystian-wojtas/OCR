@@ -1,6 +1,7 @@
 RUBY=ruby
 JRUBY=java -jar ../jruby/jruby-complete.jar
 LIBS=-I FImg4R/ -I lib/aquarium-0.4.4/lib
+LIBST=$(LIBS) -I test/
 
 all: report
 
@@ -12,20 +13,18 @@ j: #lab.rb
 	cd ..; $(JRUBY) $(LIBS) run/run.rb 4
 
 #tests
-tr: #../test/test.rb test/lab_test.rb
-	rm out/*
-	cd ..; $(RUBY) $(LIBS) test/test.rb 4
+tr: #../test/test.rb test/LabTestRun_compare.rb
+	cd ..; $(RUBY) $(LIBST) test/LabTestRun_compare.rb 4
 
-tj: #../test/test.rb test/lab_test.rb
-	rm out/*
-	cd ..; $(JRUBY) $(LIBS) test/test.rb 4
+tj: #../test/test.rb test/LabTestRun_compare.rb
+	cd ..; $(JRUBY) $(LIBST) test/LabTestRun_compare.rb 4
 
 #tests patterns
-trp: tr
-	cp out/* patterns/
+trp:
+	cd ..; $(RUBY) $(LIBST) test/LabTestRun_patterns.rb 4
 
-tjp: tj
-	cp out/* patterns/
+tjp:
+	cd ..; $(JRUBY) $(LIBST) test/LabTestRun_patterns.rb 4
 
 #report
 re:

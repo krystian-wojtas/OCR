@@ -15,7 +15,6 @@ class FImg4R_Core_Settings
       @o.merge!( {
         #sposob iteracji kolumn i wierszy; domyslnie wyiteruje caly obrazek bez marginesow
         :iterable => :all,
-        :iterableOpts => {},
         #sposob wywolywania transformacji i przekazywania argumentow; domyslnie wykona przeksztalcenie dla kazdego kanalu z osobna
         :channels => :rgb,
         #marginesy

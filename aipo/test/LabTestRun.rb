@@ -1,4 +1,6 @@
 require "#{ARGV[0]}/test/LabTest"
+require 'aop/Lab_ok.rb'
+require 'aop/FImg4R_write.rb'
 
 class LabTestRun
   

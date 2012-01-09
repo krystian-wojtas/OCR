@@ -1,6 +1,6 @@
-def salt_pepper(tol, min=0, max=Magick::QuantumRange)
+def salt_pepper(freq, min=0, max=@QR)
   iteruj :channels => :other do |r, c|
-    if rand < tol
+    if rand < freq
       if rand < 0.5
         @rch[r][c] = @gch[r][c] = @bch[r][c] = min
       else

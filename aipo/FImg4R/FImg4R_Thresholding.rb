@@ -4,7 +4,7 @@ require 'FImg4R_Simple'
 class FImg4R
 
 
-  def thresholding( threshold=@qr/2, min=0, max=@qr )
+  def thresholding( threshold=@QR/2, min=0, max=@QR )
     iteruj :channels => :monocolor do |r, c|
       if @vchb[r][c] > threshold
         @vch[r][c] = max
@@ -16,12 +16,12 @@ class FImg4R
   end
   
 
-  def thresholding_avl( peaces=1, avr_min=0, avr_max=@qr )
+  def thresholding_avl( peaces=1, avr_min=0, avr_max=@QR )
     
     0.upto peaces-1 do |i|
       0.upto peaces-1 do |j|
         
-        trf_opts_atomic( {
+        lock_settings( {
           :channels => :monocolor,
           :iterable => :local,
           :iter_loc_peaces => peaces,
@@ -36,9 +36,6 @@ class FImg4R
         end
       end
     end
-    # reset margins to 0 before writing an image
-    # TODO delete and writing the whole image with margins
-    @s.make_defaults()
     self
   end
 
@@ -54,7 +51,6 @@ class FImg4R
     thresholding_avl( peaces, avr_min, avr_max )
   end
 
-  #TODO tools
   def average()
     total = 0
     pxs = 0
