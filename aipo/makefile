@@ -133,3 +133,28 @@ rer5:
 
 rej5:
 	make -C 5/ rej
+
+
+jo:
+	make -C ocr/ j
+
+ro:
+	make -C ocr/ r
+
+tjo:
+	make -C ocr/ tj
+
+tro:
+	make -C ocr/ tr
+
+tjpo:
+	make -C ocr/ tjp
+
+trpo:
+	make -C ocr/ trp
+
+rero:
+	make -C ocr/ rer
+
+rejo:
+	make -C ocr/ rej

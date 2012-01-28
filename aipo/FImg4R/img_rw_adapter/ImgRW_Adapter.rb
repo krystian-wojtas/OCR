@@ -3,7 +3,7 @@ class ImgRW_Adapter #TODO Delegate?
   attr_reader :qr
   @adapter = nil
   
-  def initialize(path)
+  def initialize(path=nil)
     if PLATFORM == 'java'
       require 'FImg4R/img_rw_adapter/ImgRW_Jruby'
       @adapter = ImgRW_Jruby.new(path)

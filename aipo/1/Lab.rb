@@ -3,7 +3,6 @@ require 'FImg4R_Simple'
 class Lab
   
   def run(img_fn)
-    #FImg4R.new(img_fn).negate.write('1/out/negate.jpg')
 #=begin
     FImg4R.new(img_fn).negate.write('1/out/negate.jpg')
     FImg4R.new(img_fn).grayscale1.write('1/out/grayscale1.jpg')

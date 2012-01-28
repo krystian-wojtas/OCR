@@ -5,30 +5,32 @@ class ImgRW_Jruby
   attr_reader :qr
   
   def initialize(path)
-    #obiekt reprezentuje obraz poddawany obrobce
-    file = java.io.File.new(path)
-    img = javax.imageio.ImageIO.read(file)
-    
-    #
-    @type = img.getType()
-    
-    # tablice kanalow barw orginalu oraz obrazka przetwarzanego
-    # tutaj referencje na tablice buforow i przetwarzan sa te same, dzieki temu domyslnie nie buforuje
-    # nowe tablice dla buforow tworzone sa w metodzie iteruj jesli wybrano opcje @s.o[:buffered]
-    @rch = Array.new(img.getHeight())
-    @gch = Array.new(img.getHeight())
-    @bch = Array.new(img.getHeight())
-    
-    # ladowanie kolejnych wersow obrazka do tablic kanalow
-    0.upto img.getHeight()-1 do |r|
-      @rch[r] = Array.new(img.getWidth())
-      @gch[r] = Array.new(img.getWidth())
-      @bch[r] = Array.new(img.getWidth())
-      0.upto img.getWidth()-1 do |c|
-        px = img.getRGB(c, r)
-        @rch[r][c] = ((px << 8) >> 24) & 0xff
-        @gch[r][c] = ((px << 16) >> 24) & 0xff
-        @bch[r][c] = ((px << 24) >> 24) & 0xff
+    if path
+      #obiekt reprezentuje obraz poddawany obrobce
+      file = java.io.File.new(path)
+      img = javax.imageio.ImageIO.read(file)
+      
+      #
+      @type = img.getType()
+      
+      # tablice kanalow barw orginalu oraz obrazka przetwarzanego
+      # tutaj referencje na tablice buforow i przetwarzan sa te same, dzieki temu domyslnie nie buforuje
+      # nowe tablice dla buforow tworzone sa w metodzie iteruj jesli wybrano opcje @s.o[:buffered]
+      @rch = Array.new(img.getHeight())
+      @gch = Array.new(img.getHeight())
+      @bch = Array.new(img.getHeight())
+      
+      # ladowanie kolejnych wersow obrazka do tablic kanalow
+      0.upto img.getHeight()-1 do |r|
+        @rch[r] = Array.new(img.getWidth())
+        @gch[r] = Array.new(img.getWidth())
+        @bch[r] = Array.new(img.getWidth())
+        0.upto img.getWidth()-1 do |c|
+          px = img.getRGB(c, r)
+          @rch[r][c] = ((px << 8) >> 24) & 0xff
+          @gch[r][c] = ((px << 16) >> 24) & 0xff
+          @bch[r][c] = ((px << 24) >> 24) & 0xff
+        end
       end
     end
     

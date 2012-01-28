@@ -43,13 +43,55 @@ class FImg4R
   end
 
 
-  def zoom(s) 
-    iteruj :buffered => true, :rows => (s*@img_rw.rows).to_i, :columns => (s*@img_rw.columns).to_i do |r, c|
+  def zoom(s) #TODO check if @s.o[:rows] works
+    iteruj :buffered => true, :rows => (s*@s.o[:rows]).to_i, :columns => (s*@s.o[:columns]).to_i do |r, c|
       @vch[r][c] = @vchb[r/s][c/s]
     end
     self
   end
-       
+
+
+  def stretch_vertical(s) 
+    iteruj :buffered => true, :rows => (s*@s.o[:rows]).to_i do |r, c|
+      @vch[r][c] = @vchb[r/s][c]
+    end
+    self
+  end
+
+
+  def stretch_horizontal(s) 
+    iteruj :buffered => true, :columns => (s*@s.o[:columns]).to_i do |r, c|
+      @vch[r][c] = @vchb[r][c/s]
+    end
+    self
+  end
+  
+  
+  def fit_size(size)
+    if size[:rows]
+      scale = (0.0 + size[:rows]) / @s.o[:rows]
+      stretch_vertical(scale)
+    end
+    if size[:columns]
+      scale = (0.0 + size[:columns]) / @s.o[:columns]
+      stretch_horizontal(scale)      
+    end
+    self
+  end
+
+
+
+  def fragment(x1, x2, y1, y2)
+    #size of fragment
+    rows = (x2 - x1).abs()
+    columns = (y2 - y1).abs()
+    
+    iteruj :rows => width, :columns => columns, :buffered => true, :channels => :monocolor do
+      @vch[r-x1][c-y1] = @vch[r][c]
+    end
+    self
+  end
+  
   
   def extrems(ch=@vch)
     min = @img_rw.qr()
