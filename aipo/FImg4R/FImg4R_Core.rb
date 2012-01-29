@@ -6,9 +6,9 @@ class FImg4R
   
   attr_reader :QR #quantum range - max value of color
 #TODO zoom needs @s.o[:rows] beside of @img_rw.rows
-  def initialize(path)
+  def initialize(path, opts=nil)
     
-    @img_rw = ImgRW_Adapter.new(path)
+    @img_rw = ImgRW_Adapter.new(path, opts)
     @QR = @img_rw.qr() #TODO rename @QR
     
     #opcje przeksztalcenia

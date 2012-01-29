@@ -5,25 +5,37 @@ class ImgRW_RMagick
   attr_accessor :rch, :gch, :bch
   attr_reader :qr
   
-  def initialize(path)
-    #obiekt RMagick reprezentuje obraz poddawany obrobce
+  def initialize()    
+    @qr = Magick::QuantumRange
+  end
+  
+  
+  def read(path)
     img = Magick::ImageList.new(path)
     
-    # tablice kanalow barw imgu oraz obrazka przetwarzanego
-    # tutaj referencje na tablice buforow i przetwarzan sa te same, dzieki temu domyslnie nie buforuje
-    # nowe tablice dla buforow tworzone sa w metodzie iteruj jesli wybrano opcje @s.o[:buffered]
     @rch = []
     @gch = []
     @bch = []
     
-    # ladowanie kolejnych wersow obrazka do tablic kanalow
     0.upto img.rows-1 do |r|
       @rch.push( img.export_pixels(0, r, img.columns, 1, "R" ) )
       @gch.push( img.export_pixels(0, r, img.columns, 1, "G" ) )
       @bch.push( img.export_pixels(0, r, img.columns, 1, "B" ) )
-    end
+    end    
+  end
+  
+  
+  def create_empty(rows, columns)
+    p 'empty'
+    @rch = Array.new(rows)
+    @gch = Array.new(rows)
+    @bch = Array.new(rows)
     
-    @qr = Magick::QuantumRange
+    0.upto rows-1 do |r|
+      @rch[r] = Array.new(columns)
+      @gch[r] = Array.new(columns)
+      @bch[r] = Array.new(columns)
+    end    
   end
   
 

@@ -4,44 +4,51 @@ class ImgRW_Jruby
   attr_accessor :rch, :gch, :bch
   attr_reader :qr
   
-  def initialize(path)
-    if path
-      #obiekt reprezentuje obraz poddawany obrobce
-      file = java.io.File.new(path)
-      img = javax.imageio.ImageIO.read(file)
-      
-      #
-      @type = img.getType()
-      
-      # tablice kanalow barw orginalu oraz obrazka przetwarzanego
-      # tutaj referencje na tablice buforow i przetwarzan sa te same, dzieki temu domyslnie nie buforuje
-      # nowe tablice dla buforow tworzone sa w metodzie iteruj jesli wybrano opcje @s.o[:buffered]
-      @rch = Array.new(img.getHeight())
-      @gch = Array.new(img.getHeight())
-      @bch = Array.new(img.getHeight())
-      
-      # ladowanie kolejnych wersow obrazka do tablic kanalow
-      0.upto img.getHeight()-1 do |r|
-        @rch[r] = Array.new(img.getWidth())
-        @gch[r] = Array.new(img.getWidth())
-        @bch[r] = Array.new(img.getWidth())
-        0.upto img.getWidth()-1 do |c|
-          px = img.getRGB(c, r)
-          @rch[r][c] = ((px << 8) >> 24) & 0xff
-          @gch[r][c] = ((px << 16) >> 24) & 0xff
-          @bch[r][c] = ((px << 24) >> 24) & 0xff
-        end
-      end
-    end
-    
+  def initialize()
+    #define max color value    
     @qr = 255
   end
   
+  
+  #creating empty tables for chanels of colors
+  def create_empty(rows, columns)
+    p 'empty'
+    @rch = Array.new(rows)
+    @gch = Array.new(rows)
+    @bch = Array.new(rows)
+    
+    0.upto rows-1 do |r|
+      @rch[r] = Array.new(columns)
+      @gch[r] = Array.new(columns)
+      @bch[r] = Array.new(columns)
+    end    
+  end
+  
+  
+  def read(path)
+    file = java.io.File.new(path)
+    img = javax.imageio.ImageIO.read(file)    
+    
+    create_empty(img.getWidth(), img.getHeight())
+    
+    # loading channels of colors with image content
+    0.upto img.getHeight()-1 do |r|
+      0.upto img.getWidth()-1 do |c|
+        px = img.getRGB(c, r)
+        @rch[r][c] = ((px << 8) >> 24) & 0xff
+        @gch[r][c] = ((px << 16) >> 24) & 0xff
+        @bch[r][c] = ((px << 24) >> 24) & 0xff
+      end
+    end
+        
+    @type = img.getType()
+    nil
+  end
+  
 
-  #na koniec zwracany jest nowy obiekt biblioteki RMagick Magick::Image z wykonanymi przeksztalceniami
   def write(path)
 
-    #przepisanie wynikow do nowego obrazka
+    #translate channels of colors to BufferedImage object
     img = java.awt.image.BufferedImage.new(columns(), rows(), @type)
     0.upto rows()-1 do |r|
       0.upto columns()-1 do |c|
