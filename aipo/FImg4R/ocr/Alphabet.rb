@@ -1,7 +1,7 @@
 
 
 class Alphabet
-  
+
   attr_reader :height
   
   def initialize(signs)
@@ -36,6 +36,11 @@ class Alphabet
     0.upto @@alph.len()-1 do |i|
       @signs[i].setLetter( @@alph[i] )
     end
+  end
+  
+  
+  def get()
+    @signs
   end
       
 end

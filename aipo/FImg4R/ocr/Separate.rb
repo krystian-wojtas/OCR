@@ -1,9 +1,11 @@
+require 'ocr/Sign'
+
 class Separate
   
   @sign = nil
   
-  def initialize(sign)
-    @sign = sign
+  def initialize(img)
+    @sign = Sign.new(img)
   end
 
   #takes array of projection and finds empty lines
@@ -16,7 +18,7 @@ class Separate
     lines_edges = []
     line_nr = 0
     white_line = true
-    for i in prj.len() do
+    0.upto prj.size() do |i|
       if white_line and prj[i] == 0 
         lines_edges[line_nr] = i
         line_nr = line_nr + 1
@@ -48,12 +50,12 @@ class Separate
     #finding verses in image
     @sign.projection_horizontal()
     lines_h = find_lines(@sign.prj_h)
-    for i in lines_h.len()-1 do #TODO -2?
+    0.upto lines_h.size()-1 do |i|#TODO -2?
       verse = @sign.fragment(0, @sign.rows(), lines_h[2*i], lines_h[2*i+1]) #TODO
       #finding letters in verses
       verse.projection_vertical()
       lines_v = find_lines(verse.prj_v)
-      for j in lines_v.len()-1 do
+      0.upto lines_v.size()-1 do |j|
         sign = verse.fragment(lines_v[2*j], lines_v[2*j+1], lines_h[2*i], lines_h[2*i+1])
         #triming letters; they have extra space below and above them
         prj_h2 = sign.projection_horizontal()
@@ -63,6 +65,8 @@ class Separate
         signs.append(sign_trimed)
       end
     end
+    #result
+    signs
   end
   
 end

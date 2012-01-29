@@ -84,6 +84,15 @@ class FImg4R
   def fragment(img_org, x, y)
     x2 = x + @s.o[:columns]
     y2 = y + @s.o[:rows]
+    p 'x ' + x.to_s
+    p 'y ' + y.to_s
+    p 'x2 ' + x2.to_s
+    p 'y2 ' + y2.to_s
+    p 'columns ' + @s.o[:columns].to_s
+    p 'rows ' + @s.o[:rows].to_s
+    p 'img_org.rch.size ' + img_org.rch.size().to_s
+    p 'img_org.rch[0].size ' + img_org.rch[0].size().to_s
+    p 'img_org.rch[0][0] ' + img_org.rch[0][0].to_s
     iteruj({
       :left => x, :right => x2,
       :top => y, :bottom => y2,

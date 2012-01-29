@@ -1,4 +1,4 @@
-require 'FImg4R_Ocr'
+require 'ocr/OCR'
 #require 'FImg4R_Simple'
 
 class Lab
@@ -6,9 +6,9 @@ class Lab
   def run(img_fn)
     
 
-   FImg4R.new(img_fn).zoom(0.4).write('ocr/out/zoom04.jpg')
-   lenka = FImg4R.new(img_fn)
-   FImg4R.new(100, 150).fragment(lenka, 80, 50).write('ocr/out/fragment.jpg')
+   #FImg4R.new(img_fn).zoom(0.4).write('ocr/out/zoom04.jpg')
+   #lenka = FImg4R.new(img_fn)
+   #FImg4R.new(100, 150).fragment(lenka, 80, 50).write('ocr/out/fragment.jpg')
 =begin
         FImg4R.new(img_fn).zoom(0.4).write('ocr/out/zoom04.jpg')
         FImg4R.new(img_fn).stretch_vertical(1.5).write('ocr/out/stretch_v15.jpg')
@@ -22,7 +22,8 @@ class Lab
     
     #FImg4R.new('ocr/in/litwa.jpg').readText('font').write('1/out/negate.jpg')
     #FImg4R.new('ocr/in/litwa.png').negate.write('ocr/out/tmp.jpg')
-    #font = FImg4R.new('ocr/fonts/TimesNewRoman.png').font()
-    #p FImg4R.new('ocr/in/litwa.jpg').readText1(font)
+    ocr = OCR.new()
+    ocr.makeFont('ocr/fonts/TimesNewRoman.png')
+    #p ocr.readText('ocr/in/litwa.jpg')
   end
 end

@@ -8,7 +8,7 @@ class FImg4R
   attr_reader :rch, :gch, :bch
   
   
-  def initialize(path, opts=nil)
+  def initialize(path, opts=nil) #TODO path_wh=>path_c, rows 
     
     @img_rw = ImgRW_Adapter.new(path, opts)
     @QR = @img_rw.qr() #TODO rename @QR

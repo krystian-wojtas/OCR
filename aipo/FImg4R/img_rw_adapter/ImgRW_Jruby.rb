@@ -12,14 +12,14 @@ class ImgRW_Jruby
   
   #creating empty tables for chanels of colors
   def create_empty(rows, columns)
-    @rch = Array.new(rows, 0)
-    @gch = Array.new(rows, 0)
-    @bch = Array.new(rows, 0)
+    @rch = Array.new(rows)
+    @gch = Array.new(rows)
+    @bch = Array.new(rows)
     
     0.upto rows-1 do |r|
-      @rch[r] = Array.new(columns, 0)
-      @gch[r] = Array.new(columns, 0)
-      @bch[r] = Array.new(columns, 0)
+      @rch[r] = Array.new(columns)
+      @gch[r] = Array.new(columns)
+      @bch[r] = Array.new(columns)
     end    
   end
   
@@ -28,7 +28,7 @@ class ImgRW_Jruby
     file = java.io.File.new(path)
     img = javax.imageio.ImageIO.read(file)    
     
-    create_empty(img.getWidth(), img.getHeight())
+    create_empty(img.getHeight(), img.getWidth())
     
     # loading channels of colors with image content
     0.upto img.getHeight()-1 do |r|

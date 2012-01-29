@@ -1,10 +1,11 @@
+require 'FImg4R_Simple'
+require 'FImg4R_Ocr'
+
 class Sign
   
   attr_accessor :letter, :space_after
   attr_reader :img
-  
-  @img = nil
-  @prj_v, @prj_h = nil, nil
+  attr_reader :prj_h, :prj_v
   
   
   def initialize(img)
@@ -13,17 +14,14 @@ class Sign
   
     
   def projection_horizontal()
-    @prj_v = Array.new(@s.o[:rows], 0)
-    iteruj :channels => :monocolor do |r, c|
-      if @vchb[r][c] > @img_rw.qr()/2
-        @proj[r] = @proj[r]+1
-      end
-    end
+    @img.projection_horizontal()
+    @prj_h = @img.prj_h
   end
   
   
   def projection_vertical()
-    
+    @img.projection_vertical()
+    @prj_v = @prj_v.prj_h    
   end
   
   
@@ -33,17 +31,21 @@ class Sign
 
   
   def fragment(x1, x2, y1, y2)
-    Sign.new( @img.fragment(x1,x2,y1,y2) )
+    columns = (x2 - x1).abs()
+    rows = (y2 - y1).abs()
+    
+    img_fr = FImg4R.new(columns, rows)
+    Sign.new( @img.fragment(img_fr, x1, y1) )
   end
   
   
   def rows()
-    @img.img_rw.rows()
+    @img.rows()
   end
   
 
   def columns()
-    @img.img_rw.columns()
+    @img.columns()
   end
 
 
