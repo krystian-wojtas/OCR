@@ -19,11 +19,15 @@ class Lab
         FImg4R.new(img_fn).fit_size(:columns=>500).write('ocr/out/fit_columns_300.jpg')
         FImg4R.new(img_fn).fit_size(:rows=>300,:columns=>500).write('ocr/out/fit_rows_300_columns_500.jpg')
 =end
-    
-    #FImg4R.new('ocr/in/litwa.jpg').readText('font').write('1/out/negate.jpg')
-    #FImg4R.new('ocr/in/litwa.png').negate.write('ocr/out/tmp.jpg')
-    ocr = OCR.new()
-    ocr.makeFont('ocr/fonts/TimesNewRoman.png')
+    require 'FImg4R_Ocr'
+    img = FImg4R.new('ocr/in/litwa.jpg')
+    img.projection_horizontal()
+    p img.prj_h
+    p ''
+    img.projection_vertical()
+    p img.prj_v
+    #ocr = OCR.new()
+    #ocr.makeFont('ocr/fonts/TimesNewRoman.png')
     #p ocr.readText('ocr/in/litwa.jpg')
   end
 end

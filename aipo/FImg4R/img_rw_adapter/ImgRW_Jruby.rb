@@ -17,9 +17,9 @@ class ImgRW_Jruby
     @bch = Array.new(rows)
     
     0.upto rows-1 do |r|
-      @rch[r] = Array.new(columns)
-      @gch[r] = Array.new(columns)
-      @bch[r] = Array.new(columns)
+      @rch[r] = Array.new(columns, 0)
+      @gch[r] = Array.new(columns, 0)
+      @bch[r] = Array.new(columns, 0)
     end    
   end
   

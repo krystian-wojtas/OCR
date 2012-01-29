@@ -7,7 +7,11 @@ class FImg4R
   def projection_horizontal()
     @prj_h = Array.new(@s.o[:rows], 0)
     iteruj :channels => :monocolor do |r, c|
-      if @vchb[r][c] > @img_rw.qr()/2
+      #p r.to_s + ' ' + c.to_s
+      #"19 27"
+      #"19 28"
+      #"19 29"
+      if @vchb[r][c] > @QR/2
         @prj_h[r] = @prj_h[r]+1
       end
     end
@@ -16,7 +20,14 @@ class FImg4R
   
   
   def projection_vertical()
-    
+    @prj_v = Array.new(@s.o[:columns], 0)
+    iteruj :channels => :monocolor, :iterable => :reverse do |c, r|
+      #p r.to_s + ' ' + c.to_s
+      if @vchb[r][c] > @QR/2
+        @prj_v[c] = @prj_v[c]+1
+      end
+    end
+    self    
   end
   
 end
