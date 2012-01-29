@@ -14,7 +14,6 @@ class ImgRW_Adapter #TODO Delegate?
     end
     
     #reading color channels from file or creating them empty
-    p args
     unless args[1] #args[1] is nil, there isn't second parameter, so first parameter is a path to image file
       @adapter.read(args[0]) #args[0] - path
     else #args[1] is given, so given arguments are a pair of rows and columns for new empty image

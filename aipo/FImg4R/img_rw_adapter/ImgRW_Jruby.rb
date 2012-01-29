@@ -12,7 +12,6 @@ class ImgRW_Jruby
   
   #creating empty tables for chanels of colors
   def create_empty(rows, columns)
-    p 'empty'
     @rch = Array.new(rows)
     @gch = Array.new(rows)
     @bch = Array.new(rows)

@@ -81,13 +81,18 @@ class FImg4R
 
 
 
-  def fragment(x1, x2, y1, y2)
-    #size of fragment
-    rows = (x2 - x1).abs()
-    columns = (y2 - y1).abs()
-    
-    iteruj :rows => width, :columns => columns, :buffered => true, :channels => :monocolor do
-      @vch[r-x1][c-y1] = @vch[r][c]
+  def fragment(img_org, x, y)
+    x2 = x + @s.o[:columns]
+    y2 = y + @s.o[:rows]
+    iteruj({
+      :left => x, :right => x2,
+      :top => y, :bottom => y2,
+      :iterable => :area,
+      :channels => :other
+    }) do |r, c|
+      @rch[r-y][c-x] = img_org.rch[r][c]
+      @gch[r-y][c-x] = img_org.gch[r][c]
+      @bch[r-y][c-x] = img_org.bch[r][c]
     end
     self
   end

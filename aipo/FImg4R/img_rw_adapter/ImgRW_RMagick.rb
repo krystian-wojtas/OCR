@@ -26,7 +26,6 @@ class ImgRW_RMagick
   
   
   def create_empty(rows, columns)
-    p 'empty'
     @rch = Array.new(rows)
     @gch = Array.new(rows)
     @bch = Array.new(rows)

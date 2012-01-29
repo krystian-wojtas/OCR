@@ -5,7 +5,9 @@ require 'FImg4R/img_rw_adapter/ImgRW_Adapter'
 class FImg4R
   
   attr_reader :QR #quantum range - max value of color
-#TODO zoom needs @s.o[:rows] beside of @img_rw.rows
+  attr_reader :rch, :gch, :bch
+  
+  
   def initialize(path, opts=nil)
     
     @img_rw = ImgRW_Adapter.new(path, opts)

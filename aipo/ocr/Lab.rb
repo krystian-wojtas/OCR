@@ -5,8 +5,11 @@ class Lab
   
   def run(img_fn)
     
-    
-#=begin
+
+    FImg4R.new(img_fn).zoom(0.4).write('ocr/out/zoom04.jpg')
+    lenka = FImg4R.new(img_fn)
+    FImg4R.new(100, 150).fragment(lenka, 80, 50).write('ocr/out/fragment.jpg')
+=begin
         FImg4R.new(img_fn).zoom(0.4).write('ocr/out/zoom04.jpg')
         FImg4R.new(img_fn).stretch_vertical(1.5).write('ocr/out/stretch_v15.jpg')
         FImg4R.new(img_fn).stretch_vertical(0.4).write('ocr/out/stretch_v04.jpg')
@@ -15,11 +18,11 @@ class Lab
         FImg4R.new(img_fn).fit_size(:rows=>300).write('ocr/out/fit_rows_300.jpg')
         FImg4R.new(img_fn).fit_size(:columns=>500).write('ocr/out/fit_columns_300.jpg')
         FImg4R.new(img_fn).fit_size(:rows=>300,:columns=>500).write('ocr/out/fit_rows_300_columns_500.jpg')
-#=end
+=end
     
     #FImg4R.new('ocr/in/litwa.jpg').readText('font').write('1/out/negate.jpg')
     #FImg4R.new('ocr/in/litwa.png').negate.write('ocr/out/tmp.jpg')
-    font = FImg4R.new('ocr/fonts/TimesNewRoman.png').font()
-    p FImg4R.new('ocr/in/litwa.jpg').readText1(font)
+    #font = FImg4R.new('ocr/fonts/TimesNewRoman.png').font()
+    #p FImg4R.new('ocr/in/litwa.jpg').readText1(font)
   end
 end
