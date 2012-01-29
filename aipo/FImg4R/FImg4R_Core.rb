@@ -133,7 +133,7 @@ class FImg4R
   end
   
   def to_s
-    "FImg4R: @path"
+    "FImg4R: #{@path} #{@s.o[:columns]}x#{@s.o[:rows]}"
   end
 
 end

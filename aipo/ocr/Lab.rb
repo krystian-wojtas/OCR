@@ -6,9 +6,9 @@ class Lab
   def run(img_fn)
     
 
-    FImg4R.new(img_fn).zoom(0.4).write('ocr/out/zoom04.jpg')
-    lenka = FImg4R.new(img_fn)
-    FImg4R.new(100, 150).fragment(lenka, 80, 50).write('ocr/out/fragment.jpg')
+   FImg4R.new(img_fn).zoom(0.4).write('ocr/out/zoom04.jpg')
+   lenka = FImg4R.new(img_fn)
+   FImg4R.new(100, 150).fragment(lenka, 80, 50).write('ocr/out/fragment.jpg')
 =begin
         FImg4R.new(img_fn).zoom(0.4).write('ocr/out/zoom04.jpg')
         FImg4R.new(img_fn).stretch_vertical(1.5).write('ocr/out/stretch_v15.jpg')

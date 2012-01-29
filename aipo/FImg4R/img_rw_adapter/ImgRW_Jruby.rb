@@ -12,14 +12,14 @@ class ImgRW_Jruby
   
   #creating empty tables for chanels of colors
   def create_empty(rows, columns)
-    @rch = Array.new(rows)
-    @gch = Array.new(rows)
-    @bch = Array.new(rows)
+    @rch = Array.new(rows, 0)
+    @gch = Array.new(rows, 0)
+    @bch = Array.new(rows, 0)
     
     0.upto rows-1 do |r|
-      @rch[r] = Array.new(columns)
-      @gch[r] = Array.new(columns)
-      @bch[r] = Array.new(columns)
+      @rch[r] = Array.new(columns, 0)
+      @gch[r] = Array.new(columns, 0)
+      @bch[r] = Array.new(columns, 0)
     end    
   end
   
@@ -39,16 +39,16 @@ class ImgRW_Jruby
         @bch[r][c] = ((px << 24) >> 24) & 0xff
       end
     end
-        
-    @type = img.getType()
+    
     nil
   end
   
+  #import 'java.awt.image.BufferedImage.*'
 
   def write(path)
-
     #translate channels of colors to BufferedImage object
-    img = java.awt.image.BufferedImage.new(columns(), rows(), @type)
+    bufferedImage = java.awt.image.BufferedImage
+    img = java.awt.image.BufferedImage.new(columns(), rows(), bufferedImage::TYPE_INT_RGB)
     0.upto rows()-1 do |r|
       0.upto columns()-1 do |c|
         px = (((@rch[r][c] << 8) | @gch[r][c]) << 8) | @bch[r][c]
