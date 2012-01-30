@@ -8,7 +8,7 @@ class FImg4R
   attr_reader :rch, :gch, :bch
   
   
-  def initialize(path, opts=nil) #TODO path_wh=>path_c, rows 
+  def initialize(path, opts=nil) #TODO path_wh=>path_r, columns 
     
     @img_rw = ImgRW_Adapter.new(path, opts)
     @QR = @img_rw.qr() #TODO rename @QR
@@ -23,6 +23,8 @@ class FImg4R
     @rch = @rchb = @img_rw.rch
     @gch = @gchb = @img_rw.gch
     @bch = @bchb = @img_rw.bch
+    #virtual channels default sets to rch and are not buffered
+    @vch = @vchb = @rch
   end
   
 

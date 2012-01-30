@@ -24,6 +24,7 @@ class FImg4R
         :bottom => 1,
         :left => 1,
         :right => 1,
+        :background => @QR,
     }) do
       thresholding( @QR/2, 1, 0)    
       yield    

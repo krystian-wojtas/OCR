@@ -21,7 +21,7 @@ class Sign
   
   def projection_vertical()
     @img.projection_vertical()
-    @prj_v = @prj_v.prj_h    
+    @prj_v = @img.prj_v
   end
   
   
@@ -31,11 +31,15 @@ class Sign
 
   
   def fragment(x1, x2, y1, y2)
+    p x1.to_s
+    p y1.to_s
+    p x2.to_s
+    p y2.to_s
     columns = (x2 - x1).abs()
     rows = (y2 - y1).abs()
     
-    img_fr = FImg4R.new(columns, rows)
-    Sign.new( @img.fragment(img_fr, x1, y1) )
+    img_fr = FImg4R.new(rows, columns)
+    Sign.new( img_fr.fragment(@img, x1, y1) )
   end
   
   

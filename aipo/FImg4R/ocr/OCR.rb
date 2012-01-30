@@ -4,6 +4,7 @@ require 'FImg4R_Thresholding'
 require 'FImg4R_KMM'
 #ocr
 require 'ocr/Separate'
+require 'ocr/Alphabet'
 
 class OCR
   
@@ -19,7 +20,7 @@ class OCR
     #prepare image
     @img.grayscale1()
     @img.thresholding()
-    @img.kmm()
+    @img.kmm() #TODO default white pixels as a background
     
     #signs_separating = [
     # {
@@ -31,7 +32,7 @@ class OCR
     # ...
     #]
     #separate signs from image
-    sings = choosen_separating_method.call()
+    signs = choosen_separating_method.call()
     
     #returns separated signs
     signs
@@ -40,40 +41,40 @@ class OCR
 
   def makeFont(path)
     @img = FImg4R.new(path)
-    sings = separate() do
+    signs = separate() do
       Separate.new(@img).method1()      
     end
     
     #making alphabet
-    @alphabet = Alphabet.new(sings)
+    @alphabet = Alphabet.new(signs)
     self
   end
   
   
   def readText1(path)
     @img = FImg4R.new(path)
-    sings_prj = separate() do #TODO not prj yet
+    signs_prj = separate() do #TODO not prj yet
       Separate.new(@img).method1() 
     end
-    recognizeLetters(sings_prj, @alphabet.get())
+    recognizeLetters(signs_prj, @alphabet.get())
   end
   
   
   def readText2(path)
     @img = FImg4R.new(path)
-    sings_prj = separate() do
+    signs_prj = separate() do
       Separate.new(@img).method2() 
     end
-    recognizeLetters(sings_prj, @alphabet.get())
+    recognizeLetters(signs_prj, @alphabet.get())
   end
   
   
   def readText3(path)
     @img = FImg4R.new(path)
-    sings_prj = separate() do
+    signs_prj = separate() do
       Separate.new(@img).method3() 
     end
-    recognizeLetters(sings_prj, @alphabet.get())
+    recognizeLetters(signs_prj, @alphabet.get())
   end
   
 end

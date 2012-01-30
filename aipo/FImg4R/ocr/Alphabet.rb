@@ -5,21 +5,24 @@ class Alphabet
   attr_reader :height
   
   def initialize(signs)
-    @signs = signs    
+    @signs = signs
+    
+    #TODO przesiew maluczkich
+    
     #scaling each letter to same height for projection
     #first find max height of alphabet letters...
     @height = 0
-    for sing in @sings do
+    @sings.each do |sing|
       height = sing.rows() if sing.rows() > height
     end
     
     #...then fit height of each letter to this max size
-    for sing in @sings do
+    @sings.each do |sing|
       sing.fit_size :rows => max_height      
     end
     
     #projections of each sign
-    for sign in @signs do
+    @sings.each do |sing|
       sign.projection_horizontal()
       sign.projection_vertical()
     end

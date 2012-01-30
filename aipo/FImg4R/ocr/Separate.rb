@@ -17,7 +17,7 @@ class Separate
   def find_lines(prj)
     lines_edges = []
     line_nr = 0
-    white_line = true
+    white_line = false
     0.upto prj.size() do |i|
       if white_line and prj[i] == 0 
         lines_edges[line_nr] = i
@@ -50,20 +50,32 @@ class Separate
     #finding verses in image
     @sign.projection_horizontal()
     lines_h = find_lines(@sign.prj_h)
-    0.upto lines_h.size()-1 do |i|#TODO -2?
-      verse = @sign.fragment(0, @sign.rows(), lines_h[2*i], lines_h[2*i+1]) #TODO
+    0.upto lines_h.size()-2 do |i|
+      verse = @sign.fragment(0, @sign.columns(), lines_h[2*i], lines_h[2*i+1]) #TODO
+      verse.img.write("ocr/out/recognized/v#{i}.jpg")
+#=begin
       #finding letters in verses
       verse.projection_vertical()
       lines_v = find_lines(verse.prj_v)
-      0.upto lines_v.size()-1 do |j|
-        sign = verse.fragment(lines_v[2*j], lines_v[2*j+1], lines_h[2*i], lines_h[2*i+1])
-        #triming letters; they have extra space below and above them
-        prj_h2 = sign.projection_horizontal()
-        lines_h2 = find_lines(prj_h2)
-        sign_trimed = FImg4R.new(lines_v[0], lines_v[1], 0, @sign.columns())
-        #add
-        signs.append(sign_trimed)
+      0.step(lines_v.size()-2, 2) do |j|
+        p 'a'
+        if lines_v.size() > 1
+          p 'b'
+          unless lines_v[2*j+1]
+            stop = 1
+          end
+          sign = @sign.fragment(lines_v[2*j], lines_v[2*j+1], lines_h[2*i], lines_h[2*i+1])
+          sign.img.write("ocr/out/recognized/v#{i}s#{j}.jpg")
+          #triming letters; they have extra space below and above them
+          prj_h2 = sign.projection_horizontal()
+          lines_h2 = find_lines(prj_h2)
+          sign_trimed = sign.fragment(lines_v[0], lines_v[1], 0, sign.rows())
+          #add
+          p 'd'
+        end
+        signs.push(sign_trimed)
       end
+#=end  
     end
     #result
     signs

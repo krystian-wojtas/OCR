@@ -11,10 +11,13 @@ class FImg4R
       #"19 27"
       #"19 28"
       #"19 29"
-      if @vchb[r][c] > @QR/2
+      if @vchb[r][c] < @QR/2
         @prj_h[r] = @prj_h[r]+1
       end
     end
+    #0.upto @prj_h.size() do |i|
+    #  p 'aa ' + i.to_s + ' ' + @prj_h[i].to_s
+    #end
     self
   end
   
@@ -23,7 +26,7 @@ class FImg4R
     @prj_v = Array.new(@s.o[:columns], 0)
     iteruj :channels => :monocolor, :iterable => :reverse do |c, r|
       #p r.to_s + ' ' + c.to_s
-      if @vchb[r][c] > @QR/2
+      if @vchb[r][c] < @QR/2
         @prj_v[c] = @prj_v[c]+1
       end
     end
