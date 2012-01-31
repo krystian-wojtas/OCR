@@ -1,0 +1,78 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl"><head>
+  <meta http-equiv="Content-type" content="text/html; charset=ISO-8859-2">
+  <meta name="Description" content=" Adam Szczepański AGH Akademia Górniczo Hutnicza Kraków ">
+  <meta name="Keywords" content=" Adam Szczepański AGH Kraków Akademia Górniczo Hutnicza Wydział Fizyki i Informatyki Stosowanej">
+  <meta name="Author" content=" Adam Szczepański ">
+  <meta name="Generator" content="kED">
+
+  <title> Adam Szczepański </title>
+
+  <link rel="stylesheet" href="index.php_files/style.css" type="text/css">
+</head>
+<body>
+<div id="main">
+<div id="top">
+<div>
+        <div id="title">Adam Szczepański</div>
+        <div id="changelang">
+<a style="text-decoration: none;" href="http://www.ftj.agh.edu.pl/%7Eszczepanski/en/index.php"><img src="index.php_files/minien.gif"> English version</a>        </div>
+</div>
+</div>
+<div id="content">
+<div id="menu">
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php">Strona główna</a></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=pub">Publikacje</a><br></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=AIPO">Analiza i Przetwarzanie Obrazów</a></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=IO">Inżynieria Oprogramowania</a></div>
+<div style="text-align:right;"><a href="http://www.agh.edu.pl/pl" target="_blank"><img src="index.php_files/agh.jpg" id="img-agh" style="border-width: 0px;"></a></div><br>
+<div style="text-align:right;"><a href="http://www.ftj.agh.edu.pl/" target="_blank"><img src="index.php_files/wfis.jpg" id="img-wfis" style="border-width: 0px;"></a></div>
+</div>
+</div>
+<div id="page">
+<div style="text-align:right"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=AIPO">Wstecz</a></div>
+<div style="font-size:20px; font-weight:bold">Przebieg ćwiczenia i kształt sprawozdania</div><br>
+<div style="margin-left:50px">
+<ul>
+	<li>
+		W sprawozdaniu powinien znaleźć się kod źródłowy wraz z krótkim opisem implementacji i uzyskiwanymi wynikami.<br>
+	</li><br>
+	<li>
+		<b>Wytłoczka</b> - służy do tworzenia znaków wodnych na obrazie. 
+Wytłoczkę uzyskuje się poprzez porównanie kanałów piksela z wartościami
+ jego lewego górnego sąsiada. Za wszystkie kanały piksela podstawia się 
+maksymalną z uzyskanych różnic.<br>
+		Wytłoczka słóży najczęciej do tworzenia tak zwanych znaków wodnych na
+ zdjęciach. Efekt ten uzyskuje się poprzez znalezienie średniej 
+wartości wytłoczki, a później dodawanie różnic poszczególnych pikseli 
+od średniej do wartości pikseli znakowanego obrazka.<br>
+		<div style="text-align:center"><img src="index.php_files/21.jpg"></div><br>
+	</li><br>
+	<li>
+		<b>Sepia</b> - jest to "zbrązowienie" i postarzenie obrazu. Najpierw 
+doprowadza się obraz do odcieni szarości. Potem poszczególne kanały 
+ustawia się na:<br>
+		r = r + sepiaDepth*2<br>
+		g = g + sepiaDepth<br>
+		b = b + sepiaIntensity<br>
+		Gdzie sepiaDepth i sepiaIntensity to arbitralne parametry określające intensywność efektu. Poeksperymentujcie z nimi.<br>
+		<div style="text-align:center"><img src="index.php_files/20.jpg"></div><br>
+	</li><br>
+	<li>
+		<b>Efekt stereoskopowy</b> - aby uzyskać go w najlepszej jakości potrzebujemy dwóch obrazów.<br><br>
+		<div style="text-align:center"><img src="index.php_files/so01a.jpg"> <img src="index.php_files/so01b.jpg"></div>
+		<div style="text-align:center"><img src="index.php_files/so02a.jpg"> <img src="index.php_files/so02b.jpg"></div><br>
+		Najprostrzą metodą nie wymagającą okularów jest wyświetlanie ich odpowiednio szybko naprzemiennie.<br><br>
+		Następna metoda wynaga już zastosowania dwukolorowych okularów.<br>
+		Możliwości jest tu kilka, w zależności od efektu, który ma się zamiar uzyskać.<br>
+		Najprostrza to wyciągnięcie czerwonego kanału z jednego obrazka, niebieskiego z drugiego i wyzerowanie kanału zielonego.<br>
+		Dalej można zielony kanał zastapić odcieniem szarości z jednego lub drugiego obrazka (albo średnim odcieniem z obu).<br>
+		Powyższe dwie metody dają trójwymiar dla okularów czerwono-niebieskich.
+	</li><br>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+</body></html>

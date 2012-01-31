@@ -1,0 +1,100 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl"><head>
+  <meta http-equiv="Content-type" content="text/html; charset=ISO-8859-2">
+  <meta name="Description" content=" Adam Szczepański AGH Akademia Górniczo Hutnicza Kraków ">
+  <meta name="Keywords" content=" Adam Szczepański AGH Kraków Akademia Górniczo Hutnicza Wydział Fizyki i Informatyki Stosowanej">
+  <meta name="Author" content=" Adam Szczepański ">
+  <meta name="Generator" content="kED">
+
+  <title> Adam Szczepański </title>
+
+  <link rel="stylesheet" href="index.php_files/style.css" type="text/css">
+</head>
+<body>
+<div id="main">
+<div id="top">
+<div>
+        <div id="title">Adam Szczepański</div>
+        <div id="changelang">
+<a style="text-decoration: none;" href="http://www.ftj.agh.edu.pl/%7Eszczepanski/en/index.php"><img src="index.php_files/minien.gif"> English version</a>        </div>
+</div>
+</div>
+<div id="content">
+<div id="menu">
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php">Strona główna</a></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=pub">Publikacje</a><br></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=AIPO">Analiza i Przetwarzanie Obrazów</a></div>
+<div id="menu1"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=IO">Inżynieria Oprogramowania</a></div>
+<div style="text-align:right;"><a href="http://www.agh.edu.pl/pl" target="_blank"><img src="index.php_files/agh.jpg" id="img-agh" style="border-width: 0px;"></a></div><br>
+<div style="text-align:right;"><a href="http://www.ftj.agh.edu.pl/" target="_blank"><img src="index.php_files/wfis.jpg" id="img-wfis" style="border-width: 0px;"></a></div>
+</div>
+</div>
+<div id="page">
+<div style="text-align:right"><a href="http://www.ftj.agh.edu.pl/%7Eszczepanski/pl/index.php?p=AIPO">Wstecz</a></div>
+<div style="font-size:20px; font-weight:bold">Przebieg ćwiczenia i kształt sprawozdania</div><br>
+<div style="margin-left:50px">
+<ul>
+	<li>
+		<b>Teoria</b> - przeanalizuj wyniki uzyskane w poprzednim sprawozdaniu. Jak mógłbyś je poprawić?
+	</li><br>
+	<li>
+		<b>Czy próbki zostały należycie przygotowane?</b><br>
+		Czy wycięte litery nie zawierają zbędnych artefaktów?<br>
+		Czy litery nie są posklejane?<br>
+		Można to rozwiązać za pomocą erozji i dylatacji.<br>
+	</li><br>
+	<li>
+		<b>Erozja</b> - w najprostrzym rozumieniu jest to algorytm, który 
+zamienia czarne piksele na białe, o ile mają czarnego sąsiada. Służy on 
+do likwidacji szumów i artefaktów w literach. Przy erozji można 
+zastosować również wszelkiego rodzaju maski, by usunąć tylko te 
+artefakty, które przeszkadzają w analizie.<br>
+		Erozja pomaga również w rozdzieleniu sklejonych liter.
+	</li><br>
+	<li>
+		<b>Dylatacja</b> - jest odwrotnością erozji. W najprostrzym rozumieniu
+ - jeśli biały piksel ma czarnego sąsiada, staje się czarny. Algorytm 
+służy do wypełniania ubytków w strukturze. Tu również można stosować 
+maski przy wypełnieniu.
+	</li><br>
+	<li>
+		Z reguły oba powyższe algorytmy stosuje się razem.
+	</li><br>
+	<li>
+		Zastanów się, czy nie generujesz zbędnych cech w wektorze. Czy nie 
+warto byłoby połączyć na przykład sąsiednie punkty charakterystyczne? 
+Czy na pewno wszystkie punkty są w pełni unikalne?
+	</li><br>
+	<li>
+		Zastanów się, czy nie warto rozbudować wektora cech o dodatkowe cechy 
+unikalne (na przykład stosunek wysokości do szerokości litery).
+	</li><br>
+	<li>
+		Przy mechanizmach głosujących można nadać wagi wektora cech. Zastanów 
+się, czy istnieją w wektorze cechy, które powodują rozróżnienie 
+poszczególnych liter silniej od innych.
+	</li><br>
+	<li>
+		Można również pogrupować litery w grupy o podobnych wektorach cech i 
+prowadzić wstepną preselekcję danych testowych przed właściwą 
+klasyfikacją w obrębie grupy.
+	</li><br>
+	<li>
+		Przy algorytmie kNN można zaimplementować mechanizm głosujący, który 
+nadaje wagi poszczególnym wyszukanym sąsiadom w zależności od odleglości
+ od próbki testowej - im mniejsza odległość, tym większa waga podczas 
+klasyfikacji.
+	</li><br>
+	<li>
+		<b>Wnioski</b> - zaimplementuj poprawki. Opisz je. Zaprezentuj nowe wybniki i przeanalizuj je.
+	</li><br>
+	<li>
+		Z zajęć nr 10, 11 i 12 jest sprawozdanie łączne.
+	</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+</body></html>

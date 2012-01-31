@@ -32,8 +32,8 @@ class Lab
     #roman.projection_horizontal()
     
     ocr = OCR.new()
-    ocr.makeFont('ocr/in/litwa.png')
-    #ocr.makeFont('ocr/fonts/TimesNewRoman.png')
+    #ocr.makeFont('ocr/in/litwa.png')
+    ocr.makeFont('ocr/fonts/TimesNewRoman.png')
     #p ocr.readText('ocr/in/litwa.jpg')
   end
 end
