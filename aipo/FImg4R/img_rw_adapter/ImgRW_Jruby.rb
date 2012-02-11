@@ -49,8 +49,10 @@ class ImgRW_Jruby
     #translate channels of colors to BufferedImage object
     bufferedImage = java.awt.image.BufferedImage
     img = java.awt.image.BufferedImage.new(columns(), rows(), bufferedImage::TYPE_INT_RGB)
+    #p rows().to_s + ' ' + columns().to_s
     0.upto rows()-1 do |r|
       0.upto columns()-1 do |c|
+        #p r.to_s + ' ' + c.to_s 
         px = (((@rch[r][c] << 8) | @gch[r][c]) << 8) | @bch[r][c]
         img.setRGB(c, r, px)
       end

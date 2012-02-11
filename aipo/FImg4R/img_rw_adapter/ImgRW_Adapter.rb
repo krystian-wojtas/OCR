@@ -17,7 +17,7 @@ class ImgRW_Adapter #TODO Delegate?
     unless args[1] #args[1] is nil, there isn't second parameter, so first parameter is a path to image file
       @adapter.read(args[0]) #args[0] - path
     else #args[1] is given, so given arguments are a pair of rows and columns for new empty image
-      p "empty image #{args[1]}x#{args[0]}" 
+      #p "empty image #{args[1]}x#{args[0]}" 
       @adapter.create_empty(args[0], args[1]) #args[0] - rows, args[1] - columns 
     end
     

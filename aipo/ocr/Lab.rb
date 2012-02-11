@@ -3,7 +3,7 @@ require 'ocr/OCR'
 
 class Lab
   
-  def run(img_fn)
+  def run(not_use1, not_use2)
     
 
    #FImg4R.new(img_fn).zoom(0.4).write('ocr/out/zoom04.jpg')
@@ -33,7 +33,7 @@ class Lab
     
     ocr = OCR.new()
     #ocr.makeFont('ocr/in/litwa.png')
-    ocr.makeFont('ocr/fonts/TimesNewRoman.png')
+    ocr.makeFont('ocr/out/recognized/TimesNewRoman/', 'ocr/fonts/TimesNewRoman.png', 'ocr/fonts/TimesNewRoman.txt')
     #p ocr.readText('ocr/in/litwa.jpg')
   end
 end

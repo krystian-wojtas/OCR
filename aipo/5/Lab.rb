@@ -2,7 +2,7 @@ require "FImg4R_KMM"
 
 class Lab
   
-  def run(img_fn)
+  def run(img_fn=nil, out_fn=nil)
     #FImg4R.new("5/in/p2.bmp").kmm.write("5/out/kmm_p2_100.jpg")
     #FImg4R.new("5/in/p2.bmp").scienianie.write("5/out/sc_p2_100.jpg")
 #=begin

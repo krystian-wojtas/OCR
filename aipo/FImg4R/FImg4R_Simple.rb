@@ -51,7 +51,7 @@ class FImg4R
   end
 
 
-  def stretch_vertical(s) 
+  def stretch_horizontal(s) 
     iteruj :buffered => true, :rows => (s*@s.o[:rows]).to_i do |r, c|
       @vch[r][c] = @vchb[r/s][c]
     end
@@ -59,7 +59,7 @@ class FImg4R
   end
 
 
-  def stretch_horizontal(s) 
+  def stretch_vertical(s) 
     iteruj :buffered => true, :columns => (s*@s.o[:columns]).to_i do |r, c|
       @vch[r][c] = @vchb[r][c/s]
     end
@@ -67,7 +67,7 @@ class FImg4R
   end
   
   
-  def fit_size(size)
+  def fit(size)
     if size[:rows]
       scale = (0.0 + size[:rows]) / @s.o[:rows]
       stretch_vertical(scale)
